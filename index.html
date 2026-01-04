@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bogus Basin Mountain Hosts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: 
+                linear-gradient(to bottom, 
+                    rgba(135, 206, 235, 0.3) 0%,
+                    rgba(135, 206, 235, 0.2) 30%,
+                    rgba(255, 255, 255, 0.1) 100%
+                ),
+                linear-gradient(to bottom,
+                    #87ceeb 0%,
+                    #b8d4e8 40%,
+                    #e8f4f8 70%,
+                    #f0f8ff 100%
+                );
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2c5aa0 0%, #1e3c72 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #2c5aa0;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .link-grid {
+            display: grid;
+            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+
+        .link-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 20px;
+            text-decoration: none;
+            color: #333;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .link-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .link-icon {
+            width: 50px;
+            height: 50px;
+            min-width: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .link-icon img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+        }
+
+        .link-content {
+            flex: 1;
+        }
+
+        .link-content h3 {
+            color: #2c5aa0;
+            font-size: 1.2em;
+            margin-bottom: 8px;
+        }
+
+        .link-content p {
+            color: #555;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        .tools-grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        .tool-group {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid #e9ecef;
+        }
+
+        .tool-group h3 {
+            color: #2c5aa0;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tool-group p {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .app-links {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .app-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #333;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-weight: 600;
+        }
+
+        .app-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .app-link img {
+            width: 24px;
+            height: 24px;
+        }
+
+        footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .content {
+                padding: 30px 20px;
+            }
+
+            .link-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .app-links {
+                flex-direction: column;
+            }
+
+            .app-link {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⛷️ Bogus Basin Mountain Hosts</h1>
+            <p>Your Gateway to Mountain Host Information & Resources</p>
+        </header>
+
+        <div class="content">
+            <!-- Main Resources Section -->
+            <section class="section">
+                <h2>📚 Main Resources</h2>
+                <div class="link-grid">
+                    <a href="https://bogusbasin.org/" class="link-card" target="_blank" rel="noopener noreferrer">
+                        <div class="link-icon">
+                            <img src="https://www.google.com/s2/favicons?domain=bogusbasin.org&sz=128" alt="Bogus Basin">
+                        </div>
+                        <div class="link-content">
+                            <h3>Bogus Basin</h3>
+                            <p>Official Bogus Basin Resort website with trail conditions, lift tickets, snow reports, and mountain information.</p>
+                        </div>
+                    </a>
+
+                    <a href="https://www.nsp.org/" class="link-card" target="_blank" rel="noopener noreferrer">
+                        <div class="link-icon">
+                            <img src="https://www.google.com/s2/favicons?domain=nsp.org&sz=128" alt="NSP">
+                        </div>
+                        <div class="link-content">
+                            <h3>National Ski Patrol</h3>
+                            <p>National Ski Patrol organization providing education and resources for ski patrollers and mountain safety personnel.</p>
+                        </div>
+                    </a>
+
+                    <a href="https://mountainstogo.github.io/bbm/learn.html" class="link-card" target="_blank" rel="noopener noreferrer">
+                        <div class="link-icon">
+                            <img src="https://www.google.com/s2/favicons?domain=github.io&sz=128" alt="BBM Learn">
+                        </div>
+                        <div class="link-content">
+                            <h3>Mountain Hosts Learning</h3>
+                            <p>Training materials and learning resources specifically for Bogus Basin Mountain Hosts.</p>
+                        </div>
+                    </a>
+
+                    <a href="https://www.troopiter.com/users/sign_in" class="link-card" target="_blank" rel="noopener noreferrer">
+                        <div class="link-icon">
+                            <img src="https://www.google.com/s2/favicons?domain=troopiter.com&sz=128" alt="Troopiter">
+                        </div>
+                        <div class="link-content">
+                            <h3>Troopiter Scheduling</h3>
+                            <p>Sign in to Troopiter to manage your volunteer schedule, view shifts, and coordinate with other hosts.</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Tools Section -->
+            <section class="section">
+                <h2>🛠️ Tools</h2>
+                <div class="tools-grid">
+                    <div class="tool-group">
+                        <h3>
+                            <img src="https://www.google.com/s2/favicons?domain=caltopo.com&sz=128" alt="CalTopo" style="width: 32px; height: 32px;">
+                            CalTopo - Backcountry Mapping
+                        </h3>
+                        <p>
+                            CalTopo is a powerful mapping and route planning tool for backcountry activities. 
+                            Essential for mountain hosts to plan routes, check terrain, and coordinate rescue operations. 
+                            Features detailed topographic maps, weather overlays, and offline capabilities.
+                        </p>
+                        <div class="app-links">
+                            <a href="https://apps.apple.com/us/app/caltopo-backcountry-mapping/id1460038458" class="app-link" target="_blank" rel="noopener noreferrer">
+                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.47C4.25 17 2.94 12.45 4.7 9.39C5.57 7.87 7.13 6.91 8.82 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5M13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z' fill='%23000000'/%3E%3C/svg%3E" alt="Apple">
+                                <span>📱 iOS App</span>
+                            </a>
+                            <a href="https://play.google.com/store/apps/details?id=com.caltopo.android&hl=en_US" class="app-link" target="_blank" rel="noopener noreferrer">
+                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z' fill='%2334A853'/%3E%3C/svg%3E" alt="Android">
+                                <span>📱 Android App</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Local Business Discounts Section -->
+            <section class="section">
+                <h2>💰 Local Business Discounts</h2>
+                <div class="link-grid">
+                    <a href="https://www.ridgelinebikenski.com/" class="link-card" target="_blank" rel="noopener noreferrer">
+                        <div class="link-icon">
+                            <img src="https://www.google.com/s2/favicons?domain=ridgelinebikenski.com&sz=128" alt="Ridgeline Bike & Ski">
+                        </div>
+                        <div class="link-content">
+                            <h3>Ridgeline Bike & Ski <span style="color: #22c55e; font-weight: bold;">• 30% Discount</span></h3>
+                            <p>Local bike and ski shop offering gear, equipment, and services for mountain enthusiasts.</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 Bogus Basin Mountain Hosts | Stay Safe & Enjoy the Mountain! 🏔️</p>
+        </footer>
+    </div>
+</body>
+</html>
