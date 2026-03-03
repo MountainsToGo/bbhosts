@@ -5,18 +5,19 @@ rules_version = '2';
 //
 // These rules allow:
 //   - Anyone (public) can READ all data
-//   - Anyone (public) can CREATE comments (post + reply + reactions)
-//   - Only authenticated admins can UPDATE/DELETE comments
+//   - Authenticated users (Google sign-in) can CREATE comments
+//   - Anyone can UPDATE comments (for emoji reactions)
+//   - Only authenticated admins can DELETE comments and approve/reject
 //   - Only authenticated admins can CREATE/UPDATE/DELETE leaders and announcements
 
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // COMMENTS: public read + create, admin update/delete
+    // COMMENTS: public read, authenticated create, public update (reactions), admin delete
     match /comments/{commentId} {
       allow read: if true;
-      allow create: if true;
-      allow update: if true;  // needed for reactions (public can increment)
+      allow create: if request.auth != null;
+      allow update: if true;  // needed for reactions (public can increment) + admin approve
       allow delete: if request.auth != null;
     }
 

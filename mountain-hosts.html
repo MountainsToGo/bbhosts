@@ -4,223 +4,324 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bogus Basin Mountain Hosts</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         /* ===== RESET & BASE ===== */
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            /* Winter palette */
-            --winter-deep: #0f2042;
-            --winter-navy: #1a365d;
-            --winter-blue: #2b6cb0;
-            --winter-ice: #bee3f8;
-            --winter-frost: #e2e8f0;
-            --winter-snow: #f7fafc;
-            /* Summer palette */
-            --summer-gold: #f6ad55;
-            --summer-orange: #ed8936;
-            --summer-sun: #fbd38d;
-            --summer-green: #48bb78;
-            --summer-meadow: #c6f6d5;
-            --summer-sky: #63b3ed;
+            /* Primary */
+            --primary: #1b2a4a;
+            --primary-light: #2d4a7c;
+            --primary-pale: #e8edf5;
+            /* Accent */
+            --accent: #c8913a;
+            --accent-light: #e2b964;
+            --accent-pale: #fdf5e8;
             /* Neutral */
-            --text-dark: #1a202c;
-            --text-mid: #4a5568;
-            --text-light: #718096;
-            --bg-light: #f7fafc;
-            --border: #e2e8f0;
+            --text-dark: #1a1a2e;
+            --text-mid: #555770;
+            --text-light: #8b8da3;
+            --bg-soft: #f8f9fc;
+            --bg-warm: #faf9f7;
+            --border: #e8e8ee;
+            --border-light: #f0f0f5;
             --white: #ffffff;
-            --danger: #e53e3e;
-            --success: #38a169;
+            --danger: #d64545;
+            --success: #2d9f6f;
+            /* Spacing */
+            --section-pad: clamp(60px, 8vw, 100px);
+            --content-max: 1200px;
+            /* Keep old var names for admin/RTE compat */
+            --winter-navy: #1b2a4a;
+            --winter-blue: #2d4a7c;
+            --winter-ice: #e8edf5;
+            --winter-frost: #f0f2f7;
+            --winter-snow: #f8f9fc;
+            --winter-deep: #111d35;
+            --summer-gold: #c8913a;
+            --summer-orange: #b47a2e;
+            --summer-sun: #fdf5e8;
+            --summer-meadow: #eef6ee;
+            --summer-sky: #63b3ed;
+            --summer-green: #2d9f6f;
+            --bg-light: #f8f9fc;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(180deg, var(--winter-frost) 0%, var(--white) 30%, var(--summer-meadow) 70%, var(--summer-sun) 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-warm);
             min-height: 100vh;
             color: var(--text-dark);
-            line-height: 1.6;
+            line-height: 1.7;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         /* ===== CONTAINER ===== */
         .site-container {
-            max-width: 1100px;
+            max-width: 100%;
             margin: 0 auto;
             background: var(--white);
-            box-shadow: 0 25px 80px rgba(0,0,0,0.15);
             overflow: hidden;
+        }
+
+        /* Inner content wrapper */
+        .content-inner {
+            max-width: var(--content-max);
+            margin: 0 auto;
+            padding: 0 clamp(24px, 5vw, 60px);
         }
 
         /* ===== WEATHER BANNER ===== */
         .weather-banner {
-            background: linear-gradient(135deg, var(--winter-deep) 0%, var(--winter-navy) 100%);
+            background: var(--primary);
             color: white;
-            padding: 16px 30px;
+            padding: 12px 0;
+            font-size: 0.875em;
+            letter-spacing: 0.01em;
+        }
+        .weather-banner > div:first-child,
+        .weather-banner > .weather-inner {
+            max-width: var(--content-max);
+            margin: 0 auto;
+            padding: 0 clamp(24px, 5vw, 60px);
             display: flex;
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
-            gap: 15px;
-            font-size: 0.95em;
+            gap: 12px;
         }
         .weather-info { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
-        .weather-current { display: flex; align-items: center; gap: 12px; }
-        .weather-temp { font-size: 2.2em; font-weight: bold; }
-        .weather-icon { font-size: 2.5em; }
-        .weather-condition { font-size: 1.1em; font-weight: 600; }
-        .weather-stats { display: flex; gap: 18px; flex-wrap: wrap; font-size: 0.88em; opacity: 0.9; }
-        .weather-stat { display: flex; align-items: center; gap: 5px; }
+        .weather-current { display: flex; align-items: center; gap: 10px; }
+        .weather-temp { font-size: 1.75em; font-weight: 700; letter-spacing: -0.02em; }
+        .weather-icon { font-size: 1.75em; }
+        .weather-condition { font-size: 0.95em; font-weight: 500; }
+        .weather-stats { display: flex; gap: 16px; flex-wrap: wrap; font-size: 0.85em; opacity: 0.75; }
+        .weather-stat { display: flex; align-items: center; gap: 4px; }
         .webcam-btn {
-            background: rgba(255,255,255,0.15);
+            background: transparent;
             color: white;
-            border: 2px solid rgba(255,255,255,0.5);
-            padding: 8px 18px;
-            border-radius: 8px;
+            border: 1.5px solid rgba(255,255,255,0.35);
+            padding: 7px 16px;
+            border-radius: 100px;
             text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.85em;
+            transition: all 0.25s ease;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
             cursor: pointer;
-            font-size: 0.9em;
+            letter-spacing: 0.02em;
         }
-        .webcam-btn:hover { background: white; color: var(--winter-navy); }
+        .webcam-btn:hover { background: white; color: var(--primary); border-color: white; }
 
         /* ===== HEADER ===== */
         header {
-            background: linear-gradient(135deg, var(--winter-navy) 0%, var(--winter-blue) 40%, var(--summer-sky) 70%, var(--summer-gold) 100%);
+            background: var(--primary);
             color: white;
-            padding: 50px 30px 40px;
+            padding: clamp(48px, 8vw, 80px) 0 clamp(40px, 6vw, 64px);
             text-align: center;
             position: relative;
             overflow: hidden;
         }
         header::before {
-            content: '❄️';
+            content: '';
             position: absolute;
-            top: 15px;
-            left: 25px;
-            font-size: 2em;
-            opacity: 0.6;
-            animation: float 3s ease-in-out infinite;
+            inset: 0;
+            background: radial-gradient(ellipse at 30% 50%, rgba(45,74,124,0.5) 0%, transparent 70%),
+                        radial-gradient(ellipse at 70% 50%, rgba(200,145,58,0.12) 0%, transparent 70%);
+            pointer-events: none;
         }
         header::after {
-            content: '☀️';
+            content: '';
             position: absolute;
-            top: 15px;
-            right: 25px;
-            font-size: 2em;
-            opacity: 0.6;
-            animation: float 3s ease-in-out infinite 1.5s;
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
+            bottom: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(200,145,58,0.4), transparent);
         }
         header h1 {
-            font-size: 2.6em;
-            margin-bottom: 8px;
-            text-shadow: 2px 2px 6px rgba(0,0,0,0.3);
-            letter-spacing: 0.5px;
+            font-size: clamp(2em, 5vw, 3.2em);
+            margin-bottom: 12px;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(10px, 2vw, 20px);
+        }
+        .header-icon {
+            width: clamp(32px, 4.5vw, 48px);
+            height: clamp(32px, 4.5vw, 48px);
+            opacity: 1;
+            flex-shrink: 0;
+            filter: drop-shadow(0 0 6px rgba(255,255,255,0.3));
         }
         header .subtitle {
-            font-size: 1.15em;
-            opacity: 0.9;
-            font-weight: 300;
+            font-size: clamp(0.9em, 2vw, 1.05em);
+            opacity: 0.6;
+            font-weight: 400;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            position: relative;
         }
         .admin-toggle {
-            position: absolute;
-            bottom: 10px;
-            right: 20px;
-            background: rgba(255,255,255,0.2);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.4);
-            padding: 6px 14px;
-            border-radius: 6px;
+            background: transparent;
+            color: rgba(255,255,255,0.75);
+            border: 1.5px solid rgba(255,255,255,0.25);
+            padding: 7px 16px;
+            border-radius: 100px;
             cursor: pointer;
-            font-size: 0.8em;
-            transition: background 0.2s;
+            font-size: 0.85em;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            text-transform: none;
+            transition: all 0.25s;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            white-space: nowrap;
         }
-        .admin-toggle:hover { background: rgba(255,255,255,0.35); }
+        .admin-toggle:hover { background: white; color: var(--primary); border-color: white; }
+        .weather-banner-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
 
         /* ===== CONTENT AREA ===== */
-        .content { padding: 0 35px 40px; }
+        .content { padding: 0 0 0; }
 
         /* ===== SECTION STYLING ===== */
         .section {
-            margin-top: 45px;
+            padding: var(--section-pad) 0;
+            border-bottom: 1px solid var(--border-light);
         }
+        .section:last-child { border-bottom: none; }
+
+        /* Alternate section backgrounds */
+        .section:nth-child(even) {
+            background: var(--bg-soft);
+        }
+        .section > .content-inner,
+        .section > .section-header,
+        .section > .hero-grid,
+        .section > .tours-card,
+        .section > .leadership-grid,
+        .section > .link-grid,
+        .section > .link-card,
+        .section > .become-host,
+        .section > .announcements-list,
+        .section > .comment-form,
+        .section > .comments-thread,
+        .section > p,
+        .section > a.link-card {
+            max-width: var(--content-max);
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: clamp(24px, 5vw, 60px);
+            padding-right: clamp(24px, 5vw, 60px);
+        }
+        /* content-inner already handles its own padding */
+        .section > .content-inner {
+            max-width: var(--content-max);
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: clamp(24px, 5vw, 60px);
+            padding-right: clamp(24px, 5vw, 60px);
+        }
+
         .section-header {
             display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 20px;
-            padding-bottom: 12px;
+            align-items: baseline;
+            gap: 0;
+            margin-bottom: 40px;
+            padding-bottom: 0;
+            flex-direction: column;
         }
-        .section-header.winter {
-            border-bottom: 4px solid;
-            border-image: linear-gradient(90deg, var(--winter-navy), var(--winter-ice)) 1;
-        }
-        .section-header.summer {
-            border-bottom: 4px solid;
-            border-image: linear-gradient(90deg, var(--summer-orange), var(--summer-sun)) 1;
-        }
+        .section-header.winter,
+        .section-header.summer,
         .section-header.blend {
-            border-bottom: 4px solid;
-            border-image: linear-gradient(90deg, var(--winter-blue), var(--summer-gold)) 1;
+            border-bottom: none;
+            border-image: none;
         }
         .section-header h2 {
-            font-size: 1.7em;
-            color: var(--winter-navy);
+            font-size: clamp(1.6em, 3.5vw, 2.2em);
+            color: var(--primary);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
         }
         .section-header .icon {
-            font-size: 1.8em;
+            font-size: 0.85em;
+            opacity: 0;
+            width: 0;
+            overflow: hidden;
+            display: none;
+        }
+        .section-header .section-line {
+            width: 48px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 2px;
+            margin-top: 14px;
         }
 
         /* ===== ABOUT / HERO ===== */
         .hero-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 30px;
+            gap: clamp(30px, 5vw, 60px);
             align-items: center;
         }
         .hero-text p {
             color: var(--text-mid);
             font-size: 1.05em;
-            margin-bottom: 15px;
+            margin-bottom: 18px;
+            line-height: 1.8;
         }
         .hero-text .highlight {
-            background: linear-gradient(135deg, var(--winter-ice) 0%, var(--summer-meadow) 100%);
-            border-left: 4px solid var(--winter-blue);
-            padding: 15px 20px;
-            border-radius: 0 10px 10px 0;
-            margin-top: 15px;
-            font-style: italic;
+            background: var(--accent-pale);
+            border-left: 3px solid var(--accent);
+            padding: 20px 24px;
+            border-radius: 0 12px 12px 0;
+            margin-top: 24px;
+            font-style: normal;
             color: var(--text-dark);
+            font-weight: 500;
+            font-size: 0.95em;
+            line-height: 1.7;
         }
         .hero-image-placeholder {
-            background: linear-gradient(135deg, var(--winter-frost), var(--summer-meadow));
+            background: var(--bg-soft);
             border-radius: 16px;
-            height: 320px;
+            height: 380px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            border: 3px dashed var(--winter-blue);
+            border: 2px dashed var(--border);
             color: var(--text-light);
             gap: 10px;
         }
-        .hero-image-placeholder .placeholder-icon { font-size: 4em; }
-        .hero-image-placeholder .placeholder-text { font-size: 1em; font-weight: 600; }
+        .hero-image-placeholder .placeholder-icon { font-size: 3em; opacity: 0.5; }
+        .hero-image-placeholder .placeholder-text { font-size: 0.9em; font-weight: 500; }
         .hero-image-container {
             border-radius: 16px;
             overflow: hidden;
-            max-height: 420px;
+            max-height: 460px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: var(--winter-frost);
+            background: var(--bg-soft);
         }
         .hero-image-container img {
             width: 100%;
@@ -234,11 +335,12 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(transparent, rgba(0,0,0,0.6));
+            background: linear-gradient(transparent, rgba(0,0,0,0.55));
             color: white;
-            padding: 12px 16px 8px;
+            padding: 30px 20px 14px;
             font-size: 0.85em;
             border-radius: 0 0 16px 16px;
+            font-weight: 400;
         }
         .hero-photo-wrapper {
             position: relative;
@@ -246,82 +348,143 @@
 
         /* ===== MOUNTAIN TOURS ===== */
         .tours-card {
-            background: linear-gradient(135deg, var(--winter-snow) 0%, var(--winter-ice) 100%);
+            background: var(--white);
             border-radius: 16px;
-            padding: 30px;
-            border: 2px solid var(--winter-blue);
+            padding: clamp(28px, 4vw, 44px);
+            border: 1px solid var(--border);
             position: relative;
             overflow: hidden;
         }
         .tours-card::before {
-            content: '🏔️';
+            content: '';
             position: absolute;
-            top: -10px;
-            right: -5px;
-            font-size: 6em;
-            opacity: 0.1;
+            top: 0; right: 0;
+            width: 200px; height: 200px;
+            background: radial-gradient(circle at top right, var(--primary-pale) 0%, transparent 70%);
+            pointer-events: none;
         }
         .tours-card h3 {
-            color: var(--winter-navy);
-            font-size: 1.3em;
-            margin-bottom: 12px;
+            color: var(--primary);
+            font-size: 1.25em;
+            margin-bottom: 14px;
+            font-weight: 700;
         }
         .tours-card p {
             color: var(--text-mid);
-            margin-bottom: 15px;
+            margin-bottom: 18px;
+            line-height: 1.8;
         }
         .tour-times {
             display: flex;
-            gap: 20px;
+            gap: 16px;
             flex-wrap: wrap;
         }
         .tour-time-badge {
-            background: var(--winter-navy);
+            background: var(--primary);
             color: white;
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-size: 1.15em;
-            font-weight: 700;
+            padding: 14px 28px;
+            border-radius: 100px;
+            font-size: 1.05em;
+            font-weight: 600;
             display: flex;
             align-items: center;
             gap: 8px;
-            box-shadow: 0 4px 12px rgba(26,54,93,0.25);
+            letter-spacing: 0.01em;
         }
 
-        /* ===== LEADERSHIP ===== */
+        /* ===== LEADERSHIP ORG CHART ===== */
+        .org-chart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+        .org-director {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 0;
+        }
+        .org-connector-down {
+            width: 2px;
+            height: 32px;
+            background: var(--accent);
+            margin: 0 auto;
+        }
+        .org-connector-bar {
+            display: flex;
+            justify-content: center;
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+        }
+        .org-connector-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: var(--bar-left, 50%);
+            right: var(--bar-right, 50%);
+            height: 2px;
+            background: var(--accent);
+        }
+        .org-leads {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0;
+            width: 100%;
+            max-width: 900px;
+        }
+        .org-lead-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            min-width: 160px;
+            max-width: 240px;
+        }
+        .org-lead-line {
+            width: 2px;
+            height: 28px;
+            background: var(--accent);
+        }
         .leadership-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         .leader-card {
             background: var(--white);
-            border-radius: 14px;
-            padding: 20px;
+            border-radius: 16px;
+            padding: 28px 20px;
             text-align: center;
-            border: 2px solid var(--border);
-            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--border);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            width: 100%;
+            max-width: 220px;
         }
         .leader-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.08);
         }
         .leader-card.director {
-            border-color: var(--summer-gold);
-            background: linear-gradient(180deg, var(--summer-sun) 0%, var(--white) 40%);
+            border-color: var(--accent);
+            background: var(--white);
+            max-width: 240px;
+            box-shadow: 0 6px 24px rgba(200,145,58,0.12);
         }
         .leader-card .leader-photo {
-            width: 90px;
-            height: 90px;
+            width: 88px;
+            height: 88px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--winter-frost), var(--summer-meadow));
+            background: var(--bg-soft);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 12px;
-            font-size: 2.5em;
-            border: 3px solid var(--border);
+            margin: 0 auto 16px;
+            font-size: 2em;
+            border: 2px solid var(--border);
             overflow: hidden;
+            color: var(--text-light);
         }
         .leader-card .leader-photo img {
             width: 100%;
@@ -329,22 +492,22 @@
             object-fit: cover;
         }
         .leader-card.director .leader-photo {
-            border-color: var(--summer-gold);
-            width: 100px;
-            height: 100px;
+            border-color: var(--accent);
+            width: 96px;
+            height: 96px;
         }
         .upload-area {
             border: 2px dashed var(--border);
-            border-radius: 10px;
-            padding: 16px;
+            border-radius: 12px;
+            padding: 20px;
             text-align: center;
             cursor: pointer;
-            transition: border-color 0.3s, background 0.3s;
+            transition: border-color 0.25s, background 0.25s;
             margin-bottom: 8px;
-            background: var(--winter-frost);
+            background: var(--bg-soft);
         }
-        .upload-area:hover { border-color: var(--winter-blue); background: var(--winter-ice); }
-        .upload-area.dragging { border-color: var(--summer-gold); background: var(--summer-sun); }
+        .upload-area:hover { border-color: var(--primary-light); background: var(--primary-pale); }
+        .upload-area.dragging { border-color: var(--accent); background: var(--accent-pale); }
         .upload-area input[type=file] { display: none; }
         .upload-preview {
             margin-top: 8px;
@@ -353,11 +516,11 @@
         .upload-preview img {
             max-width: 100%;
             max-height: 200px;
-            border-radius: 10px;
+            border-radius: 12px;
             object-fit: cover;
         }
         .upload-progress {
-            height: 4px;
+            height: 3px;
             background: var(--border);
             border-radius: 2px;
             margin-top: 8px;
@@ -366,7 +529,7 @@
         }
         .upload-progress-bar {
             height: 100%;
-            background: var(--winter-blue);
+            background: var(--primary-light);
             border-radius: 2px;
             width: 0%;
             transition: width 0.3s;
@@ -377,239 +540,377 @@
         }
         .leader-card .leader-name {
             font-weight: 700;
-            color: var(--winter-navy);
-            font-size: 1.05em;
+            color: var(--primary);
+            font-size: 1em;
         }
         .leader-card .leader-role {
             color: var(--text-light);
-            font-size: 0.85em;
+            font-size: 0.82em;
             margin-top: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            font-weight: 500;
         }
 
         /* ===== LINKS GRID ===== */
         .link-grid {
             display: grid;
-            gap: 18px;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         }
         .link-card {
-            background: linear-gradient(135deg, var(--winter-snow) 0%, var(--winter-frost) 100%);
+            background: var(--white);
             border-radius: 14px;
-            padding: 18px;
+            padding: 24px;
             text-decoration: none;
             color: var(--text-dark);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
             display: flex;
             align-items: flex-start;
-            gap: 14px;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+            gap: 16px;
             border: 1px solid var(--border);
         }
         .link-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.08);
         }
         .link-icon {
             width: 48px;
             height: 48px;
             min-width: 48px;
-            border-radius: 10px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: var(--white);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+            background: var(--bg-soft);
         }
-        .link-icon img { width: 30px; height: 30px; object-fit: contain; }
-        .link-content h3 { color: var(--winter-navy); font-size: 1.1em; margin-bottom: 5px; }
-        .link-content p { color: var(--text-light); font-size: 0.88em; line-height: 1.5; }
+        .link-icon img { width: 28px; height: 28px; object-fit: contain; }
+        .link-content h3 { color: var(--primary); font-size: 1.05em; margin-bottom: 6px; font-weight: 600; }
+        .link-content p { color: var(--text-light); font-size: 0.88em; line-height: 1.6; }
 
         /* ===== BECOME A HOST ===== */
         .become-host {
-            background: linear-gradient(135deg, var(--summer-gold) 0%, var(--summer-orange) 100%);
-            border-radius: 16px;
-            padding: 35px;
+            background: var(--primary);
+            border-radius: 20px;
+            padding: clamp(36px, 5vw, 56px);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 30px;
+            gap: 36px;
             flex-wrap: wrap;
             color: white;
         }
         .become-host-text h3 {
-            font-size: 1.6em;
-            margin-bottom: 8px;
+            font-size: clamp(1.3em, 3vw, 1.8em);
+            margin-bottom: 12px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
         }
         .become-host-text p {
-            opacity: 0.9;
-            max-width: 500px;
+            opacity: 0.7;
+            max-width: 520px;
+            line-height: 1.7;
+            font-size: 0.95em;
         }
         .become-host-actions {
             display: flex;
             align-items: center;
-            gap: 25px;
+            gap: 24px;
             flex-wrap: wrap;
         }
         .host-btn {
-            background: var(--white);
-            color: var(--summer-orange);
+            background: var(--accent);
+            color: var(--white);
             border: none;
-            padding: 16px 36px;
-            border-radius: 12px;
-            font-size: 1.15em;
-            font-weight: 700;
+            padding: 16px 40px;
+            border-radius: 100px;
+            font-size: 1em;
+            font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+            transition: all 0.25s ease;
             text-decoration: none;
             display: inline-block;
+            letter-spacing: 0.02em;
+            font-family: inherit;
         }
         .host-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+            background: var(--accent-light);
+            transform: translateY(-1px);
         }
         .qr-placeholder {
-            width: 110px;
-            height: 110px;
-            background: var(--white);
-            border-radius: 12px;
+            width: 100px;
+            height: 100px;
+            background: rgba(255,255,255,0.1);
+            border: 1.5px solid rgba(255,255,255,0.2);
+            border-radius: 14px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            color: var(--text-light);
-            font-size: 0.75em;
+            color: rgba(255,255,255,0.6);
+            font-size: 0.7em;
             gap: 4px;
         }
-        .qr-placeholder .qr-icon { font-size: 2.5em; }
+        .qr-placeholder .qr-icon { font-size: 2.2em; }
 
         /* ===== ANNOUNCEMENTS ===== */
         .announcements-list {
             display: flex;
             flex-direction: column;
-            gap: 18px;
+            gap: 20px;
         }
         .announcement-card {
             background: var(--white);
-            border-radius: 12px;
-            padding: 20px 24px;
-            border-left: 5px solid var(--summer-gold);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border-radius: 14px;
+            padding: 28px 30px;
+            border-left: 4px solid var(--accent);
+            border-top: 1px solid var(--border);
+            border-right: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
             position: relative;
         }
         .announcement-card .ann-type {
             display: inline-block;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 0.75em;
-            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 0.7em;
+            font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 8px;
+            letter-spacing: 0.08em;
+            margin-bottom: 10px;
         }
-        .ann-type.announcement { background: var(--winter-ice); color: var(--winter-navy); }
-        .ann-type.award { background: var(--summer-sun); color: #744210; }
-        .ann-type.event { background: var(--summer-meadow); color: #22543d; }
-        .ann-type.story { background: #fed7e2; color: #702459; }
-        .announcement-card h4 { color: var(--winter-navy); font-size: 1.1em; margin-bottom: 6px; }
-        .announcement-card .ann-content { color: var(--text-mid); font-size: 0.95em; line-height: 1.6; }
-        .announcement-card .ann-content img { max-width: 100%; height: auto; border-radius: 10px; margin: 10px 0; display: block; }
-        .announcement-card .ann-content ul, .announcement-card .ann-content ol { margin: 8px 0 8px 20px; }
-        .announcement-card .ann-content blockquote { border-left: 3px solid var(--winter-blue); margin: 10px 0; padding: 8px 14px; color: var(--text-light); font-style: italic; background: var(--winter-frost); border-radius: 0 8px 8px 0; }
-        .announcement-card .ann-content a { color: var(--winter-blue); text-decoration: underline; }
-        .announcement-card .ann-date { color: var(--text-light); font-size: 0.8em; margin-top: 8px; }
+        .ann-type.announcement { background: var(--primary-pale); color: var(--primary); }
+        .ann-type.award { background: var(--accent-pale); color: var(--accent); }
+        .ann-type.event { background: #eef6ee; color: #2d6a3f; }
+        .ann-type.story { background: #f5eef8; color: #6b3fa0; }
+        .announcement-card h4 { color: var(--primary); font-size: 1.1em; margin-bottom: 8px; font-weight: 700; }
+        .announcement-card .ann-content { color: var(--text-mid); font-size: 0.95em; line-height: 1.8; }
+        .announcement-card .ann-content img { max-width: 100%; height: auto; border-radius: 12px; margin: 14px 0; display: block; }
+        .announcement-card .ann-content ul, .announcement-card .ann-content ol { margin: 10px 0 10px 20px; }
+        .announcement-card .ann-content blockquote { border-left: 3px solid var(--accent); margin: 12px 0; padding: 10px 16px; color: var(--text-light); font-style: italic; background: var(--bg-soft); border-radius: 0 10px 10px 0; }
+        .announcement-card .ann-content a { color: var(--primary-light); text-decoration: underline; text-underline-offset: 2px; }
+        .announcement-card .ann-date { color: var(--text-light); font-size: 0.8em; margin-top: 12px; }
         .no-items-msg {
             text-align: center;
             color: var(--text-light);
-            padding: 30px;
-            font-style: italic;
+            padding: 40px;
+            font-size: 0.95em;
         }
 
         /* ===== COMMENTS ===== */
+        .comment-auth-bar {
+            background: var(--bg-soft);
+            border-radius: 16px;
+            padding: 20px 28px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .comment-auth-bar .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.92em;
+            color: var(--text-mid);
+        }
+        .comment-auth-bar .user-avatar {
+            width: 32px; height: 32px; border-radius: 50%; object-fit: cover;
+            border: 2px solid var(--border);
+        }
+        .comment-auth-bar .user-name {
+            font-weight: 600; color: var(--primary);
+        }
+        .google-sign-in-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--white);
+            border: 1.5px solid var(--border);
+            border-radius: 100px;
+            padding: 10px 22px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 500;
+            font-family: inherit;
+            color: var(--text-mid);
+            transition: all 0.25s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+        }
+        .google-sign-in-btn:hover {
+            border-color: var(--primary-light);
+            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+        }
+        .google-sign-in-btn svg { width: 18px; height: 18px; }
+        .comment-signout-btn {
+            background: none;
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            padding: 6px 14px;
+            cursor: pointer;
+            font-size: 0.8em;
+            font-family: inherit;
+            color: var(--text-light);
+            transition: all 0.2s;
+        }
+        .comment-signout-btn:hover { border-color: var(--text-light); color: var(--text-mid); }
+        .pending-badge {
+            display: inline-block;
+            background: #fef3cd;
+            color: #856404;
+            font-size: 0.72em;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 100px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-left: 8px;
+        }
         .comment-form {
-            background: var(--bg-light);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 25px;
+            background: var(--bg-soft);
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 32px;
+            border: 1px solid var(--border-light);
         }
         .comment-form h4 {
-            color: var(--winter-navy);
-            margin-bottom: 12px;
+            color: var(--primary);
+            margin-bottom: 16px;
+            font-weight: 700;
         }
         .form-row {
             display: flex;
             gap: 12px;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
             flex-wrap: wrap;
         }
         .form-row input, .form-row textarea, .form-row select {
             flex: 1;
             min-width: 200px;
-            padding: 10px 14px;
-            border: 2px solid var(--border);
-            border-radius: 8px;
+            padding: 12px 16px;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
             font-size: 0.95em;
             font-family: inherit;
-            transition: border-color 0.2s;
+            transition: border-color 0.25s, box-shadow 0.25s;
+            background: var(--white);
         }
         .form-row input:focus, .form-row textarea:focus {
             outline: none;
-            border-color: var(--winter-blue);
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(45,74,124,0.08);
         }
         .form-row textarea {
-            min-height: 80px;
+            min-height: 90px;
             resize: vertical;
             width: 100%;
         }
-        .emoji-bar {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-            margin-bottom: 12px;
+        /* Emoji Picker */
+        .emoji-picker-wrap {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 14px;
         }
-        .emoji-btn {
+        .emoji-trigger {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--white);
+            border: 1.5px solid var(--border);
+            border-radius: 100px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 0.88em;
+            font-family: inherit;
+            color: var(--text-mid);
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .emoji-trigger:hover { border-color: var(--primary-light); color: var(--primary); }
+        .emoji-trigger .emoji-trigger-icon { font-size: 1.2em; }
+        .emoji-dropdown {
+            display: none;
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 0;
             background: var(--white);
             border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 4px 8px;
-            cursor: pointer;
-            font-size: 1.2em;
-            transition: transform 0.15s, background 0.15s;
+            border-radius: 14px;
+            padding: 12px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06);
+            z-index: 20;
+            width: 280px;
+            animation: emojiSlideUp 0.2s ease;
         }
-        .emoji-btn:hover { transform: scale(1.2); background: var(--winter-ice); }
+        .emoji-dropdown.open { display: block; }
+        @keyframes emojiSlideUp {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .emoji-dropdown-header {
+            font-size: 0.75em;
+            font-weight: 600;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 0 4px 8px;
+        }
+        .emoji-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+        }
+        .emoji-grid-btn {
+            background: none;
+            border: none;
+            border-radius: 8px;
+            padding: 6px;
+            cursor: pointer;
+            font-size: 1.3em;
+            line-height: 1;
+            transition: background 0.15s, transform 0.1s;
+            text-align: center;
+        }
+        .emoji-grid-btn:hover {
+            background: var(--primary-pale);
+            transform: scale(1.15);
+        }
         .submit-btn {
-            background: linear-gradient(135deg, var(--winter-blue), var(--winter-navy));
+            background: var(--primary);
             color: white;
             border: none;
-            padding: 10px 28px;
-            border-radius: 8px;
+            padding: 12px 32px;
+            border-radius: 100px;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            font-size: 0.95em;
+            transition: all 0.25s ease;
+            font-size: 0.9em;
+            font-family: inherit;
+            letter-spacing: 0.02em;
         }
         .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(43,108,176,0.3);
+            background: var(--primary-light);
         }
 
         .comments-thread { display: flex; flex-direction: column; gap: 16px; }
         .comment-item {
             background: var(--white);
-            border-radius: 12px;
-            padding: 18px 20px;
+            border-radius: 14px;
+            padding: 22px 24px;
             border: 1px solid var(--border);
-            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
         }
         .comment-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
         .comment-author {
             font-weight: 700;
-            color: var(--winter-navy);
+            color: var(--primary);
         }
         .comment-date {
             font-size: 0.8em;
@@ -617,97 +918,103 @@
         }
         .comment-body {
             color: var(--text-mid);
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             white-space: pre-wrap;
             word-break: break-word;
+            line-height: 1.7;
         }
         .comment-actions {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             align-items: center;
         }
         .comment-action-btn {
             background: none;
             border: 1px solid var(--border);
-            padding: 4px 12px;
-            border-radius: 6px;
+            padding: 5px 14px;
+            border-radius: 100px;
             cursor: pointer;
-            font-size: 0.82em;
+            font-size: 0.8em;
             color: var(--text-light);
             transition: all 0.2s;
+            font-family: inherit;
         }
-        .comment-action-btn:hover { background: var(--winter-ice); color: var(--winter-navy); border-color: var(--winter-blue); }
+        .comment-action-btn:hover { background: var(--primary-pale); color: var(--primary); border-color: var(--primary-light); }
         .comment-reactions {
             display: flex;
             gap: 6px;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
         .reaction-badge {
-            background: var(--bg-light);
+            background: var(--bg-soft);
             border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 2px 8px;
+            border-radius: 100px;
+            padding: 3px 10px;
             font-size: 0.85em;
             cursor: pointer;
             transition: background 0.2s;
         }
-        .reaction-badge:hover { background: var(--winter-ice); }
-        .reaction-badge.active { background: var(--winter-ice); border-color: var(--winter-blue); }
+        .reaction-badge:hover { background: var(--primary-pale); }
+        .reaction-badge.active { background: var(--primary-pale); border-color: var(--primary-light); }
 
         .replies {
-            margin-left: 28px;
-            margin-top: 12px;
-            padding-left: 18px;
-            border-left: 3px solid var(--winter-ice);
+            margin-left: 24px;
+            margin-top: 14px;
+            padding-left: 20px;
+            border-left: 2px solid var(--border);
             display: flex;
             flex-direction: column;
             gap: 12px;
         }
         .reply-item {
-            background: var(--bg-light);
-            border-radius: 10px;
-            padding: 14px 16px;
+            background: var(--bg-soft);
+            border-radius: 12px;
+            padding: 16px 18px;
         }
         .reply-item.admin-reply {
-            background: linear-gradient(135deg, #ebf8ff, #e6fffa);
-            border: 1px solid var(--winter-ice);
+            background: var(--accent-pale);
+            border: 1px solid rgba(200,145,58,0.2);
         }
         .admin-badge {
-            background: var(--winter-navy);
+            background: var(--primary);
             color: white;
-            padding: 1px 7px;
-            border-radius: 4px;
-            font-size: 0.7em;
+            padding: 2px 8px;
+            border-radius: 100px;
+            font-size: 0.65em;
             margin-left: 6px;
             vertical-align: middle;
+            font-weight: 600;
+            letter-spacing: 0.04em;
         }
         .reply-form {
-            margin-top: 10px;
+            margin-top: 12px;
             display: none;
-            background: var(--bg-light);
-            border-radius: 10px;
-            padding: 14px;
+            background: var(--bg-soft);
+            border-radius: 12px;
+            padding: 16px;
         }
         .reply-form.open { display: block; }
         .reply-form textarea {
             width: 100%;
             min-height: 60px;
-            padding: 10px;
-            border: 2px solid var(--border);
-            border-radius: 8px;
+            padding: 12px 14px;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
             font-family: inherit;
             font-size: 0.9em;
             margin-bottom: 8px;
             resize: vertical;
+            background: var(--white);
         }
         .reply-form input {
             width: 100%;
-            padding: 8px 12px;
-            border: 2px solid var(--border);
-            border-radius: 8px;
+            padding: 10px 14px;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
             font-family: inherit;
             font-size: 0.9em;
             margin-bottom: 8px;
+            background: var(--white);
         }
 
         /* ===== ADMIN MODAL ===== */
@@ -715,7 +1022,9 @@
             display: none;
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.6);
+            background: rgba(15,20,35,0.6);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
             z-index: 1000;
             align-items: flex-start;
             justify-content: center;
@@ -725,15 +1034,15 @@
         .modal-overlay.open { display: flex; }
         .modal {
             background: var(--white);
-            border-radius: 16px;
+            border-radius: 20px;
             width: 100%;
             max-width: 900px;
             max-height: 90vh;
             overflow-y: auto;
-            box-shadow: 0 25px 80px rgba(0,0,0,0.3);
+            box-shadow: 0 25px 80px rgba(0,0,0,0.25);
         }
         .modal-header {
-            background: linear-gradient(135deg, var(--winter-navy), var(--winter-blue));
+            background: var(--primary);
             color: white;
             padding: 20px 28px;
             display: flex;
@@ -742,10 +1051,11 @@
             position: sticky;
             top: 0;
             z-index: 10;
+            border-radius: 20px 20px 0 0;
         }
-        .modal-header h2 { font-size: 1.4em; }
+        .modal-header h2 { font-size: 1.2em; font-weight: 600; letter-spacing: -0.01em; }
         .modal-close {
-            background: rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.1);
             border: none;
             color: white;
             width: 36px;
@@ -754,65 +1064,71 @@
             font-size: 1.2em;
             cursor: pointer;
             transition: background 0.2s;
+            font-family: inherit;
         }
-        .modal-close:hover { background: rgba(255,255,255,0.35); }
-        .modal-body { padding: 25px 28px; }
+        .modal-close:hover { background: rgba(255,255,255,0.2); }
+        .modal-body { padding: 28px; }
 
         /* Admin Tabs */
         .admin-tabs {
             display: flex;
-            border-bottom: 2px solid var(--border);
-            margin-bottom: 25px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 28px;
             gap: 0;
         }
         .admin-tab {
-            padding: 12px 22px;
+            padding: 12px 20px;
             background: none;
             border: none;
-            font-size: 0.95em;
+            font-size: 0.88em;
             font-weight: 600;
             color: var(--text-light);
             cursor: pointer;
-            border-bottom: 3px solid transparent;
+            border-bottom: 2px solid transparent;
             transition: all 0.2s;
-            margin-bottom: -2px;
+            margin-bottom: -1px;
+            font-family: inherit;
         }
-        .admin-tab:hover { color: var(--winter-blue); }
+        .admin-tab:hover { color: var(--primary); }
         .admin-tab.active {
-            color: var(--winter-navy);
-            border-bottom-color: var(--winter-blue);
+            color: var(--primary);
+            border-bottom-color: var(--accent);
         }
         .admin-panel { display: none; }
         .admin-panel.active { display: block; }
 
         /* Admin forms */
         .admin-form {
-            background: var(--bg-light);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
+            background: var(--bg-soft);
+            border-radius: 14px;
+            padding: 24px;
+            margin-bottom: 24px;
+            border: 1px solid var(--border-light);
         }
-        .admin-form h4 { color: var(--winter-navy); margin-bottom: 12px; }
+        .admin-form h4 { color: var(--primary); margin-bottom: 14px; font-weight: 700; }
         .admin-form label {
             display: block;
             font-weight: 600;
             color: var(--text-mid);
-            margin-bottom: 4px;
-            margin-top: 10px;
-            font-size: 0.9em;
+            margin-bottom: 5px;
+            margin-top: 12px;
+            font-size: 0.85em;
+            letter-spacing: 0.02em;
         }
         .admin-form input, .admin-form textarea, .admin-form select {
             width: 100%;
-            padding: 10px 14px;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            font-size: 0.95em;
+            padding: 11px 14px;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            font-size: 0.92em;
             font-family: inherit;
-            transition: border-color 0.2s;
+            transition: border-color 0.25s, box-shadow 0.25s;
+            background: var(--white);
         }
         .admin-form input:focus, .admin-form textarea:focus, .admin-form select:focus {
             outline: none;
-            border-color: var(--winter-blue);
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(45,74,124,0.08);
         }
         .admin-form textarea { min-height: 80px; resize: vertical; }
 
@@ -820,43 +1136,43 @@
         .rte-toolbar {
             display: flex;
             flex-wrap: wrap;
-            gap: 4px;
+            gap: 3px;
             padding: 8px 10px;
-            background: var(--white);
-            border: 2px solid var(--border);
+            background: var(--bg-soft);
+            border: 1.5px solid var(--border);
             border-bottom: none;
-            border-radius: 8px 8px 0 0;
+            border-radius: 10px 10px 0 0;
             margin-top: 4px;
         }
         .rte-btn {
             background: none;
-            border: 1px solid var(--border);
-            border-radius: 5px;
+            border: 1px solid transparent;
+            border-radius: 6px;
             padding: 5px 10px;
-            font-size: 0.85em;
+            font-size: 0.82em;
             cursor: pointer;
             color: var(--text-mid);
             font-family: inherit;
             transition: background 0.15s, color 0.15s;
         }
-        .rte-btn:hover { background: var(--winter-ice); color: var(--winter-navy); }
+        .rte-btn:hover { background: var(--white); color: var(--primary); border-color: var(--border); }
         .rte-sep { width: 1px; background: var(--border); align-self: stretch; margin: 0 4px; }
         .rte-editor {
             min-height: 200px;
             max-height: 500px;
             overflow-y: auto;
-            padding: 14px 16px;
-            border: 2px solid var(--border);
+            padding: 16px 18px;
+            border: 1.5px solid var(--border);
             border-top: 1px solid var(--border);
-            border-radius: 0 0 8px 8px;
+            border-radius: 0 0 10px 10px;
             font-size: 0.95em;
             font-family: inherit;
-            line-height: 1.6;
+            line-height: 1.7;
             color: var(--text-dark);
             background: var(--white);
-            transition: border-color 0.2s;
+            transition: border-color 0.25s;
         }
-        .rte-editor:focus { outline: none; border-color: var(--winter-blue); }
+        .rte-editor:focus { outline: none; border-color: var(--primary-light); }
         .rte-editor:empty:before {
             content: attr(data-placeholder);
             color: var(--text-light);
@@ -865,40 +1181,44 @@
         .rte-editor img {
             max-width: 100%;
             height: auto;
-            border-radius: 8px;
-            margin: 8px 0;
+            border-radius: 10px;
+            margin: 10px 0;
             display: block;
         }
         .rte-editor blockquote {
-            border-left: 3px solid var(--winter-blue);
-            margin: 8px 0;
-            padding: 6px 12px;
+            border-left: 3px solid var(--accent);
+            margin: 10px 0;
+            padding: 8px 14px;
             color: var(--text-light);
             font-style: italic;
-            background: var(--winter-frost);
-            border-radius: 0 6px 6px 0;
+            background: var(--bg-soft);
+            border-radius: 0 8px 8px 0;
         }
 
         .admin-btn {
-            background: linear-gradient(135deg, var(--winter-blue), var(--winter-navy));
+            background: var(--primary);
             color: white;
             border: none;
             padding: 10px 24px;
-            border-radius: 8px;
+            border-radius: 100px;
             font-weight: 600;
             cursor: pointer;
             margin-top: 14px;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.25s ease;
+            font-family: inherit;
+            font-size: 0.88em;
+            letter-spacing: 0.02em;
         }
-        .admin-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(43,108,176,0.3); }
-        .admin-btn.danger { background: linear-gradient(135deg, var(--danger), #c53030); }
-        .admin-btn.small { padding: 6px 14px; font-size: 0.85em; margin-top: 0; }
+        .admin-btn:hover { background: var(--primary-light); }
+        .admin-btn.danger { background: var(--danger); }
+        .admin-btn.danger:hover { background: #c03030; }
+        .admin-btn.small { padding: 6px 16px; font-size: 0.82em; margin-top: 0; }
 
         .admin-list-item {
             background: var(--white);
             border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 14px 18px;
+            border-radius: 12px;
+            padding: 16px 20px;
             margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
@@ -907,63 +1227,85 @@
             gap: 10px;
         }
         .admin-list-item .item-info { flex: 1; }
-        .admin-list-item .item-info strong { color: var(--winter-navy); }
+        .admin-list-item .item-info strong { color: var(--primary); }
         .admin-list-item .item-actions { display: flex; gap: 8px; }
 
         /* Login Overlay for Admin */
         .admin-login {
             text-align: center;
-            padding: 40px 20px;
+            padding: 48px 20px;
         }
         .admin-login h3 {
-            color: var(--winter-navy);
-            margin-bottom: 15px;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-weight: 700;
         }
         .admin-login input {
             padding: 12px 16px;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            font-size: 1em;
-            width: 260px;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            font-size: 0.95em;
+            width: 280px;
             margin-bottom: 12px;
+            font-family: inherit;
+            background: var(--white);
         }
-        .admin-login input:focus { outline: none; border-color: var(--winter-blue); }
+        .admin-login input:focus { outline: none; border-color: var(--primary-light); box-shadow: 0 0 0 3px rgba(45,74,124,0.08); }
 
         /* ===== FOOTER ===== */
         footer {
-            background: linear-gradient(135deg, var(--winter-navy) 0%, var(--winter-deep) 100%);
+            background: var(--primary);
             color: white;
-            padding: 30px;
+            padding: clamp(36px, 5vw, 56px) 0;
             text-align: center;
         }
-        footer p { opacity: 0.8; font-size: 0.9em; margin-bottom: 4px; }
-        footer a { color: var(--summer-gold); text-decoration: none; }
-        footer a:hover { text-decoration: underline; }
+        footer > div {
+            max-width: var(--content-max);
+            margin: 0 auto;
+            padding: 0 clamp(24px, 5vw, 60px);
+        }
+        footer p { opacity: 0.5; font-size: 0.85em; margin-bottom: 4px; }
+        footer a { color: var(--accent-light); text-decoration: none; transition: opacity 0.2s; }
+        footer a:hover { opacity: 0.8; }
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
             header h1 { font-size: 1.8em; }
-            header::before, header::after { display: none; }
-            .content { padding: 0 18px 30px; }
+            .content { padding: 0; }
             .hero-grid { grid-template-columns: 1fr; }
-            .hero-image-placeholder { height: 220px; }
-            .hero-image-container { max-height: 280px; }
-            .leadership-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+            .hero-image-placeholder { height: 240px; }
+            .hero-image-container { max-height: 300px; }
+            .org-leads { flex-direction: column; align-items: center; gap: 0; }
+            .org-lead-col { min-width: unset; max-width: 280px; width: 80%; }
+            .org-connector-bar::before { display: none; }
+            .org-lead-line { height: 20px; }
+            .leader-card { max-width: 280px; }
             .link-grid { grid-template-columns: 1fr; }
             .become-host { flex-direction: column; text-align: center; }
             .become-host-actions { justify-content: center; }
             .tour-times { flex-direction: column; align-items: stretch; }
             .tour-time-badge { justify-content: center; }
+            .weather-banner > div:first-child { flex-direction: column; align-items: flex-start; }
             .weather-info { flex-direction: column; align-items: flex-start; }
-            .admin-toggle { position: static; margin-top: 12px; }
-            .modal { max-height: 95vh; }
+            .weather-banner-actions { flex-direction: column; align-items: stretch; gap: 8px; width: 100%; }
+            .weather-banner-actions > * { text-align: center; justify-content: center; }
+            .modal { max-height: 95vh; border-radius: 16px; }
+            .modal-header { border-radius: 16px 16px 0 0; }
+            .admin-tabs { overflow-x: auto; }
+            .section { padding: clamp(40px, 6vw, 60px) 0; }
         }
 
         /* Scrollbar styling */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--bg-light); }
-        ::-webkit-scrollbar-thumb { background: var(--winter-blue); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--winter-navy); }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(27,42,74,0.2); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(27,42,74,0.35); }
+
+        /* Smooth scroll */
+        html { scroll-behavior: smooth; }
+
+        /* Selection color */
+        ::selection { background: var(--accent-pale); color: var(--primary); }
     </style>
 </head>
 <body>
@@ -971,25 +1313,31 @@
 
         <!-- ===== WEATHER BANNER ===== -->
         <div id="weatherBanner" class="weather-banner">
-            <div style="opacity:0.8;">⛅ Loading NOAA weather data for Bogus Basin...</div>
+            <div style="max-width:var(--content-max);margin:0 auto;padding:0 clamp(24px,5vw,60px);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+                <div style="opacity:0.6;">Loading weather data for Bogus Basin...</div>
+                <div class="weather-banner-actions">
+                    <button class="admin-toggle" onclick="openAdminModal()">Management Portal</button>
+                </div>
+            </div>
         </div>
 
         <!-- ===== HEADER ===== -->
         <header>
-            <h1>❄️ Bogus Basin Mountain Hosts ☀️</h1>
-            <p class="subtitle">National Ski Patrol &bull; Volunteer Mountain Hosts &bull; Bogus Basin, Idaho</p>
-            <button class="admin-toggle" onclick="openAdminModal()">⚙️ Management Portal</button>
+            <div class="content-inner">
+                <h1><svg class="header-icon" viewBox="0 0 64 64"><defs><linearGradient id="snowGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#a8d8ff"/><stop offset="50%" stop-color="#4db8ff"/><stop offset="100%" stop-color="#1a8cff"/></linearGradient></defs><g stroke="url(#snowGrad)" stroke-width="3.5" stroke-linecap="round" fill="none"><line x1="32" y1="4" x2="32" y2="60"/><line x1="7.76" y1="18" x2="56.24" y2="46"/><line x1="7.76" y1="46" x2="56.24" y2="18"/><line x1="32" y1="4" x2="26" y2="10"/><line x1="32" y1="4" x2="38" y2="10"/><line x1="32" y1="60" x2="26" y2="54"/><line x1="32" y1="60" x2="38" y2="54"/><line x1="7.76" y1="18" x2="14" y2="20.4"/><line x1="7.76" y1="18" x2="11.6" y2="24"/><line x1="56.24" y1="46" x2="50" y2="43.6"/><line x1="56.24" y1="46" x2="52.4" y2="40"/><line x1="56.24" y1="18" x2="50" y2="20.4"/><line x1="56.24" y1="18" x2="52.4" y2="24"/><line x1="7.76" y1="46" x2="14" y2="43.6"/><line x1="7.76" y1="46" x2="11.6" y2="40"/><circle cx="32" cy="32" r="3" fill="url(#snowGrad)" stroke="none"/></g></svg> Bogus Basin Mountain Hosts <svg class="header-icon" viewBox="0 0 64 64"><defs><linearGradient id="sunGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ffe066"/><stop offset="50%" stop-color="#ffb833"/><stop offset="100%" stop-color="#ff8c1a"/></linearGradient></defs><circle cx="32" cy="32" r="12" fill="url(#sunGrad)"/><g stroke="url(#sunGrad)" stroke-width="3.5" stroke-linecap="round"><line x1="32" y1="4" x2="32" y2="14"/><line x1="32" y1="50" x2="32" y2="60"/><line x1="4" y1="32" x2="14" y2="32"/><line x1="50" y1="32" x2="60" y2="32"/><line x1="12.2" y1="12.2" x2="19.27" y2="19.27"/><line x1="44.73" y1="44.73" x2="51.8" y2="51.8"/><line x1="51.8" y1="12.2" x2="44.73" y2="19.27"/><line x1="19.27" y1="44.73" x2="12.2" y2="51.8"/></g></svg></h1>
+                <p class="subtitle">National Ski Patrol &bull; Volunteer Mountain Hosts &bull; Bogus Basin, Idaho</p>
+            </div>
         </header>
 
         <div class="content">
 
             <!-- ===== ABOUT SECTION ===== -->
             <section class="section">
-                <div class="section-header blend">
-                    <span class="icon">🏔️</span>
+                <div class="section-header blend content-inner">
                     <h2>About Mountain Hosts</h2>
+                    <div class="section-line"></div>
                 </div>
-                <div class="hero-grid">
+                <div class="hero-grid content-inner">
                     <div class="hero-text">
                         <p>
                             A <strong>Mountain Host</strong> is a proud member of the <strong>National Ski Patrol (NSP)</strong>, 
@@ -1018,10 +1366,11 @@
 
             <!-- ===== COMPLIMENTARY MOUNTAIN TOURS ===== -->
             <section class="section">
-                <div class="section-header winter">
-                    <span class="icon">🎿</span>
+                <div class="section-header winter content-inner">
                     <h2>Complimentary Mountain Tours</h2>
+                    <div class="section-line"></div>
                 </div>
+                <div class="content-inner">
                 <div class="tours-card">
                     <h3>Free Guided Mountain Tours</h3>
                     <p>
@@ -1045,26 +1394,27 @@
                         Meet at the main lodge. No reservation required — just look for a Mountain Host in their NSP vest!
                     </p>
                 </div>
+                </div>
             </section>
 
             <!-- ===== LEADERSHIP ===== -->
             <section class="section">
-                <div class="section-header summer">
-                    <span class="icon">⭐</span>
+                <div class="section-header summer content-inner">
                     <h2>Host Leadership</h2>
+                    <div class="section-line"></div>
                 </div>
-                <div id="leadershipGrid" class="leadership-grid">
+                <div id="leadershipGrid" class="leadership-grid content-inner">
                     <!-- Populated by JavaScript -->
                 </div>
             </section>
 
             <!-- ===== BOGUS BASIN LINKS ===== -->
             <section class="section">
-                <div class="section-header winter">
-                    <span class="icon">🔗</span>
+                <div class="section-header winter content-inner">
                     <h2>Bogus Basin Resources</h2>
+                    <div class="section-line"></div>
                 </div>
-                <div class="link-grid">
+                <div class="link-grid content-inner">
                     <a href="https://bogusbasin.org/" class="link-card" target="_blank" rel="noopener noreferrer">
                         <div class="link-icon">
                             <img src="https://www.google.com/s2/favicons?domain=bogusbasin.org&sz=128" alt="Bogus Basin">
@@ -1087,10 +1437,11 @@
 
             <!-- ===== NSP LINK ===== -->
             <section class="section">
-                <div class="section-header blend">
-                    <span class="icon">🏥</span>
+                <div class="section-header blend content-inner">
                     <h2>National Ski Patrol</h2>
+                    <div class="section-line"></div>
                 </div>
+                <div class="content-inner">
                 <a href="https://www.nsp.org/" class="link-card" target="_blank" rel="noopener noreferrer" style="max-width:500px;">
                     <div class="link-icon">
                         <img src="https://www.google.com/s2/favicons?domain=nsp.org&sz=128" alt="NSP">
@@ -1100,13 +1451,15 @@
                         <p>The NSP provides education, certification, and resources for ski patrollers and mountain safety volunteers across the nation.</p>
                     </div>
                 </a>
+                </div>
             </section>
 
             <!-- ===== BECOME A HOST ===== -->
             <section class="section">
+                <div class="content-inner">
                 <div class="become-host">
                     <div class="become-host-text">
-                        <h3>🙋 Interested in Becoming a Mountain Host?</h3>
+                        <h3>Interested in Becoming a Mountain Host?</h3>
                         <p>
                             We're always looking for enthusiastic volunteers who love the mountain and want to help others 
                             have an amazing experience at Bogus Basin. Join our NSP family!
@@ -1120,46 +1473,75 @@
                         </div>
                     </div>
                 </div>
+                </div>
             </section>
 
             <!-- ===== ANNOUNCEMENTS ===== -->
             <section class="section">
-                <div class="section-header summer">
-                    <span class="icon">📢</span>
+                <div class="section-header summer content-inner">
                     <h2>Announcements & Awards</h2>
+                    <div class="section-line"></div>
                 </div>
-                <div id="announcementsList" class="announcements-list">
+                <div id="announcementsList" class="announcements-list content-inner">
                     <!-- Populated by JavaScript -->
                 </div>
             </section>
 
             <!-- ===== COMMENTS ===== -->
             <section class="section">
-                <div class="section-header winter">
-                    <span class="icon">💬</span>
-                    <h2>Guest Comments &amp; Host Interactions</h2>
+                <div class="section-header winter content-inner">
+                    <h2>Guest Comments & Host Interactions</h2>
+                    <div class="section-line"></div>
                 </div>
-                <p style="color: var(--text-mid); margin-bottom: 18px;">
-                    Had a great interaction with a Mountain Host? Share your experience below!
+                <p class="content-inner" style="color: var(--text-mid); margin-bottom: 24px;">
+                    Had a great interaction with a Mountain Host? Sign in with Google and share your experience below!
                 </p>
 
-                <!-- Comment Form -->
-                <div class="comment-form">
-                    <h4>Leave a Comment</h4>
-                    <div class="form-row">
-                        <input type="text" id="commentName" placeholder="Your Name" maxlength="60">
+                <!-- Comment Auth Bar -->
+                <div class="comment-auth-bar content-inner" id="commentAuthBar">
+                    <div id="commentAuthSignedOut">
+                        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+                            <button class="google-sign-in-btn" onclick="commentSignIn('google')">
+                                <svg viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+                                Sign in with Google
+                            </button>
+                            <button class="google-sign-in-btn" style="border-color:#1877F2;" onclick="commentSignIn('facebook')">
+                                <svg viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                                Sign in with Facebook
+                            </button>
+                        </div>
                     </div>
+                    <div id="commentAuthSignedIn" style="display:none; width:100; display:none;">
+                        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; width:100%;">
+                            <div class="user-info">
+                                <img class="user-avatar" id="commentUserAvatar" src="" alt="">
+                                <span>Signed in as <span class="user-name" id="commentUserName"></span></span>
+                            </div>
+                            <button class="comment-signout-btn" onclick="commentSignOut()">Sign Out</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comment Form (shown only when signed in) -->
+                <div class="comment-form content-inner" id="commentFormContainer" style="display:none;">
+                    <h4>Leave a Comment</h4>
                     <div class="form-row">
                         <textarea id="commentBody" placeholder="Share your experience with our Mountain Hosts..." maxlength="1000"></textarea>
                     </div>
-                    <div class="emoji-bar" id="emojiBar">
-                        <!-- Emoji buttons populated by JS -->
+                    <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+                        <div class="emoji-picker-wrap">
+                            <button type="button" class="emoji-trigger" onclick="toggleEmojiPicker(this, 'commentBody')">
+                                <span class="emoji-trigger-icon">😊</span> Add Emoji
+                            </button>
+                            <div class="emoji-dropdown"></div>
+                        </div>
+                        <button class="submit-btn" onclick="submitComment()">Post Comment</button>
                     </div>
-                    <button class="submit-btn" onclick="submitComment()">Post Comment</button>
+                    <p style="font-size:0.8em; color:var(--text-light); margin-top:12px;">Comments are reviewed before posting.</p>
                 </div>
 
                 <!-- Comments Thread -->
-                <div id="commentsThread" class="comments-thread">
+                <div id="commentsThread" class="comments-thread content-inner">
                     <!-- Populated by JavaScript -->
                 </div>
             </section>
@@ -1168,8 +1550,10 @@
 
         <!-- ===== FOOTER ===== -->
         <footer>
-            <p>&copy; 2026 Bogus Basin Mountain Hosts &bull; National Ski Patrol</p>
-            <p>Stay Safe & Enjoy the Mountain 🏔️ | <a href="https://www.nsp.org/" target="_blank">NSP.org</a> | <a href="https://bogusbasin.org/" target="_blank">BogusBasin.org</a></p>
+            <div>
+                <p>&copy; 2026 Bogus Basin Mountain Hosts &bull; National Ski Patrol</p>
+                <p><a href="https://www.nsp.org/" target="_blank">NSP.org</a> &nbsp;&bull;&nbsp; <a href="https://bogusbasin.org/" target="_blank">BogusBasin.org</a></p>
+            </div>
         </footer>
     </div><!-- end .site-container -->
 
@@ -1350,8 +1734,15 @@
         let groupPhoto = { url: '', caption: '' };
 
         // ===== EMOJIS =====
-        const EMOJIS = ['👍','❤️','😊','🎿','🏔️','⛷️','🙌','🔥','❄️','☀️','🤩','👏','💯','🥇'];
-        const REACTION_EMOJIS = ['👍','❤️','😊','🎿','🏔️'];
+        const EMOJIS = [
+            {e:'👍',n:'Thumbs Up'},{e:'❤️',n:'Heart'},{e:'😊',n:'Smiling Face'},{e:'🎿',n:'Skis'},
+            {e:'🏔️',n:'Mountain'},{e:'⛷️',n:'Skier'},{e:'🙌',n:'Hands Up'},{e:'🔥',n:'Fire'},
+            {e:'❄️',n:'Snowflake'},{e:'☀️',n:'Sun'},{e:'🤩',n:'Star Eyes'},{e:'👏',n:'Clapping'},
+            {e:'💯',n:'100'},{e:'🥇',n:'Gold Medal'}
+        ];
+        const REACTION_EMOJIS = [
+            {e:'👍',n:'Thumbs Up'},{e:'❤️',n:'Heart'},{e:'😊',n:'Smiling Face'},{e:'🎿',n:'Skis'},{e:'🏔️',n:'Mountain'}
+        ];
 
         // ===== UTILITY =====
         function escHtml(s) {
@@ -1366,24 +1757,138 @@
         }
         function isAdmin() { return !!currentUser; }
 
-        // ===== EMOJI BAR =====
-        const emojiBar = document.getElementById('emojiBar');
-        EMOJIS.forEach(e => {
-            const btn = document.createElement('button');
-            btn.type = 'button';
-            btn.className = 'emoji-btn';
-            btn.textContent = e;
-            btn.onclick = () => {
-                const ta = document.getElementById('commentBody');
-                ta.value += e;
-                ta.focus();
-            };
-            emojiBar.appendChild(btn);
+        // ===== EMOJI PICKER (reusable) =====
+        function buildEmojiGrid(dropdown, targetId) {
+            if (dropdown.childElementCount > 0) return; // already built
+            const header = document.createElement('div');
+            header.className = 'emoji-dropdown-header';
+            header.textContent = 'Pick an emoji';
+            dropdown.appendChild(header);
+            const grid = document.createElement('div');
+            grid.className = 'emoji-grid';
+            EMOJIS.forEach(({e, n}) => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'emoji-grid-btn';
+                btn.textContent = e;
+                btn.title = n;
+                btn.onclick = () => {
+                    const ta = document.getElementById(targetId);
+                    if (ta) { ta.value += e; ta.focus(); }
+                    dropdown.classList.remove('open');
+                };
+                grid.appendChild(btn);
+            });
+            dropdown.appendChild(grid);
+        }
+
+        window.toggleEmojiPicker = function(triggerBtn, targetId) {
+            const wrap = triggerBtn.closest('.emoji-picker-wrap');
+            const dropdown = wrap.querySelector('.emoji-dropdown');
+            // close any other open pickers first
+            document.querySelectorAll('.emoji-dropdown.open').forEach(d => {
+                if (d !== dropdown) d.classList.remove('open');
+            });
+            buildEmojiGrid(dropdown, targetId);
+            dropdown.classList.toggle('open');
+        };
+
+        document.addEventListener('click', (ev) => {
+            if (!ev.target.closest('.emoji-picker-wrap')) {
+                document.querySelectorAll('.emoji-dropdown.open').forEach(d => d.classList.remove('open'));
+            }
         });
 
-        // ===== FIREBASE AUTH =====
+        // ===== COMMENT AUTH (Google & Facebook Sign-In for commenters) =====
+        let commentUser = null; // separate from admin currentUser
+        const googleProvider = new firebase.auth.GoogleAuthProvider();
+        const facebookProvider = new firebase.auth.FacebookAuthProvider();
+        facebookProvider.addScope('public_profile');
+        facebookProvider.addScope('email');
+
+        // We use a second auth approach: commenters sign in with Google popup
+        // but admin uses email/password. We track comment user separately.
+        // Since Firebase Auth only has one current user, we store comment user info in sessionStorage.
+
+        function updateCommentAuthUI() {
+            const stored = sessionStorage.getItem('commentUser');
+            const signedOutEl = document.getElementById('commentAuthSignedOut');
+            const signedInEl = document.getElementById('commentAuthSignedIn');
+            const formEl = document.getElementById('commentFormContainer');
+
+            if (stored) {
+                commentUser = JSON.parse(stored);
+                signedOutEl.style.display = 'none';
+                signedInEl.style.display = 'block';
+                formEl.style.display = 'block';
+                document.getElementById('commentUserName').textContent = commentUser.name;
+                const avatar = document.getElementById('commentUserAvatar');
+                if (commentUser.photo) {
+                    avatar.src = commentUser.photo;
+                    avatar.style.display = '';
+                } else {
+                    avatar.style.display = 'none';
+                }
+            } else {
+                commentUser = null;
+                signedOutEl.style.display = 'block';
+                signedInEl.style.display = 'none';
+                formEl.style.display = 'none';
+            }
+        }
+
+        window.commentSignIn = async function(providerType) {
+            const provider = providerType === 'facebook' ? facebookProvider : googleProvider;
+            try {
+                const result = await auth.signInWithPopup(provider);
+                const user = result.user;
+                const info = {
+                    uid: user.uid,
+                    name: user.displayName || user.email,
+                    email: user.email,
+                    photo: user.photoURL || ''
+                };
+                sessionStorage.setItem('commentUser', JSON.stringify(info));
+                // Keep user signed in so Firestore rules (request.auth != null) work
+                updateCommentAuthUI();
+            } catch (err) {
+                console.error('Google sign-in error:', err);
+                if (err.code !== 'auth/popup-closed-by-user') {
+                    alert('Sign-in failed: ' + err.message);
+                }
+            }
+        };
+
+        window.commentSignOut = function() {
+            sessionStorage.removeItem('commentUser');
+            commentUser = null;
+            auth.signOut();
+            updateCommentAuthUI();
+        };
+
+        // Initialize comment auth UI on load
+        updateCommentAuthUI();
+
+        // ===== FIREBASE AUTH (Admin) =====
         auth.onAuthStateChanged(user => {
-            currentUser = user;
+            // Only treat email/password users as admins, not Google sign-in commenters
+            if (user && user.providerData && user.providerData[0] && user.providerData[0].providerId === 'password') {
+                currentUser = user;
+            } else if (!user) {
+                currentUser = null;
+            }
+            // If a Google or Facebook commenter signs in, restore their session info
+            if (user && user.providerData && user.providerData[0] && 
+                (user.providerData[0].providerId === 'google.com' || user.providerData[0].providerId === 'facebook.com')) {
+                const info = {
+                    uid: user.uid,
+                    name: user.displayName || user.email,
+                    email: user.email,
+                    photo: user.photoURL || ''
+                };
+                sessionStorage.setItem('commentUser', JSON.stringify(info));
+                updateCommentAuthUI();
+            }
             updateAdminUI();
         });
 
@@ -1558,19 +2063,56 @@
 
         function renderLeadership() {
             const grid = document.getElementById('leadershipGrid');
-            const sorted = [...leaders].sort((a,b) => a.role === 'Director' ? -1 : b.role === 'Director' ? 1 : 0);
-            grid.innerHTML = sorted.map(l => {
+            const directors = leaders.filter(l => l.role === 'Director');
+            const leads = leaders.filter(l => l.role !== 'Director');
+
+            const makeCard = (l) => {
                 const photoContent = l.photoUrl
-                    ? `<img src="${escHtml(l.photoUrl)}" alt="${escHtml(l.name)}" onerror="this.style.display='none';this.parentElement.textContent='${l.role === 'Director' ? '👑' : '⭐'}'">`
-                    : (l.role === 'Director' ? '👑' : '⭐');
-                return `
-                <div class="leader-card ${l.role === 'Director' ? 'director' : ''}">
+                    ? `<img src="${escHtml(l.photoUrl)}" alt="${escHtml(l.name)}" onerror="this.style.display='none';this.parentElement.textContent='${l.role === 'Director' ? '⭐' : '⭐'}'">`
+                    : (l.role === 'Director' ? '⭐' : '⭐');
+                return `<div class="leader-card ${l.role === 'Director' ? 'director' : ''}">
                     <div class="leader-photo">${photoContent}</div>
                     <div class="leader-name">${escHtml(l.name)}</div>
                     <div class="leader-role">${escHtml(l.role)}</div>
-                </div>
-                `;
-            }).join('');
+                </div>`;
+            };
+
+            if (directors.length === 0 && leads.length === 0) {
+                grid.innerHTML = '<div class="no-items-msg">No leadership added yet.</div>';
+                return;
+            }
+
+            let html = '<div class="org-chart">';
+
+            // Director at top
+            if (directors.length > 0) {
+                html += `<div class="org-director">${directors.map(makeCard).join('')}</div>`;
+            }
+
+            // Connector lines to leads
+            if (directors.length > 0 && leads.length > 0) {
+                html += '<div class="org-connector-down"></div>';
+                const count = leads.length;
+                if (count > 1) {
+                    const pct = Math.min(48, (count - 1) * 12);
+                    html += `<div class="org-connector-bar" style="--bar-left: ${50 - pct}%; --bar-right: ${50 - pct}%;"></div>`;
+                }
+            }
+
+            // Lead cards
+            if (leads.length > 0) {
+                html += '<div class="org-leads">';
+                leads.forEach(l => {
+                    html += `<div class="org-lead-col">
+                        ${directors.length > 0 ? '<div class="org-lead-line"></div>' : ''}
+                        ${makeCard(l)}
+                    </div>`;
+                });
+                html += '</div>';
+            }
+
+            html += '</div>';
+            grid.innerHTML = html;
         }
 
         function renderAnnouncements() {
@@ -1591,28 +2133,30 @@
 
         function renderComments() {
             const thread = document.getElementById('commentsThread');
-            const topLevel = comments.filter(c => !c.parentId).sort((a,b) => b.date - a.date);
+            // Only show approved comments to the public
+            const approved = comments.filter(c => c.approved !== false);
+            const topLevel = approved.filter(c => !c.parentId).sort((a,b) => b.date - a.date);
             if (topLevel.length === 0) {
                 thread.innerHTML = '<div class="no-items-msg">No comments yet. Be the first to share!</div>';
                 return;
             }
-            thread.innerHTML = topLevel.map(c => renderCommentItem(c)).join('');
+            thread.innerHTML = topLevel.map(c => renderCommentItem(c, approved)).join('');
         }
 
-        function renderCommentItem(c) {
-            const replies = comments.filter(r => r.parentId === c.id).sort((a,b) => a.date - b.date);
+        function renderCommentItem(c, approvedComments) {
+            const replies = approvedComments.filter(r => r.parentId === c.id).sort((a,b) => a.date - b.date);
             const reactions = c.reactions || {};
-            const reactionsHtml = REACTION_EMOJIS.map(e => {
+            const reactionsHtml = REACTION_EMOJIS.map(({e, n}) => {
                 const count = reactions[e] || 0;
-                return `<span class="reaction-badge" onclick="toggleReaction('${c.id}','${e}')">${e} ${count > 0 ? count : ''}</span>`;
+                return `<span class="reaction-badge" title="${n}" onclick="toggleReaction('${c.id}','${e}')">${e} ${count > 0 ? count : ''}</span>`;
             }).join('');
 
             const repliesHtml = replies.map(r => {
                 const rIsAdmin = r.isAdmin;
                 const rReactions = r.reactions || {};
-                const rReactionsHtml = REACTION_EMOJIS.map(e => {
+                const rReactionsHtml = REACTION_EMOJIS.map(({e, n}) => {
                     const count = rReactions[e] || 0;
-                    return `<span class="reaction-badge" onclick="toggleReaction('${r.id}','${e}')">${e} ${count > 0 ? count : ''}</span>`;
+                    return `<span class="reaction-badge" title="${n}" onclick="toggleReaction('${r.id}','${e}')">${e} ${count > 0 ? count : ''}</span>`;
                 }).join('');
                 return `
                     <div class="reply-item ${rIsAdmin ? 'admin-reply' : ''}">
@@ -1634,13 +2178,20 @@
                     <div class="comment-body">${escHtml(c.body)}</div>
                     <div class="comment-reactions">${reactionsHtml}</div>
                     <div class="comment-actions">
-                        <button class="comment-action-btn" onclick="toggleReplyForm('${c.id}')">💬 Reply</button>
+                        ${commentUser ? `<button class="comment-action-btn" onclick="toggleReplyForm('${c.id}')">💬 Reply</button>` : ''}
                     </div>
                     <div class="reply-form" id="reply-form-${c.id}">
-                        <input type="text" id="reply-name-${c.id}" placeholder="Your Name" maxlength="60">
                         <textarea id="reply-body-${c.id}" placeholder="Write a reply..." maxlength="1000"></textarea>
-                        <div class="emoji-bar">${EMOJIS.map(e => `<button type="button" class="emoji-btn" onclick="document.getElementById('reply-body-${c.id}').value+='${e}'">${e}</button>`).join('')}</div>
-                        <button class="submit-btn" onclick="submitReply('${c.id}')">Post Reply</button>
+                        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                            <div class="emoji-picker-wrap">
+                                <button type="button" class="emoji-trigger" onclick="toggleEmojiPicker(this, 'reply-body-${c.id}')">
+                                    <span class="emoji-trigger-icon">😊</span> Add Emoji
+                                </button>
+                                <div class="emoji-dropdown"></div>
+                            </div>
+                            <button class="submit-btn" onclick="submitReply('${c.id}')">Post Reply</button>
+                        </div>
+                        <p style="font-size:0.75em; color:var(--text-light); margin-top:8px;">Replies are reviewed before posting.</p>
                     </div>
                     ${replies.length > 0 ? `<div class="replies">${repliesHtml}</div>` : ''}
                 </div>
@@ -1652,15 +2203,23 @@
         // ================================================================
 
         window.submitComment = async function() {
-            const name = document.getElementById('commentName').value.trim();
+            if (!commentUser) { alert('Please sign in with Google to comment.'); return; }
             const body = document.getElementById('commentBody').value.trim();
-            if (!name || !body) { alert('Please enter your name and comment.'); return; }
+            if (!body) { alert('Please enter a comment.'); return; }
             try {
                 await commentsCol.add({
-                    name, body, date: Date.now(), parentId: null, reactions: {}, isAdmin: false
+                    name: commentUser.name,
+                    email: commentUser.email,
+                    uid: commentUser.uid,
+                    body,
+                    date: Date.now(),
+                    parentId: null,
+                    reactions: {},
+                    isAdmin: false,
+                    approved: false
                 });
-                document.getElementById('commentName').value = '';
                 document.getElementById('commentBody').value = '';
+                alert('Thank you! Your comment has been submitted and will appear after review.');
             } catch(e) {
                 console.error('Error posting comment:', e);
                 alert('Failed to post comment. Please try again.');
@@ -1672,13 +2231,24 @@
         };
 
         window.submitReply = async function(parentId) {
-            const name = document.getElementById('reply-name-' + parentId).value.trim();
+            if (!commentUser) { alert('Please sign in with Google to reply.'); return; }
             const body = document.getElementById('reply-body-' + parentId).value.trim();
-            if (!name || !body) { alert('Please enter your name and reply.'); return; }
+            if (!body) { alert('Please enter a reply.'); return; }
             try {
                 await commentsCol.add({
-                    name, body, date: Date.now(), parentId, reactions: {}, isAdmin: false
+                    name: commentUser.name,
+                    email: commentUser.email,
+                    uid: commentUser.uid,
+                    body,
+                    date: Date.now(),
+                    parentId,
+                    reactions: {},
+                    isAdmin: false,
+                    approved: false
                 });
+                document.getElementById('reply-body-' + parentId).value = '';
+                document.getElementById('reply-form-' + parentId).classList.remove('open');
+                alert('Reply submitted! It will appear after review.');
             } catch(e) {
                 console.error('Error posting reply:', e);
                 alert('Failed to post reply. Please try again.');
@@ -1706,22 +2276,33 @@
                 list.innerHTML = '<div class="no-items-msg">No comments to manage.</div>';
                 return;
             }
-            list.innerHTML = comments.map(c => `
-                <div class="admin-list-item">
+            // Show pending (unapproved) first, then approved
+            const sorted = [...comments].sort((a,b) => {
+                if (a.approved === false && b.approved !== false) return -1;
+                if (a.approved !== false && b.approved === false) return 1;
+                return b.date - a.date;
+            });
+            list.innerHTML = sorted.map(c => {
+                const isPending = c.approved === false;
+                return `
+                <div class="admin-list-item" style="${isPending ? 'border-left: 3px solid #ffc107;' : ''}">
                     <div class="item-info">
                         <strong>${escHtml(c.name)}</strong>${c.isAdmin ? ' <span class="admin-badge">ADMIN</span>' : ''}
+                        ${isPending ? '<span class="pending-badge">Pending</span>' : ''}
                         ${c.parentId ? ' <span style="color:var(--text-light); font-size:0.85em;">(reply)</span>' : ''}
                         <br>
                         <span style="color:var(--text-mid); font-size:0.9em;">${escHtml(c.body.substring(0, 120))}${c.body.length > 120 ? '...' : ''}</span>
                         <br>
-                        <span style="color:var(--text-light); font-size:0.8em;">${fmtDate(c.date)}</span>
+                        <span style="color:var(--text-light); font-size:0.8em;">${fmtDate(c.date)}${c.email ? ' &bull; ' + escHtml(c.email) : ''}</span>
                     </div>
                     <div class="item-actions">
+                        ${isPending ? `<button class="admin-btn small" style="background:#28a745;" onclick="adminApproveComment('${c.id}')">✓ Approve</button>` : ''}
                         ${!c.parentId ? `<button class="admin-btn small" onclick="adminReply('${c.id}')">Reply as Admin</button>` : ''}
-                        <button class="admin-btn small danger" onclick="adminDeleteComment('${c.id}')">Delete</button>
+                        <button class="admin-btn small danger" onclick="adminDeleteComment('${c.id}')">${isPending ? 'Reject' : 'Delete'}</button>
                     </div>
                 </div>
-            `).join('');
+            `;
+            }).join('');
         }
 
         window.adminDeleteComment = async function(id) {
@@ -1741,8 +2322,17 @@
             }
         };
 
-        window.adminReply = async function(parentId) {
+        window.adminApproveComment = async function(id) {
             if (!isAdmin()) { alert('Not authenticated.'); return; }
+            try {
+                await commentsCol.doc(id).update({ approved: true });
+            } catch(e) {
+                console.error('Approve error:', e);
+                alert('Failed to approve. Please try again.');
+            }
+        };
+
+        window.adminReply = async function(parentId) {
             const body = prompt('Enter admin reply:');
             if (!body || !body.trim()) return;
             try {
@@ -1752,7 +2342,8 @@
                     date: Date.now(),
                     parentId,
                     reactions: {},
-                    isAdmin: true
+                    isAdmin: true,
+                    approved: true
                 });
             } catch(e) {
                 console.error('Admin reply error:', e);
@@ -1767,7 +2358,7 @@
             list.innerHTML = sorted.map(l => {
                 const thumb = l.photoUrl
                     ? `<img class="admin-leader-thumb" src="${escHtml(l.photoUrl)}" alt="">`
-                    : `<span style="display:inline-block;width:36px;height:36px;border-radius:50%;background:var(--winter-frost);text-align:center;line-height:36px;margin-right:8px;vertical-align:middle;">${l.role === 'Director' ? '👑' : '⭐'}</span>`;
+                    : `<span style="display:inline-block;width:36px;height:36px;border-radius:50%;background:var(--winter-frost);text-align:center;line-height:36px;margin-right:8px;vertical-align:middle;">${l.role === 'Director' ? '⭐' : '⭐'}</span>`;
                 return `
                 <div class="admin-list-item">
                     <div class="item-info">
@@ -2117,29 +2708,38 @@
                 const icon = getWeatherIcon(cur.shortForecast);
 
                 banner.innerHTML = `
-                    <div class="weather-info">
-                        <div class="weather-current">
-                            <div class="weather-icon">${icon}</div>
-                            <div class="weather-temp">${cur.temperature}°F</div>
-                            <div>
-                                <div class="weather-condition">${cur.shortForecast}</div>
-                                <div style="font-size:0.85em; opacity:0.8;">Bogus Basin Ski Area</div>
+                    <div class="weather-inner" style="max-width:var(--content-max);margin:0 auto;padding:0 clamp(24px,5vw,60px);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+                        <div class="weather-info">
+                            <div class="weather-current">
+                                <div class="weather-icon">${icon}</div>
+                                <div class="weather-temp">${cur.temperature}°F</div>
+                                <div>
+                                    <div class="weather-condition">${cur.shortForecast}</div>
+                                    <div style="font-size:0.82em; opacity:0.6;">Bogus Basin</div>
+                                </div>
+                            </div>
+                            <div class="weather-stats">
+                                <div class="weather-stat"><span>Wind: ${cur.windSpeed} ${cur.windDirection}</span></div>
+                                <div class="weather-stat"><span>${nxt.name}: ${nxt.shortForecast}, ${nxt.temperature}°F</span></div>
                             </div>
                         </div>
-                        <div class="weather-stats">
-                            <div class="weather-stat"><span>💨</span><span>Wind: ${cur.windSpeed} ${cur.windDirection}</span></div>
+                        <div class="weather-banner-actions">
+                            <a href="https://bogusbasin.org/your-mountain/conditions-webcams/" class="webcam-btn" target="_blank" rel="noopener noreferrer">
+                                Mountain Cams
+                            </a>
+                            <button class="admin-toggle" onclick="openAdminModal()">Management Portal</button>
                         </div>
-                    </div>
-                    <a href="https://bogusbasin.org/your-mountain/conditions-webcams/" class="webcam-btn" target="_blank" rel="noopener noreferrer">
-                        📹 Mountain Cams
-                    </a>
-                    <div style="font-size:0.82em; opacity:0.75; margin-top:6px;">
-                        <strong>${nxt.name}:</strong> ${nxt.shortForecast}, ${nxt.temperature}°F &mdash; NOAA Weather Service
                     </div>
                 `;
             } catch (err) {
                 console.error('Weather error:', err);
-                banner.innerHTML = `<div style="opacity:0.8;">⚠️ Unable to load NOAA weather data &mdash; <a href="https://bogusbasin.org/your-mountain/conditions-webcams/" style="color:white; text-decoration:underline;" target="_blank">View Conditions</a></div>`;
+                banner.innerHTML = `<div style="max-width:var(--content-max);margin:0 auto;padding:0 clamp(24px,5vw,60px);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+                    <div style="opacity:0.7;">Unable to load weather data — <a href="https://bogusbasin.org/your-mountain/conditions-webcams/" style="color:white; text-decoration:underline; text-underline-offset:2px;" target="_blank">View Conditions</a></div>
+                    <div class="weather-banner-actions">
+                        <a href="https://bogusbasin.org/your-mountain/conditions-webcams/" class="webcam-btn" target="_blank" rel="noopener noreferrer">Mountain Cams</a>
+                        <button class="admin-toggle" onclick="openAdminModal()">Management Portal</button>
+                    </div>
+                </div>`;
             }
         }
 
