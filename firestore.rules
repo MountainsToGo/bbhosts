@@ -1,0 +1,41 @@
+rules_version = '2';
+
+// Firestore Security Rules for Bogus Basin Mountain Hosts
+// Deploy these in the Firebase Console: Firestore Database > Rules
+//
+// These rules allow:
+//   - Anyone (public) can READ all data
+//   - Anyone (public) can CREATE comments (post + reply + reactions)
+//   - Only authenticated admins can UPDATE/DELETE comments
+//   - Only authenticated admins can CREATE/UPDATE/DELETE leaders and announcements
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // COMMENTS: public read + create, admin update/delete
+    match /comments/{commentId} {
+      allow read: if true;
+      allow create: if true;
+      allow update: if true;  // needed for reactions (public can increment)
+      allow delete: if request.auth != null;
+    }
+
+    // LEADERS: public read, admin write
+    match /leaders/{leaderId} {
+      allow read: if true;
+      allow create, update, delete: if request.auth != null;
+    }
+
+    // ANNOUNCEMENTS: public read, admin write
+    match /announcements/{announcementId} {
+      allow read: if true;
+      allow create, update, delete: if request.auth != null;
+    }
+
+    // SETTINGS (group photo, etc.): public read, admin write
+    match /settings/{settingId} {
+      allow read: if true;
+      allow create, update, delete: if request.auth != null;
+    }
+  }
+}

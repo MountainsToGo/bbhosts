@@ -213,36 +213,6 @@
         }
         .hero-image-placeholder .placeholder-icon { font-size: 4em; }
         .hero-image-placeholder .placeholder-text { font-size: 1em; font-weight: 600; }
-        .hero-image-container {
-            border-radius: 16px;
-            overflow: hidden;
-            max-height: 420px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--winter-frost);
-        }
-        .hero-image-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 16px;
-            display: block;
-        }
-        .hero-image-container .photo-caption {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(transparent, rgba(0,0,0,0.6));
-            color: white;
-            padding: 12px 16px 8px;
-            font-size: 0.85em;
-            border-radius: 0 0 16px 16px;
-        }
-        .hero-photo-wrapper {
-            position: relative;
-        }
 
         /* ===== MOUNTAIN TOURS ===== */
         .tours-card {
@@ -321,59 +291,11 @@
             margin: 0 auto 12px;
             font-size: 2.5em;
             border: 3px solid var(--border);
-            overflow: hidden;
-        }
-        .leader-card .leader-photo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
         }
         .leader-card.director .leader-photo {
             border-color: var(--summer-gold);
             width: 100px;
             height: 100px;
-        }
-        .upload-area {
-            border: 2px dashed var(--border);
-            border-radius: 10px;
-            padding: 16px;
-            text-align: center;
-            cursor: pointer;
-            transition: border-color 0.3s, background 0.3s;
-            margin-bottom: 8px;
-            background: var(--winter-frost);
-        }
-        .upload-area:hover { border-color: var(--winter-blue); background: var(--winter-ice); }
-        .upload-area.dragging { border-color: var(--summer-gold); background: var(--summer-sun); }
-        .upload-area input[type=file] { display: none; }
-        .upload-preview {
-            margin-top: 8px;
-            text-align: center;
-        }
-        .upload-preview img {
-            max-width: 100%;
-            max-height: 200px;
-            border-radius: 10px;
-            object-fit: cover;
-        }
-        .upload-progress {
-            height: 4px;
-            background: var(--border);
-            border-radius: 2px;
-            margin-top: 8px;
-            overflow: hidden;
-            display: none;
-        }
-        .upload-progress-bar {
-            height: 100%;
-            background: var(--winter-blue);
-            border-radius: 2px;
-            width: 0%;
-            transition: width 0.3s;
-        }
-        .admin-leader-thumb {
-            width: 36px; height: 36px; border-radius: 50%; object-fit: cover;
-            border: 2px solid var(--border); vertical-align: middle; margin-right: 8px;
         }
         .leader-card .leader-name {
             font-weight: 700;
@@ -512,11 +434,7 @@
         .ann-type.event { background: var(--summer-meadow); color: #22543d; }
         .ann-type.story { background: #fed7e2; color: #702459; }
         .announcement-card h4 { color: var(--winter-navy); font-size: 1.1em; margin-bottom: 6px; }
-        .announcement-card .ann-content { color: var(--text-mid); font-size: 0.95em; line-height: 1.6; }
-        .announcement-card .ann-content img { max-width: 100%; height: auto; border-radius: 10px; margin: 10px 0; display: block; }
-        .announcement-card .ann-content ul, .announcement-card .ann-content ol { margin: 8px 0 8px 20px; }
-        .announcement-card .ann-content blockquote { border-left: 3px solid var(--winter-blue); margin: 10px 0; padding: 8px 14px; color: var(--text-light); font-style: italic; background: var(--winter-frost); border-radius: 0 8px 8px 0; }
-        .announcement-card .ann-content a { color: var(--winter-blue); text-decoration: underline; }
+        .announcement-card p { color: var(--text-mid); font-size: 0.95em; }
         .announcement-card .ann-date { color: var(--text-light); font-size: 0.8em; margin-top: 8px; }
         .no-items-msg {
             text-align: center;
@@ -815,70 +733,6 @@
             border-color: var(--winter-blue);
         }
         .admin-form textarea { min-height: 80px; resize: vertical; }
-
-        /* Rich Text Editor */
-        .rte-toolbar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 4px;
-            padding: 8px 10px;
-            background: var(--white);
-            border: 2px solid var(--border);
-            border-bottom: none;
-            border-radius: 8px 8px 0 0;
-            margin-top: 4px;
-        }
-        .rte-btn {
-            background: none;
-            border: 1px solid var(--border);
-            border-radius: 5px;
-            padding: 5px 10px;
-            font-size: 0.85em;
-            cursor: pointer;
-            color: var(--text-mid);
-            font-family: inherit;
-            transition: background 0.15s, color 0.15s;
-        }
-        .rte-btn:hover { background: var(--winter-ice); color: var(--winter-navy); }
-        .rte-sep { width: 1px; background: var(--border); align-self: stretch; margin: 0 4px; }
-        .rte-editor {
-            min-height: 200px;
-            max-height: 500px;
-            overflow-y: auto;
-            padding: 14px 16px;
-            border: 2px solid var(--border);
-            border-top: 1px solid var(--border);
-            border-radius: 0 0 8px 8px;
-            font-size: 0.95em;
-            font-family: inherit;
-            line-height: 1.6;
-            color: var(--text-dark);
-            background: var(--white);
-            transition: border-color 0.2s;
-        }
-        .rte-editor:focus { outline: none; border-color: var(--winter-blue); }
-        .rte-editor:empty:before {
-            content: attr(data-placeholder);
-            color: var(--text-light);
-            pointer-events: none;
-        }
-        .rte-editor img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            margin: 8px 0;
-            display: block;
-        }
-        .rte-editor blockquote {
-            border-left: 3px solid var(--winter-blue);
-            margin: 8px 0;
-            padding: 6px 12px;
-            color: var(--text-light);
-            font-style: italic;
-            background: var(--winter-frost);
-            border-radius: 0 6px 6px 0;
-        }
-
         .admin-btn {
             background: linear-gradient(135deg, var(--winter-blue), var(--winter-navy));
             color: white;
@@ -947,7 +801,6 @@
             .content { padding: 0 18px 30px; }
             .hero-grid { grid-template-columns: 1fr; }
             .hero-image-placeholder { height: 220px; }
-            .hero-image-container { max-height: 280px; }
             .leadership-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
             .link-grid { grid-template-columns: 1fr; }
             .become-host { flex-direction: column; text-align: center; }
@@ -1006,12 +859,10 @@
                             for every guest — winter and summer.
                         </div>
                     </div>
-                    <div id="groupPhotoArea">
-                        <div class="hero-image-placeholder">
-                            <span class="placeholder-icon">📸</span>
-                            <span class="placeholder-text">Mountain Hosts Group Photo</span>
-                            <span style="font-size:0.8em;">(Replace with actual image)</span>
-                        </div>
+                    <div class="hero-image-placeholder">
+                        <span class="placeholder-icon">📸</span>
+                        <span class="placeholder-text">Mountain Hosts Group Photo</span>
+                        <span style="font-size:0.8em;">(Replace with actual image)</span>
                     </div>
                 </div>
             </section>
@@ -1113,7 +964,7 @@
                         </p>
                     </div>
                     <div class="become-host-actions">
-                        <a href="#" class="host-btn" id="becomeHostBtn">Learn More</a>
+                        <a href="#" class="host-btn" id="becomeHostBtn">Learn More & Sign Up</a>
                         <div class="qr-placeholder">
                             <span class="qr-icon">📱</span>
                             <span>Scan QR Code</span>
@@ -1184,29 +1035,21 @@
                 <!-- Admin Login -->
                 <div id="adminLogin" class="admin-login">
                     <h3>🔒 Management Access</h3>
-                    <p style="color:var(--text-light); margin-bottom:15px;">Sign in with your admin email and password.</p>
+                    <p style="color:var(--text-light); margin-bottom:15px;">Enter the admin password to continue.</p>
                     <div>
-                        <input type="email" id="adminEmail" placeholder="Email" style="margin-bottom:10px;" onkeydown="if(event.key==='Enter')document.getElementById('adminPasswordField').focus()">
-                    </div>
-                    <div>
-                        <input type="password" id="adminPasswordField" placeholder="Password" onkeydown="if(event.key==='Enter')adminAuth()">
+                        <input type="password" id="adminPassword" placeholder="Password" onkeydown="if(event.key==='Enter')adminAuth()">
                     </div>
                     <br>
-                    <button class="admin-btn" onclick="adminAuth()">Sign In</button>
-                    <p id="adminError" style="color:var(--danger); margin-top:8px; display:none;"></p>
+                    <button class="admin-btn" onclick="adminAuth()">Unlock</button>
+                    <p id="adminError" style="color:var(--danger); margin-top:8px; display:none;">Incorrect password.</p>
                 </div>
 
                 <!-- Admin Content (hidden until auth) -->
                 <div id="adminContent" style="display:none;">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                        <span id="adminUserDisplay" style="color:var(--text-light); font-size:0.85em;"></span>
-                        <button class="admin-btn small danger" onclick="adminSignOut()">Sign Out</button>
-                    </div>
                     <div class="admin-tabs">
                         <button class="admin-tab active" onclick="switchAdminTab('comments', this)">💬 Comments</button>
                         <button class="admin-tab" onclick="switchAdminTab('leadership', this)">⭐ Leadership</button>
                         <button class="admin-tab" onclick="switchAdminTab('announcements', this)">📢 Announcements</button>
-                        <button class="admin-tab" onclick="switchAdminTab('photo', this)">📸 Group Photo</button>
                     </div>
 
                     <!-- ===== COMMENTS ADMIN ===== -->
@@ -1227,16 +1070,7 @@
                                 <option value="Director">Director</option>
                                 <option value="Lead">Lead</option>
                             </select>
-                            <label>Photo</label>
-                            <div class="upload-area" id="leaderPhotoUploadArea" onclick="document.getElementById('leaderPhotoFile').click()">
-                                <input type="file" id="leaderPhotoFile" accept="image/*" onchange="previewLeaderPhoto(this)">
-                                <div>📷 Click to choose photo or drag & drop</div>
-                                <div style="font-size:0.8em; color:var(--text-light);">JPG, PNG up to 5 MB</div>
-                            </div>
-                            <div class="upload-preview" id="leaderPhotoPreview"></div>
-                            <div class="upload-progress" id="leaderUploadProgress"><div class="upload-progress-bar" id="leaderUploadBar"></div></div>
                             <input type="hidden" id="leaderEditId" value="">
-                            <input type="hidden" id="leaderPhotoUrl" value="">
                             <button class="admin-btn" onclick="saveLeader()">Save Leader</button>
                             <button class="admin-btn small" style="background:var(--text-light); margin-left:8px;" onclick="clearLeaderForm()">Clear</button>
                         </div>
@@ -1258,23 +1092,7 @@
                             <label>Title</label>
                             <input type="text" id="annTitle" placeholder="Title" maxlength="120">
                             <label>Content</label>
-                            <div class="rte-toolbar">
-                                <button type="button" class="rte-btn" onclick="rteCmd('bold')" title="Bold"><b>B</b></button>
-                                <button type="button" class="rte-btn" onclick="rteCmd('italic')" title="Italic"><i>I</i></button>
-                                <button type="button" class="rte-btn" onclick="rteCmd('underline')" title="Underline"><u>U</u></button>
-                                <span class="rte-sep"></span>
-                                <button type="button" class="rte-btn" onclick="rteCmd('insertUnorderedList')" title="Bullet List">• List</button>
-                                <button type="button" class="rte-btn" onclick="rteCmd('insertOrderedList')" title="Numbered List">1. List</button>
-                                <span class="rte-sep"></span>
-                                <button type="button" class="rte-btn" onclick="rteInsertLink()" title="Insert Link">🔗 Link</button>
-                                <button type="button" class="rte-btn" onclick="rteCmd('formatBlock','BLOCKQUOTE')" title="Quote">❝ Quote</button>
-                                <span class="rte-sep"></span>
-                                <button type="button" class="rte-btn" onclick="document.getElementById('annPhotoFile').click()" title="Insert Photo">📷 Photo</button>
-                                <input type="file" id="annPhotoFile" accept="image/*" style="display:none;" onchange="rteInsertPhoto(this)">
-                                <span class="rte-sep"></span>
-                                <button type="button" class="rte-btn" onclick="rteCmd('removeFormat')" title="Clear Formatting">✘</button>
-                            </div>
-                            <div id="annContent" class="rte-editor" contenteditable="true" data-placeholder="Write your announcement content here..."></div>
+                            <textarea id="annContent" placeholder="Content..." maxlength="2000"></textarea>
                             <input type="hidden" id="annEditId" value="">
                             <button class="admin-btn" onclick="saveAnnouncement()">Save Announcement</button>
                             <button class="admin-btn small" style="background:var(--text-light); margin-left:8px;" onclick="clearAnnForm()">Clear</button>
@@ -1282,89 +1100,82 @@
                         <h4 style="color:var(--winter-navy); margin-bottom:10px;">All Announcements</h4>
                         <div id="adminAnnList"></div>
                     </div>
-                    <!-- ===== GROUP PHOTO ADMIN ===== -->
-                    <div id="adminPhoto" class="admin-panel">
-                        <div class="admin-form">
-                            <h4>📸 Group Photo</h4>
-                            <p style="color:var(--text-light); margin-bottom:12px; font-size:0.9em;">Upload an image for the Mountain Hosts group photo.</p>
-                            <label>Upload Photo</label>
-                            <div class="upload-area" id="groupPhotoUploadArea" onclick="document.getElementById('groupPhotoFile').click()">
-                                <input type="file" id="groupPhotoFile" accept="image/*" onchange="previewGroupPhoto(this)">
-                                <div>📷 Click to choose photo or drag & drop</div>
-                                <div style="font-size:0.8em; color:var(--text-light);">JPG, PNG up to 10 MB</div>
-                            </div>
-                            <div class="upload-preview" id="groupPhotoUploadPreview"></div>
-                            <div class="upload-progress" id="groupUploadProgress"><div class="upload-progress-bar" id="groupUploadBar"></div></div>
-                            <label>Caption (optional)</label>
-                            <input type="text" id="photoCaption" placeholder="e.g. 2025-26 Mountain Hosts Team" maxlength="120">
-                            <button class="admin-btn" onclick="saveGroupPhoto()">Save Photo</button>
-                            <button class="admin-btn small danger" style="margin-left:8px;" onclick="removeGroupPhoto()">Remove Photo</button>
-                        </div>
-                        <h4 style="color:var(--winter-navy); margin-top:16px; margin-bottom:10px;">Current Photo Preview</h4>
-                        <div id="adminPhotoPreview" style="border-radius:12px; overflow:hidden; background:var(--winter-frost); min-height:80px; display:flex; align-items:center; justify-content:center; color:var(--text-light);">
-                            <span>No photo set</span>
-                        </div>
-                    </div>
-
                 </div><!-- end adminContent -->
             </div><!-- end modal-body -->
         </div>
     </div>
-
-    <!-- ===== FIREBASE SDKs ===== -->
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
     <!-- ===== JAVASCRIPT ===== -->
     <script>
     (function() {
         'use strict';
 
-        // ===== FIREBASE CONFIG =====
-        const firebaseConfig = {
-            apiKey: "AIzaSyA8c7lkRscx4Y1zLTQm8jKRQYX1M16f68M",
-            authDomain: "mtn-hosts.firebaseapp.com",
-            projectId: "mtn-hosts",
-            storageBucket: "mtn-hosts.firebasestorage.app",
-            messagingSenderId: "584998378610",
-            appId: "1:584998378610:web:f49f7cc1fe29d8f9aaf6eb",
-            measurementId: "G-25174Y7J97"
-        };
-
-        const app = firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-
-        // Firestore collections
-        const commentsCol = db.collection('comments');
-        const leadersCol = db.collection('leaders');
-        const announcementsCol = db.collection('announcements');
-        const settingsDoc = db.collection('settings').doc('site');
-
-        // ===== STATE =====
-        let currentUser = null; // Firebase auth user (admin)
-        let comments = [];
-        let leaders = [];
-        let announcements = [];
-        let groupPhoto = { url: '', caption: '' };
+        // ===== ADMIN PASSWORD (change this!) =====
+        const ADMIN_PASS = 'bogushost2026';
 
         // ===== EMOJIS =====
         const EMOJIS = ['👍','❤️','😊','🎿','🏔️','⛷️','🙌','🔥','❄️','☀️','🤩','👏','💯','🥇'];
         const REACTION_EMOJIS = ['👍','❤️','😊','🎿','🏔️'];
 
-        // ===== UTILITY =====
-        function escHtml(s) {
-            const d = document.createElement('div');
-            d.textContent = s;
-            return d.innerHTML;
+        // ===== DATA HELPERS (localStorage) =====
+        function getData(key, fallback) {
+            try {
+                const d = localStorage.getItem('bbhost_' + key);
+                return d ? JSON.parse(d) : fallback;
+            } catch(e) { return fallback; }
         }
+        function setData(key, val) {
+            localStorage.setItem('bbhost_' + key, JSON.stringify(val));
+        }
+        function genId() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
         function fmtDate(ts) {
             const d = new Date(ts);
             return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) + ' at ' +
                    d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
         }
-        function isAdmin() { return !!currentUser; }
+
+        // ===== DEFAULT DATA =====
+        function defaultLeaders() {
+            return [
+                { id: genId(), name: 'Director Name', role: 'Director' },
+                { id: genId(), name: 'Lead 1 Name', role: 'Lead' },
+                { id: genId(), name: 'Lead 2 Name', role: 'Lead' },
+                { id: genId(), name: 'Lead 3 Name', role: 'Lead' },
+                { id: genId(), name: 'Lead 4 Name', role: 'Lead' }
+            ];
+        }
+        function defaultAnnouncements() {
+            return [
+                {
+                    id: genId(),
+                    type: 'announcement',
+                    title: 'Welcome to the 2025-2026 Season!',
+                    content: 'We are excited to kick off another amazing season at Bogus Basin. Thank you to all our volunteer Mountain Hosts for your dedication!',
+                    date: Date.now()
+                },
+                {
+                    id: genId(),
+                    type: 'award',
+                    title: '2025 Host of the Year',
+                    content: 'Congratulations to our outstanding host who went above and beyond this season. Your commitment to guest safety and satisfaction is truly inspiring!',
+                    date: Date.now() - 86400000
+                },
+                {
+                    id: genId(),
+                    type: 'event',
+                    title: 'Spring Host Appreciation BBQ',
+                    content: 'Join us for the annual Host Appreciation BBQ at the Simplot Lodge patio. Food, drinks, and community — all hosts and families welcome!',
+                    date: Date.now() - 172800000
+                }
+            ];
+        }
+
+        // Load data
+        let leaders = getData('leaders', null);
+        if (!leaders) { leaders = defaultLeaders(); setData('leaders', leaders); }
+        let announcements = getData('announcements', null);
+        if (!announcements) { announcements = defaultAnnouncements(); setData('announcements', announcements); }
+        let comments = getData('comments', []);
 
         // ===== EMOJI BAR =====
         const emojiBar = document.getElementById('emojiBar');
@@ -1381,214 +1192,38 @@
             emojiBar.appendChild(btn);
         });
 
-        // ===== FIREBASE AUTH =====
-        auth.onAuthStateChanged(user => {
-            currentUser = user;
-            updateAdminUI();
-        });
-
-        function updateAdminUI() {
-            if (currentUser) {
-                document.getElementById('adminLogin').style.display = 'none';
-                document.getElementById('adminContent').style.display = 'block';
-                const disp = document.getElementById('adminUserDisplay');
-                if (disp) disp.textContent = '🔓 Signed in as: ' + currentUser.email;
-                renderAdminComments();
-                renderAdminLeaders();
-                renderAdminAnnouncements();
-                renderAdminPhoto();
-            }
-        }
-
-        window.adminAuth = async function() {
-            const email = document.getElementById('adminEmail').value.trim();
-            const password = document.getElementById('adminPasswordField').value;
-            const errEl = document.getElementById('adminError');
-            if (!email || !password) {
-                errEl.textContent = 'Please enter both email and password.';
-                errEl.style.display = 'block';
-                return;
-            }
-            try {
-                errEl.style.display = 'none';
-                await auth.signInWithEmailAndPassword(email, password);
-                // onAuthStateChanged will handle UI
-            } catch (err) {
-                console.error('Auth error:', err);
-                let msg = 'Sign in failed.';
-                if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
-                    msg = 'Invalid email or password.';
-                } else if (err.code === 'auth/invalid-email') {
-                    msg = 'Invalid email format.';
-                } else if (err.code === 'auth/too-many-requests') {
-                    msg = 'Too many attempts. Please try again later.';
-                }
-                errEl.textContent = msg;
-                errEl.style.display = 'block';
-            }
-        };
-
-        window.adminSignOut = async function() {
-            await auth.signOut();
-            currentUser = null;
-            document.getElementById('adminLogin').style.display = 'block';
-            document.getElementById('adminContent').style.display = 'none';
-            document.getElementById('adminEmail').value = '';
-            document.getElementById('adminPasswordField').value = '';
-        };
-
-        // ===== ADMIN MODAL =====
-        window.openAdminModal = function() {
-            document.getElementById('adminOverlay').classList.add('open');
-            if (currentUser) {
-                document.getElementById('adminLogin').style.display = 'none';
-                document.getElementById('adminContent').style.display = 'block';
-                updateAdminUI();
-            } else {
-                document.getElementById('adminLogin').style.display = 'block';
-                document.getElementById('adminContent').style.display = 'none';
-            }
-        };
-
-        // Helper: refresh admin panels if modal is open and user is authed
-        function refreshAdminIfOpen() {
-            if (currentUser && document.getElementById('adminOverlay').classList.contains('open')) {
-                renderAdminComments();
-                renderAdminLeaders();
-                renderAdminAnnouncements();
-                renderAdminPhoto();
-            }
-        }
-        window.closeAdminModal = function() {
-            document.getElementById('adminOverlay').classList.remove('open');
-        };
-
-        window.switchAdminTab = function(tab, btn) {
-            document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
-            btn.classList.add('active');
-            document.getElementById('admin' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.add('active');
-        };
-
-        // ================================================================
-        //  FIRESTORE REAL-TIME LISTENERS
-        // ================================================================
-
-        // ----- LEADERS -----
-        leadersCol.orderBy('role').onSnapshot(snapshot => {
-            leaders = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            renderLeadership();
-            refreshAdminIfOpen();
-        }, err => {
-            console.error('Leaders listener error:', err);
-            // Seed defaults if collection is empty on first load
-            seedDefaults('leaders');
-        });
-
-        // ----- ANNOUNCEMENTS -----
-        announcementsCol.orderBy('date', 'desc').onSnapshot(snapshot => {
-            announcements = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            renderAnnouncements();
-            refreshAdminIfOpen();
-        }, err => {
-            console.error('Announcements listener error:', err);
-            seedDefaults('announcements');
-        });
-
-        // ----- COMMENTS -----
-        commentsCol.orderBy('date', 'desc').onSnapshot(snapshot => {
-            comments = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            renderComments();
-            refreshAdminIfOpen();
-        }, err => {
-            console.error('Comments listener error:', err);
-        });
-
-        // ----- SETTINGS (group photo) -----
-        settingsDoc.onSnapshot(docSnap => {
-            if (docSnap.exists) {
-                const data = docSnap.data();
-                groupPhoto = { url: data.photoUrl || '', caption: data.photoCaption || '' };
-            } else {
-                groupPhoto = { url: '', caption: '' };
-            }
-            renderGroupPhoto();
-            refreshAdminIfOpen();
-        }, err => {
-            console.error('Settings listener error:', err);
-        });
-
-        // Seed default data if Firestore collections are empty
-        async function seedDefaults(collection) {
-            try {
-                if (collection === 'leaders') {
-                    const snap = await leadersCol.limit(1).get();
-                    if (snap.empty) {
-                        const defaults = [
-                            { name: 'Director Name', role: 'Director' },
-                            { name: 'Lead 1 Name', role: 'Lead' },
-                            { name: 'Lead 2 Name', role: 'Lead' },
-                            { name: 'Lead 3 Name', role: 'Lead' },
-                            { name: 'Lead 4 Name', role: 'Lead' }
-                        ];
-                        const batch = db.batch();
-                        defaults.forEach(l => batch.set(leadersCol.doc(), l));
-                        await batch.commit();
-                    }
-                }
-                if (collection === 'announcements') {
-                    const snap = await announcementsCol.limit(1).get();
-                    if (snap.empty) {
-                        const defaults = [
-                            { type: 'announcement', title: 'Welcome to the 2025-2026 Season!', content: 'We are excited to kick off another amazing season at Bogus Basin. Thank you to all our volunteer Mountain Hosts for your dedication!', date: Date.now() },
-                            { type: 'award', title: '2025 Host of the Year', content: 'Congratulations to our outstanding host who went above and beyond this season. Your commitment to guest safety and satisfaction is truly inspiring!', date: Date.now() - 86400000 },
-                            { type: 'event', title: 'Spring Host Appreciation BBQ', content: 'Join us for the annual Host Appreciation BBQ at the Simplot Lodge patio. Food, drinks, and community — all hosts and families welcome!', date: Date.now() - 172800000 }
-                        ];
-                        const batch = db.batch();
-                        defaults.forEach(a => batch.set(announcementsCol.doc(), a));
-                        await batch.commit();
-                    }
-                }
-            } catch(e) { console.error('Seed error:', e); }
-        }
-
-        // ================================================================
-        //  RENDER FUNCTIONS (PUBLIC)
-        // ================================================================
-
+        // ===== RENDER LEADERSHIP =====
         function renderLeadership() {
             const grid = document.getElementById('leadershipGrid');
             const sorted = [...leaders].sort((a,b) => a.role === 'Director' ? -1 : b.role === 'Director' ? 1 : 0);
-            grid.innerHTML = sorted.map(l => {
-                const photoContent = l.photoUrl
-                    ? `<img src="${escHtml(l.photoUrl)}" alt="${escHtml(l.name)}" onerror="this.style.display='none';this.parentElement.textContent='${l.role === 'Director' ? '👑' : '⭐'}'">`
-                    : (l.role === 'Director' ? '👑' : '⭐');
-                return `
+            grid.innerHTML = sorted.map(l => `
                 <div class="leader-card ${l.role === 'Director' ? 'director' : ''}">
-                    <div class="leader-photo">${photoContent}</div>
+                    <div class="leader-photo">${l.role === 'Director' ? '👑' : '⭐'}</div>
                     <div class="leader-name">${escHtml(l.name)}</div>
                     <div class="leader-role">${escHtml(l.role)}</div>
                 </div>
-                `;
-            }).join('');
+            `).join('');
         }
 
+        // ===== RENDER ANNOUNCEMENTS =====
         function renderAnnouncements() {
             const list = document.getElementById('announcementsList');
             if (announcements.length === 0) {
                 list.innerHTML = '<div class="no-items-msg">No announcements yet.</div>';
                 return;
             }
-            list.innerHTML = announcements.map(a => `
+            const sorted = [...announcements].sort((a,b) => b.date - a.date);
+            list.innerHTML = sorted.map(a => `
                 <div class="announcement-card">
                     <span class="ann-type ${a.type}">${a.type}</span>
                     <h4>${escHtml(a.title)}</h4>
-                    <div class="ann-content">${a.content}</div>
+                    <p>${escHtml(a.content)}</p>
                     <div class="ann-date">${fmtDate(a.date)}</div>
                 </div>
             `).join('');
         }
 
+        // ===== RENDER COMMENTS =====
         function renderComments() {
             const thread = document.getElementById('commentsThread');
             const topLevel = comments.filter(c => !c.parentId).sort((a,b) => b.date - a.date);
@@ -1608,16 +1243,16 @@
             }).join('');
 
             const repliesHtml = replies.map(r => {
-                const rIsAdmin = r.isAdmin;
+                const isAdmin = r.isAdmin;
                 const rReactions = r.reactions || {};
                 const rReactionsHtml = REACTION_EMOJIS.map(e => {
                     const count = rReactions[e] || 0;
                     return `<span class="reaction-badge" onclick="toggleReaction('${r.id}','${e}')">${e} ${count > 0 ? count : ''}</span>`;
                 }).join('');
                 return `
-                    <div class="reply-item ${rIsAdmin ? 'admin-reply' : ''}">
+                    <div class="reply-item ${isAdmin ? 'admin-reply' : ''}">
                         <div class="comment-header">
-                            <span class="comment-author">${escHtml(r.name)}${rIsAdmin ? '<span class="admin-badge">ADMIN</span>' : ''}</span>
+                            <span class="comment-author">${escHtml(r.name)}${isAdmin ? '<span class="admin-badge">ADMIN</span>' : ''}</span>
                             <span class="comment-date">${fmtDate(r.date)}</span>
                         </div>
                         <div class="comment-body">${escHtml(r.body)}</div>
@@ -1636,6 +1271,7 @@
                     <div class="comment-actions">
                         <button class="comment-action-btn" onclick="toggleReplyForm('${c.id}')">💬 Reply</button>
                     </div>
+                    <!-- Reply Form -->
                     <div class="reply-form" id="reply-form-${c.id}">
                         <input type="text" id="reply-name-${c.id}" placeholder="Your Name" maxlength="60">
                         <textarea id="reply-body-${c.id}" placeholder="Write a reply..." maxlength="1000"></textarea>
@@ -1647,66 +1283,91 @@
             `;
         }
 
-        // ================================================================
-        //  PUBLIC COMMENT ACTIONS (Firestore)
-        // ================================================================
-
-        window.submitComment = async function() {
+        // ===== COMMENT ACTIONS =====
+        window.submitComment = function() {
             const name = document.getElementById('commentName').value.trim();
             const body = document.getElementById('commentBody').value.trim();
             if (!name || !body) { alert('Please enter your name and comment.'); return; }
-            try {
-                await commentsCol.add({
-                    name, body, date: Date.now(), parentId: null, reactions: {}, isAdmin: false
-                });
-                document.getElementById('commentName').value = '';
-                document.getElementById('commentBody').value = '';
-            } catch(e) {
-                console.error('Error posting comment:', e);
-                alert('Failed to post comment. Please try again.');
-            }
+            comments.push({ id: genId(), name, body, date: Date.now(), parentId: null, reactions: {}, isAdmin: false });
+            setData('comments', comments);
+            document.getElementById('commentName').value = '';
+            document.getElementById('commentBody').value = '';
+            renderComments();
         };
 
         window.toggleReplyForm = function(id) {
-            document.getElementById('reply-form-' + id).classList.toggle('open');
+            const form = document.getElementById('reply-form-' + id);
+            form.classList.toggle('open');
         };
 
-        window.submitReply = async function(parentId) {
+        window.submitReply = function(parentId) {
             const name = document.getElementById('reply-name-' + parentId).value.trim();
             const body = document.getElementById('reply-body-' + parentId).value.trim();
             if (!name || !body) { alert('Please enter your name and reply.'); return; }
-            try {
-                await commentsCol.add({
-                    name, body, date: Date.now(), parentId, reactions: {}, isAdmin: false
-                });
-            } catch(e) {
-                console.error('Error posting reply:', e);
-                alert('Failed to post reply. Please try again.');
+            comments.push({ id: genId(), name, body, date: Date.now(), parentId, reactions: {}, isAdmin: false });
+            setData('comments', comments);
+            renderComments();
+        };
+
+        window.toggleReaction = function(commentId, emoji) {
+            const c = comments.find(x => x.id === commentId);
+            if (!c) return;
+            if (!c.reactions) c.reactions = {};
+            c.reactions[emoji] = (c.reactions[emoji] || 0) + 1;
+            setData('comments', comments);
+            renderComments();
+        };
+
+        // ===== ADMIN MODAL =====
+        let adminAuthed = false;
+
+        window.openAdminModal = function() {
+            document.getElementById('adminOverlay').classList.add('open');
+            if (adminAuthed) {
+                document.getElementById('adminLogin').style.display = 'none';
+                document.getElementById('adminContent').style.display = 'block';
+                renderAdminComments();
+                renderAdminLeaders();
+                renderAdminAnnouncements();
+            } else {
+                document.getElementById('adminLogin').style.display = 'block';
+                document.getElementById('adminContent').style.display = 'none';
+            }
+        };
+        window.closeAdminModal = function() {
+            document.getElementById('adminOverlay').classList.remove('open');
+        };
+        window.adminAuth = function() {
+            const pw = document.getElementById('adminPassword').value;
+            if (pw === ADMIN_PASS) {
+                adminAuthed = true;
+                document.getElementById('adminLogin').style.display = 'none';
+                document.getElementById('adminContent').style.display = 'block';
+                document.getElementById('adminError').style.display = 'none';
+                renderAdminComments();
+                renderAdminLeaders();
+                renderAdminAnnouncements();
+            } else {
+                document.getElementById('adminError').style.display = 'block';
             }
         };
 
-        window.toggleReaction = async function(commentId, emoji) {
-            try {
-                const docRef = commentsCol.doc(commentId);
-                await docRef.update({
-                    [`reactions.${emoji}`]: firebase.firestore.FieldValue.increment(1)
-                });
-            } catch(e) {
-                console.error('Reaction error:', e);
-            }
+        window.switchAdminTab = function(tab, btn) {
+            document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('admin' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.add('active');
         };
 
-        // ================================================================
-        //  ADMIN PANEL RENDERS
-        // ================================================================
-
+        // ===== ADMIN: COMMENTS =====
         function renderAdminComments() {
             const list = document.getElementById('adminCommentsList');
-            if (comments.length === 0) {
+            const sorted = [...comments].sort((a,b) => b.date - a.date);
+            if (sorted.length === 0) {
                 list.innerHTML = '<div class="no-items-msg">No comments to manage.</div>';
                 return;
             }
-            list.innerHTML = comments.map(c => `
+            list.innerHTML = sorted.map(c => `
                 <div class="admin-list-item">
                     <div class="item-info">
                         <strong>${escHtml(c.name)}</strong>${c.isAdmin ? ' <span class="admin-badge">ADMIN</span>' : ''}
@@ -1724,54 +1385,31 @@
             `).join('');
         }
 
-        window.adminDeleteComment = async function(id) {
-            if (!isAdmin()) { alert('Not authenticated.'); return; }
+        window.adminDeleteComment = function(id) {
             if (!confirm('Delete this comment and all its replies?')) return;
-            try {
-                // Delete the comment
-                await commentsCol.doc(id).delete();
-                // Delete all replies to this comment
-                const repliesSnap = await commentsCol.where('parentId', '==', id).get();
-                const batch = db.batch();
-                repliesSnap.docs.forEach(doc => batch.delete(doc.ref));
-                await batch.commit();
-            } catch(e) {
-                console.error('Delete comment error:', e);
-                alert('Failed to delete. Please try again.');
-            }
+            // Delete comment and its replies
+            comments = comments.filter(c => c.id !== id && c.parentId !== id);
+            setData('comments', comments);
+            renderAdminComments();
+            renderComments();
         };
 
-        window.adminReply = async function(parentId) {
-            if (!isAdmin()) { alert('Not authenticated.'); return; }
+        window.adminReply = function(parentId) {
             const body = prompt('Enter admin reply:');
             if (!body || !body.trim()) return;
-            try {
-                await commentsCol.add({
-                    name: 'Mountain Host Admin',
-                    body: body.trim(),
-                    date: Date.now(),
-                    parentId,
-                    reactions: {},
-                    isAdmin: true
-                });
-            } catch(e) {
-                console.error('Admin reply error:', e);
-                alert('Failed to post reply.');
-            }
+            comments.push({ id: genId(), name: 'Mountain Host Admin', body: body.trim(), date: Date.now(), parentId, reactions: {}, isAdmin: true });
+            setData('comments', comments);
+            renderAdminComments();
+            renderComments();
         };
 
         // ===== ADMIN: LEADERSHIP =====
         function renderAdminLeaders() {
             const list = document.getElementById('adminLeadersList');
             const sorted = [...leaders].sort((a,b) => a.role === 'Director' ? -1 : b.role === 'Director' ? 1 : 0);
-            list.innerHTML = sorted.map(l => {
-                const thumb = l.photoUrl
-                    ? `<img class="admin-leader-thumb" src="${escHtml(l.photoUrl)}" alt="">`
-                    : `<span style="display:inline-block;width:36px;height:36px;border-radius:50%;background:var(--winter-frost);text-align:center;line-height:36px;margin-right:8px;vertical-align:middle;">${l.role === 'Director' ? '👑' : '⭐'}</span>`;
-                return `
+            list.innerHTML = sorted.map(l => `
                 <div class="admin-list-item">
                     <div class="item-info">
-                        ${thumb}
                         <strong>${escHtml(l.name)}</strong>
                         <span style="color:var(--text-light); font-size:0.85em;"> — ${escHtml(l.role)}</span>
                     </div>
@@ -1780,110 +1418,25 @@
                         <button class="admin-btn small danger" onclick="deleteLeader('${l.id}')">Delete</button>
                     </div>
                 </div>
-                `;
-            }).join('');
+            `).join('');
         }
 
-        // ===== IMAGE COMPRESSION HELPER =====
-        // Resizes and compresses an image file to a base64 data URL.
-        // Leader photos: max 300x300, group photo: max 1200x900
-        function compressImage(file, maxW, maxH, quality) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onerror = reject;
-                reader.onload = () => {
-                    const img = new Image();
-                    img.onerror = () => reject(new Error('Image load failed'));
-                    img.onload = () => {
-                        let w = img.width, h = img.height;
-                        if (w > maxW || h > maxH) {
-                            const ratio = Math.min(maxW / w, maxH / h);
-                            w = Math.round(w * ratio);
-                            h = Math.round(h * ratio);
-                        }
-                        const canvas = document.createElement('canvas');
-                        canvas.width = w;
-                        canvas.height = h;
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, w, h);
-                        resolve(canvas.toDataURL('image/jpeg', quality || 0.8));
-                    };
-                    img.src = reader.result;
-                };
-                reader.readAsDataURL(file);
-            });
-        }
-
-        // Drag & drop for upload areas
-        document.querySelectorAll('.upload-area').forEach(area => {
-            area.addEventListener('dragover', e => { e.preventDefault(); area.classList.add('dragging'); });
-            area.addEventListener('dragleave', () => area.classList.remove('dragging'));
-            area.addEventListener('drop', e => {
-                e.preventDefault();
-                area.classList.remove('dragging');
-                const fileInput = area.querySelector('input[type=file]');
-                if (e.dataTransfer.files.length && fileInput) {
-                    fileInput.files = e.dataTransfer.files;
-                    fileInput.dispatchEvent(new Event('change'));
-                }
-            });
-        });
-
-        // Leader photo preview
-        window.previewLeaderPhoto = function(input) {
-            const preview = document.getElementById('leaderPhotoPreview');
-            if (input.files && input.files[0]) {
-                if (input.files[0].size > 5 * 1024 * 1024) {
-                    alert('Photo must be under 5 MB.'); input.value = ''; preview.innerHTML = ''; return;
-                }
-                const reader = new FileReader();
-                reader.onload = e => {
-                    preview.innerHTML = `<img src="${e.target.result}" alt="Preview"><br><span style="font-size:0.8em;color:var(--text-light);">${input.files[0].name}</span>`;
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
-        };
-
-        // Group photo preview
-        window.previewGroupPhoto = function(input) {
-            const preview = document.getElementById('groupPhotoUploadPreview');
-            if (input.files && input.files[0]) {
-                if (input.files[0].size > 10 * 1024 * 1024) {
-                    alert('Photo must be under 10 MB.'); input.value = ''; preview.innerHTML = ''; return;
-                }
-                const reader = new FileReader();
-                reader.onload = e => {
-                    preview.innerHTML = `<img src="${e.target.result}" alt="Preview"><br><span style="font-size:0.8em;color:var(--text-light);">${input.files[0].name}</span>`;
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
-        };
-
-        window.saveLeader = async function() {
-            if (!isAdmin()) { alert('Not authenticated.'); return; }
+        window.saveLeader = function() {
             const name = document.getElementById('leaderName').value.trim();
             const role = document.getElementById('leaderRole').value;
             const editId = document.getElementById('leaderEditId').value;
-            const fileInput = document.getElementById('leaderPhotoFile');
-            let photoUrl = document.getElementById('leaderPhotoUrl').value;
             if (!name) { alert('Please enter a name.'); return; }
-            try {
-                // Compress and convert to base64 if new photo selected
-                if (fileInput.files && fileInput.files[0]) {
-                    photoUrl = await compressImage(fileInput.files[0], 300, 300, 0.8);
-                }
-                const data = { name, role };
-                if (photoUrl) data.photoUrl = photoUrl;
-                if (editId) {
-                    await leadersCol.doc(editId).update(data);
-                } else {
-                    await leadersCol.add(data);
-                }
-                clearLeaderForm();
-            } catch(e) {
-                console.error('Save leader error:', e);
-                alert('Failed to save. Please try again.');
+
+            if (editId) {
+                const l = leaders.find(x => x.id === editId);
+                if (l) { l.name = name; l.role = role; }
+            } else {
+                leaders.push({ id: genId(), name, role });
             }
+            setData('leaders', leaders);
+            clearLeaderForm();
+            renderAdminLeaders();
+            renderLeadership();
         };
 
         window.editLeader = function(id) {
@@ -1892,52 +1445,37 @@
             document.getElementById('leaderName').value = l.name;
             document.getElementById('leaderRole').value = l.role;
             document.getElementById('leaderEditId').value = l.id;
-            document.getElementById('leaderPhotoUrl').value = l.photoUrl || '';
-            const preview = document.getElementById('leaderPhotoPreview');
-            if (l.photoUrl) {
-                preview.innerHTML = `<img src="${escHtml(l.photoUrl)}" alt="Current photo"><br><span style="font-size:0.8em;color:var(--text-light);">Current photo (choose new file to replace)</span>`;
-            } else {
-                preview.innerHTML = '';
-            }
         };
 
-        window.deleteLeader = async function(id) {
-            if (!isAdmin()) { alert('Not authenticated.'); return; }
+        window.deleteLeader = function(id) {
             if (!confirm('Delete this leader?')) return;
-            try {
-                await leadersCol.doc(id).delete();
-            } catch(e) {
-                console.error('Delete leader error:', e);
-                alert('Failed to delete.');
-            }
+            leaders = leaders.filter(l => l.id !== id);
+            setData('leaders', leaders);
+            renderAdminLeaders();
+            renderLeadership();
         };
 
         window.clearLeaderForm = function() {
             document.getElementById('leaderName').value = '';
             document.getElementById('leaderRole').value = 'Director';
             document.getElementById('leaderEditId').value = '';
-            document.getElementById('leaderPhotoUrl').value = '';
-            document.getElementById('leaderPhotoFile').value = '';
-            document.getElementById('leaderPhotoPreview').innerHTML = '';
         };
 
         // ===== ADMIN: ANNOUNCEMENTS =====
         function renderAdminAnnouncements() {
             const list = document.getElementById('adminAnnList');
-            if (announcements.length === 0) {
+            const sorted = [...announcements].sort((a,b) => b.date - a.date);
+            if (sorted.length === 0) {
                 list.innerHTML = '<div class="no-items-msg">No announcements.</div>';
                 return;
             }
-            list.innerHTML = announcements.map(a => {
-                // Strip HTML tags for admin preview
-                const plainText = a.content.replace(/<[^>]*>/g, '');
-                return `
+            list.innerHTML = sorted.map(a => `
                 <div class="admin-list-item">
                     <div class="item-info">
                         <span class="ann-type ${a.type}" style="font-size:0.7em;">${a.type}</span>
                         <strong>${escHtml(a.title)}</strong>
                         <br>
-                        <span style="color:var(--text-mid); font-size:0.85em;">${escHtml(plainText.substring(0, 100))}${plainText.length > 100 ? '...' : ''}</span>
+                        <span style="color:var(--text-mid); font-size:0.85em;">${escHtml(a.content.substring(0, 100))}${a.content.length > 100 ? '...' : ''}</span>
                         <br>
                         <span style="color:var(--text-light); font-size:0.8em;">${fmtDate(a.date)}</span>
                     </div>
@@ -1946,29 +1484,26 @@
                         <button class="admin-btn small danger" onclick="deleteAnnouncement('${a.id}')">Delete</button>
                     </div>
                 </div>
-                `;
-            }).join('');
+            `).join('');
         }
 
-        window.saveAnnouncement = async function() {
-            if (!isAdmin()) { alert('Not authenticated.'); return; }
+        window.saveAnnouncement = function() {
             const type = document.getElementById('annType').value;
             const title = document.getElementById('annTitle').value.trim();
-            const contentEl = document.getElementById('annContent');
-            const content = contentEl.innerHTML.trim();
+            const content = document.getElementById('annContent').value.trim();
             const editId = document.getElementById('annEditId').value;
-            if (!title || !content || content === '<br>') { alert('Please fill in title and content.'); return; }
-            try {
-                if (editId) {
-                    await announcementsCol.doc(editId).update({ type, title, content });
-                } else {
-                    await announcementsCol.add({ type, title, content, date: Date.now() });
-                }
-                clearAnnForm();
-            } catch(e) {
-                console.error('Save announcement error:', e);
-                alert('Failed to save. Please try again.');
+            if (!title || !content) { alert('Please fill in title and content.'); return; }
+
+            if (editId) {
+                const a = announcements.find(x => x.id === editId);
+                if (a) { a.type = type; a.title = title; a.content = content; }
+            } else {
+                announcements.push({ id: genId(), type, title, content, date: Date.now() });
             }
+            setData('announcements', announcements);
+            clearAnnForm();
+            renderAdminAnnouncements();
+            renderAnnouncements();
         };
 
         window.editAnnouncement = function(id) {
@@ -1976,130 +1511,33 @@
             if (!a) return;
             document.getElementById('annType').value = a.type;
             document.getElementById('annTitle').value = a.title;
-            document.getElementById('annContent').innerHTML = a.content;
+            document.getElementById('annContent').value = a.content;
             document.getElementById('annEditId').value = a.id;
         };
 
-        window.deleteAnnouncement = async function(id) {
-            if (!isAdmin()) { alert('Not authenticated.'); return; }
+        window.deleteAnnouncement = function(id) {
             if (!confirm('Delete this announcement?')) return;
-            try {
-                await announcementsCol.doc(id).delete();
-            } catch(e) {
-                console.error('Delete announcement error:', e);
-                alert('Failed to delete.');
-            }
+            announcements = announcements.filter(a => a.id !== id);
+            setData('announcements', announcements);
+            renderAdminAnnouncements();
+            renderAnnouncements();
         };
 
         window.clearAnnForm = function() {
             document.getElementById('annType').value = 'announcement';
             document.getElementById('annTitle').value = '';
-            document.getElementById('annContent').innerHTML = '';
+            document.getElementById('annContent').value = '';
             document.getElementById('annEditId').value = '';
         };
 
-        // ===== RICH TEXT EDITOR HELPERS =====
-        window.rteCmd = function(cmd, value) {
-            document.getElementById('annContent').focus();
-            document.execCommand(cmd, false, value || null);
-        };
-
-        window.rteInsertLink = function() {
-            const url = prompt('Enter URL:', 'https://');
-            if (url) {
-                document.getElementById('annContent').focus();
-                document.execCommand('createLink', false, url);
-                // Make links open in new tab
-                const editor = document.getElementById('annContent');
-                editor.querySelectorAll('a').forEach(a => { a.target = '_blank'; a.rel = 'noopener noreferrer'; });
-            }
-        };
-
-        window.rteInsertPhoto = async function(input) {
-            if (!input.files || !input.files[0]) return;
-            const file = input.files[0];
-            if (file.size > 5 * 1024 * 1024) { alert('Photo must be under 5 MB.'); input.value = ''; return; }
-            try {
-                const dataUrl = await compressImage(file, 800, 600, 0.8);
-                document.getElementById('annContent').focus();
-                document.execCommand('insertImage', false, dataUrl);
-            } catch(e) {
-                console.error('Photo insert error:', e);
-                alert('Failed to insert photo.');
-            }
-            input.value = '';
-        };
-
-        // ===== GROUP PHOTO RENDERING =====
-        function renderGroupPhoto() {
-            const area = document.getElementById('groupPhotoArea');
-            if (!area) return;
-            if (groupPhoto.url) {
-                area.innerHTML = `
-                    <div class="hero-photo-wrapper hero-image-container">
-                        <img src="${escHtml(groupPhoto.url)}" alt="Mountain Hosts Group Photo" onerror="this.parentElement.innerHTML='<div class=\'hero-image-placeholder\'><span class=\'placeholder-icon\'>⚠️</span><span class=\'placeholder-text\'>Image failed to load</span><span style=\'font-size:0.8em;\'>(Check URL in admin portal)</span></div>'">
-                        ${groupPhoto.caption ? `<div class="photo-caption">${escHtml(groupPhoto.caption)}</div>` : ''}
-                    </div>
-                `;
-            } else {
-                area.innerHTML = `
-                    <div class="hero-image-placeholder">
-                        <span class="placeholder-icon">📸</span>
-                        <span class="placeholder-text">Mountain Hosts Group Photo</span>
-                        <span style="font-size:0.8em;">(Replace with actual image)</span>
-                    </div>
-                `;
-            }
+        // ===== UTILITY =====
+        function escHtml(s) {
+            const d = document.createElement('div');
+            d.textContent = s;
+            return d.innerHTML;
         }
 
-        // ===== ADMIN: GROUP PHOTO =====
-        function renderAdminPhoto() {
-            const preview = document.getElementById('adminPhotoPreview');
-            const capInput = document.getElementById('photoCaption');
-            if (!preview) return;
-            if (capInput) capInput.value = groupPhoto.caption;
-            if (groupPhoto.url) {
-                preview.innerHTML = `<img src="${escHtml(groupPhoto.url)}" alt="Preview" style="width:100%; max-height:260px; object-fit:cover; border-radius:12px; display:block;" onerror="this.parentElement.innerHTML='<span style=\'color:var(--danger);\'>⚠️ Image could not be loaded</span>'">`;
-            } else {
-                preview.innerHTML = '<span>No photo set</span>';
-            }
-            // Clear file input so it doesn't re-upload on next save
-            const fileInput = document.getElementById('groupPhotoFile');
-            if (fileInput) fileInput.value = '';
-            document.getElementById('groupPhotoUploadPreview').innerHTML = '';
-        }
-
-        window.saveGroupPhoto = async function() {
-            if (!isAdmin()) { alert('Not authenticated.'); return; }
-            const fileInput = document.getElementById('groupPhotoFile');
-            const caption = document.getElementById('photoCaption').value.trim();
-            let photoUrl = groupPhoto.url; // keep existing if no new file
-            try {
-                if (fileInput.files && fileInput.files[0]) {
-                    photoUrl = await compressImage(fileInput.files[0], 1200, 900, 0.82);
-                }
-                if (!photoUrl) { alert('Please select a photo to upload.'); return; }
-                await settingsDoc.set({ photoUrl, photoCaption: caption }, { merge: true });
-            } catch(e) {
-                console.error('Save photo error:', e);
-                alert('Failed to save photo. Please try again.');
-            }
-        };
-
-        window.removeGroupPhoto = async function() {
-            if (!isAdmin()) { alert('Not authenticated.'); return; }
-            if (!confirm('Remove the group photo?')) return;
-            try {
-                await settingsDoc.set({ photoUrl: '', photoCaption: '' }, { merge: true });
-            } catch(e) {
-                console.error('Remove photo error:', e);
-                alert('Failed to remove photo.');
-            }
-        };
-
-        // ================================================================
-        //  NOAA WEATHER
-        // ================================================================
+        // ===== NOAA WEATHER =====
         const BOGUS_BASIN_LAT = 43.7722;
         const BOGUS_BASIN_LON = -116.0947;
 
@@ -2157,9 +1595,11 @@
         }
 
         // ===== INIT =====
+        renderLeadership();
+        renderAnnouncements();
+        renderComments();
         fetchNOAAWeather();
         setInterval(fetchNOAAWeather, 600000);
-        // Firestore listeners handle data loading automatically
 
     })();
     </script>

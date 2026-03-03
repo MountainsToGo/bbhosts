@@ -187,6 +187,243 @@
             height: 24px;
         }
 
+        .auth-section {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .sign-in-btn {
+            background: white;
+            color: #2c5aa0;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .sign-in-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .user-info {
+            display: none;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 15px;
+            border-radius: 8px;
+        }
+
+        .user-info.show {
+            display: flex;
+        }
+
+        .user-name {
+            color: white;
+            font-weight: 600;
+        }
+
+        .sign-out-btn {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            border: 1px solid white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background 0.2s ease;
+        }
+
+        .sign-out-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .landing-page {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 40px;
+            text-align: center;
+        }
+
+        .landing-page.hidden {
+            display: none;
+        }
+
+        .landing-content h2 {
+            color: #2c5aa0;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .landing-content p {
+            color: #666;
+            font-size: 1.2em;
+            margin: 0 auto 25px auto;
+            line-height: 1.6;
+            max-width: 650px;
+        }
+
+        .landing-signin-btn {
+            background: linear-gradient(135deg, #2c5aa0 0%, #1e3c72 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 15px rgba(44, 90, 160, 0.3);
+        }
+
+        .landing-signin-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(44, 90, 160, 0.4);
+        }
+
+        .main-content {
+            display: none;
+        }
+
+        .main-content.show {
+            display: block;
+        }
+
+        .loading-state {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 40px;
+            text-align: center;
+        }
+
+        .loading-state.show {
+            display: flex;
+        }
+
+        .spinner {
+            border: 4px solid rgba(44, 90, 160, 0.1);
+            border-top: 4px solid #2c5aa0;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .weather-banner {
+            background: linear-gradient(135deg, #1e3c72 0%, #2c5aa0 100%);
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .weather-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .weather-current {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .weather-temp {
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+
+        .weather-icon {
+            font-size: 3em;
+        }
+
+        .weather-details {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .weather-condition {
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        .weather-stats {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .weather-stat {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .weather-loading {
+            text-align: center;
+            padding: 10px;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .weather-error {
+            color: #ffcccc;
+            font-size: 0.9em;
+        }
+
+        .webcam-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .webcam-btn:hover {
+            background: white;
+            color: #2c5aa0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
         footer {
             background: #f8f9fa;
             padding: 20px;
@@ -216,17 +453,62 @@
                 width: 100%;
                 justify-content: center;
             }
+
+            .weather-banner {
+                padding: 15px 20px;
+            }
+
+            .weather-temp {
+                font-size: 2em;
+            }
+
+            .weather-icon {
+                font-size: 2.5em;
+            }
+
+            .weather-info {
+                flex-direction: column;
+                align-items: flex-start;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- NOAA Weather Banner -->
+        <div id="weatherBanner" class="weather-banner">
+            <div class="weather-loading">⛅ Loading NOAA weather data for Bogus Basin...</div>
+        </div>
+
         <header>
+            <div class="auth-section">
+                <div id="userInfo" class="user-info">
+                    <span class="user-name" id="userName"></span>
+                    <button class="sign-out-btn" onclick="signOut()">Sign Out</button>
+                </div>
+            </div>
             <h1>❄️ Bogus Basin Mountain Hosts ☀️</h1>
             <p>Your Gateway to Mountain Host Information & Resources</p>
         </header>
 
-        <div class="content">
+        <!-- Loading State -->
+        <div id="loadingState" class="loading-state show">
+            <div class="spinner"></div>
+            <p class="loading-text">Checking authentication...</p>
+        </div>
+
+        <!-- Landing Page -->
+        <div id="landingPage" class="landing-page hidden">
+            <div class="landing-content">
+                <h2>🏔️ Welcome to Bogus Basin Mountain Hosts Portal</h2>
+                <p>Access essential resources, training materials, interactive maps, scheduling tools, and exclusive local business discounts.</p>
+                <p>Please sign in with your Microsoft account to continue.</p>
+                <button class="landing-signin-btn" onclick="signIn()">🔐 Sign In to Access Portal</button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div id="mainContent" class="content main-content">
             <!-- Main Resources Section -->
             <section class="section">
                 <h2>📚 Main Resources</h2>
@@ -317,10 +599,195 @@
                 </div>
             </section>
         </div>
+        <!-- End Main Content -->
 
         <footer>
             <p>&copy; 2026 Bogus Basin Mountain Hosts | Stay Safe & Enjoy the Mountain! 🏔️</p>
         </footer>
     </div>
+
+    <script src="https://alcdn.msauth.net/browser/2.38.1/js/msal-browser.min.js"></script>
+    <script>
+        // NOAA Weather API for Bogus Basin Ski Area
+        // Coordinates for Bogus Basin Summit: 43.7722, -116.0947
+        const BOGUS_BASIN_LAT = 43.7722;
+        const BOGUS_BASIN_LON = -116.0947;
+
+        async function fetchNOAAWeather() {
+            const weatherBanner = document.getElementById('weatherBanner');
+            
+            try {
+                // Get the forecast for Bogus Basin location
+                const pointResponse = await fetch(
+                    `https://api.weather.gov/points/${BOGUS_BASIN_LAT},${BOGUS_BASIN_LON}`
+                );
+                
+                if (!pointResponse.ok) {
+                    throw new Error('Failed to fetch weather grid point');
+                }
+                
+                const pointData = await pointResponse.json();
+                
+                // Get detailed forecast
+                const forecastResponse = await fetch(pointData.properties.forecast);
+                if (!forecastResponse.ok) {
+                    throw new Error('Failed to fetch forecast');
+                }
+                
+                const forecastData = await forecastResponse.json();
+                const periods = forecastData.properties.periods;
+                const currentPeriod = periods[0];
+                const nextPeriod = periods[1];
+                
+                // Get weather icon emoji
+                const weatherIcon = getWeatherIcon(currentPeriod.shortForecast);
+                
+                // Update weather banner with mountain-relevant info
+                weatherBanner.innerHTML = `
+                    <div class="weather-info">
+                        <div class="weather-current">
+                            <div class="weather-icon">${weatherIcon}</div>
+                            <div class="weather-temp">${currentPeriod.temperature}°F</div>
+                            <div class="weather-details">
+                                <div class="weather-condition">${currentPeriod.shortForecast}</div>
+                                <div style="font-size: 0.9em; opacity: 0.8;">Bogus Basin Ski Area</div>
+                            </div>
+                        </div>
+                        <div class="weather-stats">
+                            <div class="weather-stat">
+                                <span>💨</span>
+                                <span>Wind: ${currentPeriod.windSpeed} ${currentPeriod.windDirection}</span>
+                            </div>
+                            <div class="weather-stat">
+                                <span>🎿</span>
+                                <span>${currentPeriod.name}: ${currentPeriod.detailedForecast}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="https://bogusbasin.org/your-mountain/conditions-webcams/" class="webcam-btn" target="_blank" rel="noopener noreferrer">
+                        📹 View Mountain Cams
+                    </a>
+                    <div style="font-size: 0.85em; opacity: 0.8; margin-top: 10px;">
+                        <strong>${nextPeriod.name}:</strong> ${nextPeriod.shortForecast}, ${nextPeriod.temperature}°F
+                        | Data from NOAA Weather Service
+                    </div>
+                `;
+                
+            } catch (error) {
+                console.error('Error fetching NOAA weather:', error);
+                weatherBanner.innerHTML = `
+                    <div class="weather-error">
+                        ⚠️ Unable to load NOAA weather data. Check console for details.
+                    </div>
+                `;
+            }
+        }
+
+        function getWeatherIcon(forecast) {
+            const f = forecast.toLowerCase();
+            if (f.includes('snow')) return '❄️';
+            if (f.includes('rain') || f.includes('shower')) return '🌧️';
+            if (f.includes('thunder') || f.includes('storm')) return '⛈️';
+            if (f.includes('cloud') || f.includes('overcast')) return '☁️';
+            if (f.includes('partly')) return '⛅';
+            if (f.includes('clear') || f.includes('sunny')) return '☀️';
+            if (f.includes('fog') || f.includes('haze')) return '🌫️';
+            if (f.includes('wind')) return '💨';
+            return '🌤️';
+        }
+
+        // Fetch weather on page load
+        fetchNOAAWeather();
+        
+        // Refresh weather every 10 minutes
+        setInterval(fetchNOAAWeather, 600000);
+
+        // MSAL Configuration
+        const msalConfig = {
+            auth: {
+                clientId: 'f0ac9108-33a0-4862-a3ca-927810dd311f',
+                authority: 'https://login.microsoftonline.com/85d98bf3-d342-4d64-87c5-8723f81ce212',
+                redirectUri: 'http://localhost:8080'
+            },
+            cache: {
+                cacheLocation: 'sessionStorage',
+                storeAuthStateInCookie: false
+            }
+        };
+
+        const msalInstance = new msal.PublicClientApplication(msalConfig);
+
+        const loginRequest = {
+            scopes: ['User.Read']
+        };
+
+        // Initialize MSAL
+        msalInstance.initialize().then(() => {
+            // Handle redirect response
+            msalInstance.handleRedirectPromise().then(response => {
+                if (response) {
+                    handleResponse(response);
+                } else {
+                    // Check if user is already signed in
+                    const accounts = msalInstance.getAllAccounts();
+                    if (accounts.length > 0) {
+                        msalInstance.setActiveAccount(accounts[0]);
+                        showUserInfo(accounts[0]);
+                    } else {
+                        // Not authenticated, show landing page
+                        showLandingPage();
+                    }
+                }
+            }).catch(error => {
+                console.error('Error handling redirect:', error);
+                showLandingPage();
+            });
+        });
+
+        function signIn() {
+            msalInstance.loginRedirect(loginRequest)
+                .catch(error => {
+                    console.error('Login error:', error);
+                    alert('Sign in failed: ' + error.message);
+                });
+        }
+
+        function handleResponse(response) {
+            if (response && response.account) {
+                msalInstance.setActiveAccount(response.account);
+                showUserInfo(response.account);
+            }
+        }
+
+        function showUserInfo(account) {
+            // Hide loading and landing page
+            document.getElementById('loadingState').classList.remove('show');
+            document.getElementById('landingPage').classList.add('hidden');
+            
+            // Show authenticated content
+            document.getElementById('mainContent').classList.add('show');
+            document.getElementById('userInfo').classList.add('show');
+            document.getElementById('userName').textContent = account.name || account.username;
+        }
+
+        function showLandingPage() {
+            // Hide loading
+            document.getElementById('loadingState').classList.remove('show');
+            
+            // Show landing page
+            document.getElementById('landingPage').classList.remove('hidden');
+        }
+
+        function signOut() {
+            const logoutRequest = {
+                account: msalInstance.getActiveAccount(),
+                postLogoutRedirectUri: 'http://localhost:8080'
+            };
+            
+            msalInstance.logoutRedirect(logoutRequest).catch(error => {
+                console.error('Logout error:', error);
+            });
+        }
+    </script>
 </body>
 </html>
