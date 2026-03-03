@@ -1494,9 +1494,21 @@
                     <h2>Guest Comments & Host Interactions</h2>
                     <div class="section-line"></div>
                 </div>
-                <p class="content-inner" style="color: var(--text-mid); margin-bottom: 24px;">
+                <p class="content-inner" style="color: var(--text-mid); margin-bottom: 16px;">
                     Had a great interaction with a Mountain Host? Sign in with Google and share your experience below!
                 </p>
+                <div class="content-inner" style="background: var(--bg-light); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin-bottom: 24px; font-size: 0.85em; color: var(--text-mid);">
+                    <strong style="color: var(--text-dark); font-size: 0.95em;">📋 Community Guidelines</strong>
+                    <ul style="margin: 8px 0 0 18px; line-height: 1.7;">
+                        <li>Be respectful and courteous — treat others the way you'd want to be treated.</li>
+                        <li>No harassment, hate speech, threats, or personal attacks.</li>
+                        <li>No profanity, obscene, or sexually explicit content.</li>
+                        <li>Stay on topic — comments should relate to Bogus Basin and Mountain Hosts.</li>
+                        <li>No spam, advertising, or solicitation.</li>
+                        <li>Do not share personal or private information about others.</li>
+                    </ul>
+                    <p style="margin: 8px 0 0; font-size: 0.95em; color: var(--text-light);">Comments that violate these guidelines will be removed. By posting, you agree to follow these rules.</p>
+                </div>
 
                 <!-- Comment Auth Bar -->
                 <div class="comment-auth-bar content-inner" id="commentAuthBar">
@@ -2128,18 +2140,16 @@
 
         function renderComments() {
             const thread = document.getElementById('commentsThread');
-            // Only show approved comments to the public
-            const approved = comments.filter(c => c.approved !== false);
-            const topLevel = approved.filter(c => !c.parentId).sort((a,b) => b.date - a.date);
+            const topLevel = comments.filter(c => !c.parentId).sort((a,b) => b.date - a.date);
             if (topLevel.length === 0) {
                 thread.innerHTML = '<div class="no-items-msg">No comments yet. Be the first to share!</div>';
                 return;
             }
-            thread.innerHTML = topLevel.map(c => renderCommentItem(c, approved)).join('');
+            thread.innerHTML = topLevel.map(c => renderCommentItem(c, comments)).join('');
         }
 
-        function renderCommentItem(c, approvedComments) {
-            const replies = approvedComments.filter(r => r.parentId === c.id).sort((a,b) => a.date - b.date);
+        function renderCommentItem(c, allComments) {
+            const replies = allComments.filter(r => r.parentId === c.id).sort((a,b) => a.date - b.date);
             const reactions = c.reactions || {};
             const reactionsHtml = REACTION_EMOJIS.map(({e, n}) => {
                 const count = reactions[e] || 0;
@@ -2211,10 +2221,9 @@
                     parentId: null,
                     reactions: {},
                     isAdmin: false,
-                    approved: false
+                    approved: true
                 });
                 document.getElementById('commentBody').value = '';
-                alert('Thank you! Your comment has been submitted and will appear after review.');
             } catch(e) {
                 console.error('Error posting comment:', e);
                 alert('Failed to post comment. Please try again.');
@@ -2239,11 +2248,10 @@
                     parentId,
                     reactions: {},
                     isAdmin: false,
-                    approved: false
+                    approved: true
                 });
                 document.getElementById('reply-body-' + parentId).value = '';
                 document.getElementById('reply-form-' + parentId).classList.remove('open');
-                alert('Reply submitted! It will appear after review.');
             } catch(e) {
                 console.error('Error posting reply:', e);
                 alert('Failed to post reply. Please try again.');
@@ -2271,19 +2279,12 @@
                 list.innerHTML = '<div class="no-items-msg">No comments to manage.</div>';
                 return;
             }
-            // Show pending (unapproved) first, then approved
-            const sorted = [...comments].sort((a,b) => {
-                if (a.approved === false && b.approved !== false) return -1;
-                if (a.approved !== false && b.approved === false) return 1;
-                return b.date - a.date;
-            });
+            const sorted = [...comments].sort((a,b) => b.date - a.date);
             list.innerHTML = sorted.map(c => {
-                const isPending = c.approved === false;
                 return `
-                <div class="admin-list-item" style="${isPending ? 'border-left: 3px solid #ffc107;' : ''}">
+                <div class="admin-list-item">
                     <div class="item-info">
                         <strong>${escHtml(c.name)}</strong>${c.isAdmin ? ' <span class="admin-badge">ADMIN</span>' : ''}
-                        ${isPending ? '<span class="pending-badge">Pending</span>' : ''}
                         ${c.parentId ? ' <span style="color:var(--text-light); font-size:0.85em;">(reply)</span>' : ''}
                         <br>
                         <span style="color:var(--text-mid); font-size:0.9em;">${escHtml(c.body.substring(0, 120))}${c.body.length > 120 ? '...' : ''}</span>
@@ -2291,9 +2292,8 @@
                         <span style="color:var(--text-light); font-size:0.8em;">${fmtDate(c.date)}${c.email ? ' &bull; ' + escHtml(c.email) : ''}</span>
                     </div>
                     <div class="item-actions">
-                        ${isPending ? `<button class="admin-btn small" style="background:#28a745;" onclick="adminApproveComment('${c.id}')">✓ Approve</button>` : ''}
                         ${!c.parentId ? `<button class="admin-btn small" onclick="adminReply('${c.id}')">Reply as Admin</button>` : ''}
-                        <button class="admin-btn small danger" onclick="adminDeleteComment('${c.id}')">${isPending ? 'Reject' : 'Delete'}</button>
+                        <button class="admin-btn small danger" onclick="adminDeleteComment('${c.id}')">Delete</button>
                     </div>
                 </div>
             `;
