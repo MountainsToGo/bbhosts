@@ -1802,25 +1802,9 @@
         let commentUser = null; // separate from admin currentUser
         const googleProvider = new firebase.auth.GoogleAuthProvider();
 
-        // We use redirect-based sign-in (popup blocked by GitHub Pages COOP header).
+        // We use popup-based sign-in. The COOP header on GitHub Pages prevents
+        // the popup from auto-closing, but the sign-in itself works fine.
         // Admin uses email/password. We track comment user separately in sessionStorage.
-
-        // Handle redirect result on page load
-        auth.getRedirectResult().then(result => {
-            if (result && result.user) {
-                const user = result.user;
-                const info = {
-                    uid: user.uid,
-                    name: user.displayName || user.email,
-                    email: user.email,
-                    photo: user.photoURL || ''
-                };
-                sessionStorage.setItem('commentUser', JSON.stringify(info));
-                updateCommentAuthUI();
-            }
-        }).catch(err => {
-            console.error('Redirect sign-in error:', err);
-        });
 
         function updateCommentAuthUI() {
             const stored = sessionStorage.getItem('commentUser');
@@ -1849,8 +1833,25 @@
             }
         }
 
-        window.commentSignIn = function() {
-            auth.signInWithRedirect(googleProvider);
+        window.commentSignIn = async function() {
+            const provider = googleProvider;
+            try {
+                const result = await auth.signInWithPopup(provider);
+                const user = result.user;
+                const info = {
+                    uid: user.uid,
+                    name: user.displayName || user.email,
+                    email: user.email,
+                    photo: user.photoURL || ''
+                };
+                sessionStorage.setItem('commentUser', JSON.stringify(info));
+                updateCommentAuthUI();
+            } catch (err) {
+                console.error('Google sign-in error:', err);
+                if (err.code !== 'auth/popup-closed-by-user') {
+                    alert('Sign-in failed: ' + err.message);
+                }
+            }
         };
 
         window.commentSignOut = function() {
