@@ -25,7 +25,7 @@ A public-facing website for the **Bogus Basin Mountain Hosts** volunteer program
 - **Leadership Management** — Add, edit, and delete leadership entries with drag-and-drop photo uploads and rich text bios
 - **Announcement Management** — Rich text editor with bold, italic, underline, lists, links, blockquotes, and inline photo support
 - **Group Photo Management** — Upload and caption the hero group photo
-- **Settings** — Manage authorized admin email addresses
+- **Account Management** — Manage authorized admin email addresses
 
 ### Design
 - **Winter/Summer Dual Theme** — Gradient palette blending winter blues/navies with summer golds/greens, representing the year-round volunteer program

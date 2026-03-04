@@ -11,7 +11,7 @@ A step-by-step guide for managing the Bogus Basin Mountain Hosts website through
 3. [Managing Leadership](#3-managing-leadership)
 4. [Managing Announcements](#4-managing-announcements)
 5. [Managing the Group Photo](#5-managing-the-group-photo)
-6. [Managing Admin Emails (Settings)](#6-managing-admin-emails-settings)
+6. [Managing Admin Emails (Account Management)](#6-managing-admin-emails-account-management)
 7. [Deploying Firestore Rules](#7-deploying-firestore-rules)
 8. [Firebase Console Quick Reference](#8-firebase-console-quick-reference)
 9. [First-Time Admin Bootstrap](#9-first-time-admin-bootstrap)
@@ -24,11 +24,11 @@ A step-by-step guide for managing the Bogus Basin Mountain Hosts website through
 1. Open the site: [https://mountainstogo.github.io/bbhosts/mountain-hosts.html](https://mountainstogo.github.io/bbhosts/mountain-hosts.html)
 2. Click the **"Management Portal"** button in the page header
 3. Click **Sign in with Google** and sign in with a Google account that is on the authorized admin list
-4. After successful login, you'll see five tabs: 💬 Comments, ⭐ Leadership, 📢 Announcements, 📸 Group Photo, 🔧 Settings
+4. After successful login, you'll see five tabs: 💬 Comments, ⭐ Leadership, 📢 Announcements, 📸 Group Photo, 🔧 Account Management
 5. To sign out, click **Sign Out** in the top-right of the admin panel
 6. To close the admin portal, click the **✕** button or click outside the modal
 
-> **Note:** Only Google accounts listed in the admin emails (Settings tab) can access the Management Portal. If your email is not authorized, you'll see a "not authorized" message.
+> **Note:** Only Google accounts listed in the admin emails (Account Management tab) can access the Management Portal. If your email is not authorized, you'll see a "not authorized" message.
 
 ---
 
@@ -173,12 +173,12 @@ The Group Photo tab lets you upload a hero photo displayed in the About section.
 
 ---
 
-## 6. Managing Admin Emails (Settings)
+## 6. Managing Admin Emails (Account Management)
 
-The Settings tab lets you manage which Google accounts have admin access.
+The Account Management tab lets you manage which Google accounts have admin access.
 
 ### Add an Admin
-1. Switch to the **🔧 Settings** tab
+1. Switch to the **🔧 Account Management** tab
 2. Enter the Google email address to authorize
 3. Click **Add**
 4. The email appears in the authorized list
@@ -248,7 +248,7 @@ When the site is deployed for the first time with no admin emails configured:
 2. Click **Sign in with Google**
 3. Since no `adminEmails` document exists in Firestore yet, the **first Google sign-in automatically becomes the admin**
 4. Your email is saved to Firestore as the initial authorized admin
-5. Navigate to the **🔧 Settings** tab to add additional admin emails
+5. Navigate to the **🔧 Account Management** tab to add additional admin emails
 
 ### Alternative: Console Seeding
 You can also seed the admin list from the browser console:
@@ -263,7 +263,7 @@ This will prompt for an email and create the `settings/adminEmails` document.
 
 ### "Not authorized" when signing into Management Portal
 - **Cause:** Your Google email is not in the admin emails list in Firestore
-- **Fix:** Ask an existing admin to add your email via the Settings tab, or if no admins exist, perform the [first-time bootstrap](#9-first-time-admin-bootstrap)
+- **Fix:** Ask an existing admin to add your email via the Account Management tab, or if no admins exist, perform the [first-time bootstrap](#9-first-time-admin-bootstrap)
 
 ### "Missing or insufficient permissions" Error
 - **Cause:** Firestore security rules haven't been deployed or are outdated
@@ -303,11 +303,11 @@ For a brand-new admin getting started:
 
 - [ ] Open the site and click **Management Portal**
 - [ ] Sign in with your authorized Google account
-- [ ] Explore the five tabs: Comments, Leadership, Announcements, Group Photo, Settings
+- [ ] Explore the five tabs: Comments, Leadership, Announcements, Group Photo, Account Management
 - [ ] Edit the placeholder leaders with real names, photos, and bios
 - [ ] Upload a group photo
 - [ ] Create your first announcement
-- [ ] Add any additional admin emails in the Settings tab
+- [ ] Add any additional admin emails in the Account Management tab
 - [ ] Check the public page to verify your changes appear
 
 ---
