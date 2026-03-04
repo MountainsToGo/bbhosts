@@ -2319,20 +2319,35 @@
             thread.innerHTML = topLevel.map(c => renderCommentItem(c, comments)).join('');
         }
 
+        function reactionCount(reactions, emoji) {
+            const val = reactions[emoji];
+            if (Array.isArray(val)) return val.length;
+            if (typeof val === 'number') return val;
+            return 0;
+        }
+        function userReacted(reactions, emoji) {
+            const val = reactions[emoji];
+            if (!commentUser) return false;
+            if (Array.isArray(val)) return val.includes(commentUser.uid);
+            return false;
+        }
+
         function renderCommentItem(c, allComments) {
             const replies = allComments.filter(r => r.parentId === c.id).sort((a,b) => a.date - b.date);
             const reactions = c.reactions || {};
             const reactionsHtml = REACTION_EMOJIS.map(({e, n}) => {
-                const count = reactions[e] || 0;
-                return `<span class="reaction-badge" title="${n}" onclick="toggleReaction('${c.id}','${e}')">${e} ${count > 0 ? count : ''}</span>`;
+                const count = reactionCount(reactions, e);
+                const active = userReacted(reactions, e) ? ' active' : '';
+                return `<span class="reaction-badge${active}" title="${n}" onclick="toggleReaction('${c.id}','${e}')">${e} ${count > 0 ? count : ''}</span>`;
             }).join('');
 
             const repliesHtml = replies.map(r => {
                 const rIsAdmin = r.isAdmin;
                 const rReactions = r.reactions || {};
                 const rReactionsHtml = REACTION_EMOJIS.map(({e, n}) => {
-                    const count = rReactions[e] || 0;
-                    return `<span class="reaction-badge" title="${n}" onclick="toggleReaction('${r.id}','${e}')">${e} ${count > 0 ? count : ''}</span>`;
+                    const count = reactionCount(rReactions, e);
+                    const active = userReacted(rReactions, e) ? ' active' : '';
+                    return `<span class="reaction-badge${active}" title="${n}" onclick="toggleReaction('${r.id}','${e}')">${e} ${count > 0 ? count : ''}</span>`;
                 }).join('');
                 return `
                     <div class="reply-item ${rIsAdmin ? 'admin-reply' : ''}">
@@ -2430,11 +2445,26 @@
         };
 
         window.toggleReaction = async function(commentId, emoji) {
+            if (!commentUser) {
+                alert('Please sign in with Google to react.');
+                return;
+            }
             try {
                 const docRef = commentsCol.doc(commentId);
-                await docRef.update({
-                    [`reactions.${emoji}`]: firebase.firestore.FieldValue.increment(1)
-                });
+                const doc = await docRef.get();
+                const reactions = doc.data().reactions || {};
+                const arr = Array.isArray(reactions[emoji]) ? reactions[emoji] : [];
+                if (arr.includes(commentUser.uid)) {
+                    // Remove reaction
+                    await docRef.update({
+                        [`reactions.${emoji}`]: firebase.firestore.FieldValue.arrayRemove(commentUser.uid)
+                    });
+                } else {
+                    // Add reaction
+                    await docRef.update({
+                        [`reactions.${emoji}`]: firebase.firestore.FieldValue.arrayUnion(commentUser.uid)
+                    });
+                }
             } catch(e) {
                 console.error('Reaction error:', e);
             }
