@@ -875,6 +875,24 @@
             transition: all 0.2s;
         }
         .comment-signout-btn:hover { border-color: var(--text-light); color: var(--text-mid); }
+        .signout-btn {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.25);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.82em;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+            white-space: nowrap;
+            display: none;
+        }
+        .signout-btn:hover {
+            background: rgba(255,255,255,0.25);
+            border-color: rgba(255,255,255,0.4);
+        }
         .pending-badge {
             display: inline-block;
             background: #fef3cd;
@@ -1473,6 +1491,7 @@
                 <div style="opacity:0.6;">Loading weather data for Bogus Basin...</div>
                 <div class="weather-banner-actions">
                     <button class="admin-toggle" onclick="openAdminModal()">Management Portal</button>
+                    <button class="signout-btn" id="bannerSignOut" onclick="commentSignOut()">Sign Out</button>
                 </div>
             </div>
         </div>
@@ -2061,6 +2080,12 @@
                 signedInEl.style.display = 'none';
                 formEl.style.display = 'none';
             }
+            updateBannerSignOut();
+        }
+
+        function updateBannerSignOut() {
+            const btn = document.getElementById('bannerSignOut');
+            if (btn) btn.style.display = sessionStorage.getItem('commentUser') ? '' : 'none';
         }
 
         window.commentSignIn = async function() {
@@ -3104,9 +3129,11 @@
                                 Mountain Cams
                             </a>
                             <button class="admin-toggle" onclick="openAdminModal()">Management Portal</button>
+                            <button class="signout-btn" id="bannerSignOut" onclick="commentSignOut()">Sign Out</button>
                         </div>
                     </div>
                 `;
+                updateBannerSignOut();
             } catch (err) {
                 console.error('Weather error:', err);
                 banner.innerHTML = `<div style="max-width:var(--content-max);margin:0 auto;padding:0 clamp(24px,5vw,60px);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
@@ -3114,8 +3141,10 @@
                     <div class="weather-banner-actions">
                         <a href="https://bogusbasin.org/your-mountain/conditions-webcams/" class="webcam-btn" target="_blank" rel="noopener noreferrer">Mountain Cams</a>
                         <button class="admin-toggle" onclick="openAdminModal()">Management Portal</button>
+                        <button class="signout-btn" id="bannerSignOut" onclick="commentSignOut()">Sign Out</button>
                     </div>
                 </div>`;
+                updateBannerSignOut();
             }
         }
 
