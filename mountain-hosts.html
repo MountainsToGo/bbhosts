@@ -1698,7 +1698,7 @@
                     <div id="commentAuthSignedIn" style="display:none; width:100; display:none;">
                         <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; width:100%;">
                             <div class="user-info">
-                                <img class="user-avatar" id="commentUserAvatar" src="" alt="">
+                                <img class="user-avatar" id="commentUserAvatar" src="" alt="" onerror="this.style.display='none'">
                                 <span>Signed in as <span class="user-name" id="commentUserName"></span></span>
                             </div>
                             <button class="comment-signout-btn" onclick="commentSignOut()">Sign Out</button>
