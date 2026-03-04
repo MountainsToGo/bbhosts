@@ -12,19 +12,20 @@ A public-facing website for the **Bogus Basin Mountain Hosts** volunteer program
 - **Live Weather Banner** — Real-time conditions at Bogus Basin via the NOAA API (auto-refreshes every 10 minutes)
 - **About Section** — Mission statement and uploadable group photo
 - **Mountain Tours** — Complimentary guided tours schedule (Sat & Sun at 10:30 AM & 1:30 PM)
-- **Host Leadership** — Director and Lead cards with optional photos
+- **Host Leadership** — Director and Lead cards with photos and clickable rich text bios
 - **Bogus Basin Resources** — Quick links to bogusbasin.org and conditions/webcams
 - **National Ski Patrol** — Link to nsp.org
 - **Become a Host** — Call-to-action section with QR code placeholder
 - **Announcements & Awards** — Rich-text announcements with inline photos, categorized as announcements, awards, events, or stories
-- **Guest Comments** — Threaded comment system with emoji reactions and admin replies
+- **Guest Comments** — Threaded comment system with Google sign-in, per-user emoji reaction toggles, community guidelines, and admin replies
 
 ### Admin Portal
-- **Firebase Authentication** — Secure email/password login
+- **Google Sign-In** — Admin access via Google accounts whitelisted in Firestore
 - **Comment Management** — View, reply as admin, and delete comments (including all nested replies)
-- **Leadership Management** — Add, edit, and delete leadership entries with drag-and-drop photo uploads
+- **Leadership Management** — Add, edit, and delete leadership entries with drag-and-drop photo uploads and rich text bios
 - **Announcement Management** — Rich text editor with bold, italic, underline, lists, links, blockquotes, and inline photo support
 - **Group Photo Management** — Upload and caption the hero group photo
+- **Settings** — Manage authorized admin email addresses
 
 ### Design
 - **Winter/Summer Dual Theme** — Gradient palette blending winter blues/navies with summer golds/greens, representing the year-round volunteer program
@@ -38,7 +39,7 @@ A public-facing website for the **Bogus Basin Mountain Hosts** volunteer program
 | Layer | Technology |
 |---|---|
 | Frontend | Single-file HTML / CSS / vanilla JavaScript |
-| Auth | Firebase Authentication (Email/Password) |
+| Auth | Firebase Authentication (Google sign-in) |
 | Database | Cloud Firestore (Spark free tier) |
 | Image Storage | Client-side canvas compression → base64 data URLs stored in Firestore |
 | Weather | NOAA Weather API (api.weather.gov) |
@@ -66,20 +67,21 @@ BBHost/
 
 | Collection | Document Fields | Description |
 |---|---|---|
-| `comments` | `author`, `body`, `date`, `parentId`, `isAdmin`, `reactions` | Guest comments and admin replies. `parentId` links replies to parents. |
-| `leaders` | `name`, `role`, `photoUrl`, `order` | Leadership entries. `role` is "Director" or "Lead". `photoUrl` is base64. |
+| `comments` | `name`, `email`, `body`, `date`, `parentId`, `isAdmin`, `reactions` | Guest comments and admin replies. `parentId` links replies to parents. `reactions` stores arrays of user UIDs per emoji. |
+| `leaders` | `name`, `role`, `photoUrl`, `bio` | Leadership entries. `role` is "Director" or "Lead". `photoUrl` is base64. `bio` is rich HTML. |
 | `announcements` | `type`, `title`, `content`, `date` | Rich HTML content. `type`: announcement, award, event, or story. |
 | `settings/site` | `photoUrl`, `photoCaption` | Single document storing the group photo (base64) and its caption. |
+| `settings/adminEmails` | `emails` | Array of authorized admin email addresses (Google accounts). |
 
 ---
 
 ## Firestore Security Rules
 
 ```
-comments    → Public read, public create/update, admin-only delete
-leaders     → Public read, admin-only write
-announcements → Public read, admin-only write
-settings    → Public read, admin-only write
+comments       → Public read, authenticated create/update, admin-only delete
+leaders        → Public read, admin-only write
+announcements  → Public read, admin-only write
+settings       → Public read, authenticated create/update/delete
 ```
 
 Rules are defined in `firestore.rules` and must be deployed via the Firebase Console (see [INSTRUCTIONS.md](INSTRUCTIONS.md) for details).
@@ -92,8 +94,8 @@ If you're setting up a new instance of this project:
 
 1. **Create a Firebase project** at [console.firebase.google.com](https://console.firebase.google.com)
 2. **Enable Authentication**
-   - Go to Authentication → Sign-in method → Enable **Email/Password**
-   - Add an admin user under Authentication → Users
+   - Go to Authentication → Sign-in method → Enable **Google**
+   - Add your domain (e.g., `mountainstogo.github.io`) to the authorized domains list
 3. **Create a Firestore Database**
    - Go to Firestore Database → Create database → **Production mode**
    - Choose a region close to your users
