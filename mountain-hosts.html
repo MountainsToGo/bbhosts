@@ -1276,11 +1276,13 @@
             .hero-grid { grid-template-columns: 1fr; }
             .hero-image-placeholder { height: 240px; }
             .hero-image-container { max-height: 300px; }
+            .org-chart { width: 100%; }
             .org-leads { flex-direction: column; align-items: center; gap: 0; }
             .org-lead-col { min-width: unset; max-width: 280px; width: 80%; }
             .org-connector-bar::before { display: none; }
+            .org-connector-bar { height: 0; overflow: hidden; }
             .org-lead-line { height: 20px; }
-            .leader-card { max-width: 280px; }
+            .leader-card { max-width: 280px; width: 100%; }
             .link-grid { grid-template-columns: 1fr; }
             .become-host { flex-direction: column; text-align: center; }
             .become-host-actions { justify-content: center; }
@@ -1290,10 +1292,43 @@
             .weather-info { flex-direction: column; align-items: flex-start; }
             .weather-banner-actions { flex-direction: column; align-items: stretch; gap: 8px; width: 100%; }
             .weather-banner-actions > * { text-align: center; justify-content: center; }
-            .modal { max-height: 95vh; border-radius: 16px; }
+            .modal { max-height: 95vh; border-radius: 16px; width: 95vw; }
             .modal-header { border-radius: 16px 16px 0 0; }
             .admin-tabs { overflow-x: auto; }
             .section { padding: clamp(40px, 6vw, 60px) 0; }
+
+            /* Comments mobile fixes */
+            .comment-auth-bar { padding: 16px; border-radius: 12px; }
+            .comment-form { padding: 16px; border-radius: 12px; }
+            .comment-item { padding: 16px; border-radius: 12px; }
+            .comment-header { flex-direction: column; align-items: flex-start; gap: 4px; }
+            .comment-actions { flex-wrap: wrap; }
+            .replies { margin-left: 12px; padding-left: 12px; }
+            .reply-item { padding: 12px 14px; }
+            .reply-form { padding: 12px; }
+            .google-sign-in-btn { width: 100%; justify-content: center; }
+
+            /* Emoji dropdown mobile */
+            .emoji-dropdown { width: 260px; left: -20px; }
+
+            /* Section inner content - prevent overflow */
+            .content-inner { padding: 0 16px; }
+            .section > .content-inner,
+            .section > .section-header,
+            .section > .hero-grid,
+            .section > .tours-card,
+            .section > .leadership-grid,
+            .section > .link-grid,
+            .section > .link-card,
+            .section > .become-host,
+            .section > .announcements-list,
+            .section > .comment-form,
+            .section > .comments-thread,
+            .section > p,
+            .section > a.link-card {
+                padding-left: 16px;
+                padding-right: 16px;
+            }
         }
 
         /* Scrollbar styling */
@@ -1598,6 +1633,7 @@
                         <button class="admin-tab" onclick="switchAdminTab('leadership', this)">⭐ Leadership</button>
                         <button class="admin-tab" onclick="switchAdminTab('announcements', this)">📢 Announcements</button>
                         <button class="admin-tab" onclick="switchAdminTab('photo', this)">📸 Group Photo</button>
+                        <button class="admin-tab" onclick="switchAdminTab('settings', this)">🔧 Settings</button>
                     </div>
 
                     <!-- ===== COMMENTS ADMIN ===== -->
@@ -1696,6 +1732,22 @@
                             <span>No photo set</span>
                         </div>
                     </div>
+                    <!-- ===== SETTINGS (Admin Emails) ===== -->
+                    <div id="adminSettings" class="admin-panel">
+                        <div class="admin-form">
+                            <h4>🔧 Admin Accounts</h4>
+                            <p style="color:var(--text-light); margin-bottom:12px; font-size:0.9em;">Google email addresses authorized to access the Management Portal.</p>
+                            <div id="adminEmailsList"></div>
+                            <div style="display:flex; gap:8px; margin-top:12px;">
+                                <input type="email" id="newAdminEmail" placeholder="email@gmail.com" style="flex:1; padding:10px 14px; border:1.5px solid var(--border); border-radius:10px; font-family:inherit; font-size:0.9em;">
+                                <button class="admin-btn" onclick="addAdminEmail()">Add</button>
+                            </div>
+                            <div id="adminEmailSeedMsg" style="display:none; margin-top:16px; padding:16px; background:var(--accent-pale); border-radius:10px; font-size:0.9em;">
+                                <strong>⚠️ No admin emails configured yet.</strong><br>
+                                Your email has been added as the first admin. You can add more above.
+                            </div>
+                        </div>
+                    </div>
 
                 </div><!-- end adminContent -->
             </div><!-- end modal-body -->
@@ -1736,11 +1788,33 @@
         // ===== STATE =====
         let currentUser = null; // Firebase auth user (admin)
 
-        // Authorized admin emails (case-insensitive)
-        const ADMIN_EMAILS = [
-            'cbernier@gmail.com',
-            'bogusmountainhost@gmail.com'
-        ].map(e => e.toLowerCase());
+        // Admin emails loaded from Firestore (not hardcoded for security)
+        let adminEmails = [];
+        let adminEmailsLoaded = false;
+        const adminEmailsDoc = db.collection('settings').doc('adminEmails');
+
+        // Load admin emails from Firestore
+        adminEmailsDoc.onSnapshot(docSnap => {
+            if (docSnap.exists) {
+                adminEmails = (docSnap.data().emails || []).map(e => e.toLowerCase());
+            } else {
+                adminEmails = [];
+            }
+            adminEmailsLoaded = true;
+            // Re-evaluate current Firebase user's admin status once emails load
+            const user = auth.currentUser;
+            if (user && user.providerData && user.providerData[0] && user.providerData[0].providerId === 'google.com') {
+                if (isAdminEmail(user.email)) {
+                    currentUser = user;
+                } else {
+                    currentUser = null;
+                }
+                updateAdminUI();
+            }
+        }, err => {
+            console.error('Admin emails listener error:', err);
+            adminEmailsLoaded = true;
+        });
         let comments = [];
         let leaders = [];
         let announcements = [];
@@ -1769,7 +1843,7 @@
                    d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
         }
         function isAdmin() { return !!currentUser; }
-        function isAdminEmail(email) { return email && ADMIN_EMAILS.includes(email.toLowerCase()); }
+        function isAdminEmail(email) { return email && adminEmails.includes(email.toLowerCase()); }
 
         // ===== EMOJI PICKER (reusable) =====
         function buildEmojiGrid(dropdown, targetId) {
@@ -1915,6 +1989,7 @@
                 renderAdminLeaders();
                 renderAdminAnnouncements();
                 renderAdminPhoto();
+                renderAdminEmails();
             }
         }
 
@@ -1924,6 +1999,21 @@
                 errEl.style.display = 'none';
                 const result = await auth.signInWithPopup(googleProvider);
                 const user = result.user;
+
+                // Bootstrap: if no admin emails exist yet, the first Google sign-in becomes admin
+                if (adminEmailsLoaded && adminEmails.length === 0) {
+                    const email = user.email.toLowerCase();
+                    await adminEmailsDoc.set({ emails: [email] });
+                    // adminEmails will update via onSnapshot, but set locally for immediate use
+                    adminEmails = [email];
+                    currentUser = user;
+                    updateAdminUI();
+                    // Show seed message
+                    const seedMsg = document.getElementById('adminEmailSeedMsg');
+                    if (seedMsg) seedMsg.style.display = 'block';
+                    return;
+                }
+
                 if (!isAdminEmail(user.email)) {
                     errEl.textContent = 'Access denied. This Google account is not authorized for admin access.';
                     errEl.style.display = 'block';
@@ -1949,6 +2039,84 @@
             document.getElementById('adminLogin').style.display = 'block';
             document.getElementById('adminContent').style.display = 'none';
         };
+
+        // ===== ADMIN EMAIL MANAGEMENT =====
+        function renderAdminEmails() {
+            const list = document.getElementById('adminEmailsList');
+            if (!list) return;
+            if (adminEmails.length === 0) {
+                list.innerHTML = '<div class="no-items-msg">No admin emails configured.</div>';
+                return;
+            }
+            list.innerHTML = adminEmails.map(email => `
+                <div class="admin-list-item" style="padding:10px 14px;">
+                    <div class="item-info">
+                        <strong>${escHtml(email)}</strong>
+                    </div>
+                    <div class="item-actions">
+                        <button class="admin-btn small danger" onclick="removeAdminEmail('${escHtml(email)}')" ${adminEmails.length <= 1 ? 'disabled title="Cannot remove the last admin"' : ''}>Remove</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        window.addAdminEmail = async function() {
+            const input = document.getElementById('newAdminEmail');
+            const email = input.value.trim().toLowerCase();
+            if (!email || !email.includes('@')) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+            if (adminEmails.includes(email)) {
+                alert('This email is already an admin.');
+                return;
+            }
+            try {
+                const newList = [...adminEmails, email];
+                await adminEmailsDoc.set({ emails: newList });
+                input.value = '';
+            } catch(e) {
+                console.error('Add admin email error:', e);
+                alert('Failed to add admin email.');
+            }
+        };
+
+        window.removeAdminEmail = async function(email) {
+            if (adminEmails.length <= 1) {
+                alert('Cannot remove the last admin.');
+                return;
+            }
+            if (!confirm('Remove ' + email + ' from admin access?')) return;
+            try {
+                const newList = adminEmails.filter(e => e !== email.toLowerCase());
+                await adminEmailsDoc.set({ emails: newList });
+            } catch(e) {
+                console.error('Remove admin email error:', e);
+                alert('Failed to remove admin email.');
+            }
+        };
+
+        // Seed admin emails: called from console for initial setup
+        // Usage: seedAdminEmails() — will add current signed-in user as first admin
+        window.seedAdminEmails = async function() {
+            const user = auth.currentUser;
+            if (!user) {
+                console.log('Please sign in with Google first (click Sign in with Google on the page).');
+                return;
+            }
+            const email = user.email.toLowerCase();
+            try {
+                const doc = await adminEmailsDoc.get();
+                if (doc.exists && doc.data().emails && doc.data().emails.length > 0) {
+                    console.log('Admin emails already configured:', doc.data().emails);
+                    return;
+                }
+                await adminEmailsDoc.set({ emails: [email] });
+                console.log('✅ Admin email seeded: ' + email);
+                console.log('You can now open the Management Portal to add more admin emails.');
+            } catch(e) {
+                console.error('Seed error:', e);
+            }
         };
 
         // ===== ADMIN MODAL =====
@@ -1971,6 +2139,7 @@
                 renderAdminLeaders();
                 renderAdminAnnouncements();
                 renderAdminPhoto();
+                renderAdminEmails();
             }
         }
         window.closeAdminModal = function() {
