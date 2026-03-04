@@ -10,6 +10,7 @@ A public-facing website for the **Bogus Basin Mountain Hosts** volunteer program
 
 ### Public Pages
 - **Live Weather Banner** — Real-time conditions at Bogus Basin via the NOAA API (auto-refreshes every 10 minutes)
+- **Sign Out Button** — Appears in the weather banner (next to Management Portal) when a user is signed in, for easy session termination
 - **About Section** — Mission statement and uploadable group photo
 - **Mountain Tours** — Complimentary guided tours schedule (Sat & Sun at 10:30 AM & 1:30 PM)
 - **Host Leadership** — Director and Lead cards with photos and clickable rich text bios
@@ -54,11 +55,13 @@ A public-facing website for the **Bogus Basin Mountain Hosts** volunteer program
 
 ```
 BBHost/
-├── mountain-hosts.html          # Main application (single-file HTML/CSS/JS)
+├── mountain-hosts.html          # Public-facing site (single-file HTML/CSS/JS)
+├── internal-MH.html             # Internal host portal (separate Firestore collections)
 ├── firestore.rules              # Firestore security rules (deploy via Firebase Console)
-├── index.html                   # Original template (not part of Mountain Hosts)
-├── mountain-hosts - backup.html # Backup copy
-└── README.md                    # This file
+├── README.md                    # This file (public site documentation)
+├── README-internal.md           # Internal portal documentation
+├── INSTRUCTIONS.md              # Public site admin instructions
+└── INSTRUCTIONS-internal.md     # Internal portal admin instructions
 ```
 
 ---

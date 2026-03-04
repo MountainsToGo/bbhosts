@@ -25,10 +25,10 @@ A step-by-step guide for managing the Bogus Basin Mountain Hosts website through
 2. Click the **"Management Portal"** button in the page header
 3. Click **Sign in with Google** and sign in with a Google account that is on the authorized admin list
 4. After successful login, you'll see five tabs: 💬 Comments, ⭐ Leadership, 📢 Announcements, 📸 Group Photo, 🔧 Account Management
-5. To sign out, click **Sign Out** in the top-right of the admin panel
+5. To sign out, click the **Sign Out** button in the weather banner (top-right, next to Management Portal) or in the admin panel
 6. To close the admin portal, click the **✕** button or click outside the modal
 
-> **Note:** Only Google accounts listed in the admin emails (Account Management tab) can access the Management Portal. If your email is not authorized, you'll see a "not authorized" message.
+> **Note:** The **Sign Out** button in the weather banner only appears when you are signed in. Signing out clears your Google session for both comments and the admin panel.
 
 ---
 
