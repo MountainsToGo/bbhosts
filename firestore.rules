@@ -43,46 +43,54 @@ service cloud.firestore {
 
     // =====================================================
     // INTERNAL PORTAL (internal-MH.html) — separate collections
-    // No auth required for comments; admin auth for management
+    // Authenticated access only — user must sign in to read or write
     // =====================================================
 
-    // INTERNAL COMMENTS: fully public (no sign-in needed on internal portal)
+    // INTERNAL COMMENTS: authenticated read/create/update, admin delete
     match /internal_comments/{commentId} {
-      allow read: if true;
-      allow create: if true;
-      allow update: if true;
+      allow read: if request.auth != null;
+      allow create: if request.auth != null;
+      allow update: if request.auth != null;
       allow delete: if request.auth != null;
     }
 
-    // INTERNAL LEADERS: public read, admin write
+    // INTERNAL LEADERS: authenticated read, admin write
     match /internal_leaders/{leaderId} {
-      allow read: if true;
+      allow read: if request.auth != null;
       allow create, update, delete: if request.auth != null;
     }
 
-    // INTERNAL DIRECTORS (Board of Directors): public read, admin write
+    // INTERNAL DIRECTORS (Board of Directors): authenticated read, admin write
     match /internal_directors/{directorId} {
-      allow read: if true;
+      allow read: if request.auth != null;
       allow create, update, delete: if request.auth != null;
     }
 
-    // INTERNAL ANNOUNCEMENTS: public read, admin write
+    // INTERNAL ANNOUNCEMENTS: authenticated read, admin write
     match /internal_announcements/{announcementId} {
-      allow read: if true;
+      allow read: if request.auth != null;
       allow create, update, delete: if request.auth != null;
     }
 
-    // INTERNAL MEETING MINUTES: public read, admin write
+    // INTERNAL MEETING MINUTES: authenticated read, admin write
     match /internal_minutes/{minuteId} {
-      allow read: if true;
+      allow read: if request.auth != null;
       allow create, update, delete: if request.auth != null;
     }
 
-    // INTERNAL SETTINGS: public read, admin write
+    // INTERNAL SETTINGS: public read for auth gate verification, admin write
     match /internal_settings/{settingId} {
       allow read: if true;
       allow create: if request.auth != null;
       allow update, delete: if request.auth != null;
+    }
+
+    // INTERNAL T&C AGREEMENTS: users can read/create their own, admins can read all
+    match /internal_tc_agreements/{odid} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null;
+      allow update: if request.auth != null;
+      allow delete: if request.auth != null;
     }
   }
 }

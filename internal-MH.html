@@ -77,6 +77,188 @@
             padding: 0 clamp(24px, 5vw, 60px);
         }
 
+        /* ===== T&C OVERLAY ===== */
+        .tc-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            background: rgba(15, 40, 40, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Inter', sans-serif;
+        }
+        .tc-overlay.hidden { display: none; }
+        .tc-card {
+            background: var(--white);
+            border-radius: 20px;
+            max-width: 680px;
+            width: 94%;
+            max-height: 88vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+        .tc-card-header {
+            padding: 24px 28px 16px;
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+        .tc-card-header h2 {
+            font-size: 1.3em;
+            color: var(--primary);
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+        .tc-card-header p {
+            font-size: 0.88em;
+            color: var(--text-light);
+        }
+        .tc-card-body {
+            padding: 20px 28px;
+            overflow-y: auto;
+            flex: 1;
+            font-size: 0.92em;
+            line-height: 1.7;
+            color: var(--text-dark);
+        }
+        .tc-card-body h3 { font-size: 1.05em; margin: 18px 0 8px; color: var(--primary); }
+        .tc-card-body ul, .tc-card-body ol { margin: 8px 0 8px 20px; }
+        .tc-card-body li { margin-bottom: 4px; }
+        .tc-card-body p { margin-bottom: 10px; }
+        .tc-card-footer {
+            padding: 16px 28px 24px;
+            border-top: 1px solid var(--border);
+            flex-shrink: 0;
+            text-align: center;
+        }
+        .tc-card-footer .tc-scroll-hint {
+            font-size: 0.82em;
+            color: var(--text-light);
+            margin-bottom: 12px;
+        }
+        .tc-agree-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px 40px;
+            border-radius: 12px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-family: inherit;
+        }
+        .tc-agree-btn:hover { background: var(--primary-light); }
+        .tc-agree-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .tc-decline-btn {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 0.85em;
+            margin-top: 10px;
+            text-decoration: underline;
+            font-family: inherit;
+        }
+        .tc-decline-btn:hover { color: var(--text-mid); }
+        .tc-checkbox-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 14px;
+            font-size: 0.92em;
+            color: var(--text-dark);
+            cursor: pointer;
+            user-select: none;
+        }
+        .tc-checkbox-label input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .tc-checkbox-label span { line-height: 1.3; }
+
+        /* T&C viewer modal (for referencing from page) */
+        .tc-viewer-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 50000;
+            background: rgba(0,0,0,0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        .tc-viewer-overlay.open { display: flex; }
+        .tc-viewer-card {
+            background: var(--white);
+            border-radius: 20px;
+            max-width: 680px;
+            width: 94%;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .tc-viewer-header {
+            padding: 20px 24px 14px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .tc-viewer-header h2 { font-size: 1.2em; color: var(--primary); font-weight: 700; }
+        .tc-viewer-body {
+            padding: 20px 24px;
+            overflow-y: auto;
+            flex: 1;
+            font-size: 0.92em;
+            line-height: 1.7;
+            color: var(--text-dark);
+        }
+        .tc-viewer-body h3 { font-size: 1.05em; margin: 18px 0 8px; color: var(--primary); }
+        .tc-viewer-body ul, .tc-viewer-body ol { margin: 8px 0 8px 20px; }
+        .tc-viewer-body li { margin-bottom: 4px; }
+        .tc-viewer-body p { margin-bottom: 10px; }
+        .tc-viewer-footer {
+            padding: 12px 24px 16px;
+            border-top: 1px solid var(--border);
+            text-align: right;
+        }
+        .tc-viewer-footer .tc-agreed-info {
+            font-size: 0.82em;
+            color: var(--text-light);
+            text-align: left;
+            float: left;
+            padding-top: 6px;
+        }
+
+        /* ===== INTERNAL PORTAL BAR ===== */
+        .internal-bar {
+            background: var(--accent);
+            color: white;
+            text-align: center;
+            padding: 6px 16px;
+            font-size: 0.78em;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            position: sticky;
+            top: 0;
+            z-index: 9999;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .internal-bar span {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
         /* ===== WEATHER BANNER ===== */
         .weather-banner {
             background: var(--primary);
@@ -1457,6 +1639,192 @@
         ::-webkit-scrollbar-thumb { background: rgba(27,42,74,0.2); border-radius: 3px; }
         ::-webkit-scrollbar-thumb:hover { background: rgba(27,42,74,0.35); }
 
+        /* ===== AUTH GATE ===== */
+        .auth-gate {
+            position: fixed;
+            inset: 0;
+            z-index: 100000;
+            background: linear-gradient(135deg, #0a1e1e 0%, #132f2f 30%, #1a3a3a 50%, #1e4545 70%, #132f2f 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+        }
+        .auth-gate.hidden { display: none; }
+        /* Floating decorative elements */
+        .auth-gate::before, .auth-gate::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.15;
+            pointer-events: none;
+        }
+        .auth-gate::before {
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, #4db8ff 0%, transparent 70%);
+            top: -120px; right: -100px;
+            animation: gateFloat 12s ease-in-out infinite;
+        }
+        .auth-gate::after {
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, #ffb833 0%, transparent 70%);
+            bottom: -80px; left: -60px;
+            animation: gateFloat 10s ease-in-out infinite reverse;
+        }
+        @keyframes gateFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(30px, -20px) scale(1.08); }
+        }
+        @keyframes gateSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes gateSnowDrift {
+            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.6; }
+            50% { transform: translateY(-8px) rotate(15deg); opacity: 1; }
+        }
+        .auth-gate-card {
+            background: rgba(255,255,255,0.97);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 28px;
+            padding: clamp(36px, 6vw, 56px) clamp(28px, 5vw, 48px);
+            max-width: 460px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.1);
+            position: relative;
+            z-index: 1;
+        }
+        .auth-gate-card .gate-icons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .auth-gate-card .gate-icon-snowflake {
+            animation: gateSnowDrift 4s ease-in-out infinite;
+        }
+        .auth-gate-card .gate-icon-sun {
+            animation: gateSpin 20s linear infinite;
+        }
+        .auth-gate-card .gate-icon-snowflake svg,
+        .auth-gate-card .gate-icon-sun svg {
+            width: 38px; height: 38px;
+        }
+        .auth-gate-card .gate-shield {
+            width: 52px; height: 52px;
+            background: linear-gradient(135deg, var(--primary) 0%, #2a5e5e 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            font-size: 1.6em;
+            color: white;
+            box-shadow: 0 4px 16px rgba(26,58,58,0.3);
+        }
+        .auth-gate-card .gate-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent) 0%, #cf7a2a 100%);
+            color: white;
+            font-size: 0.68em;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 5px 16px;
+            border-radius: 20px;
+            margin-bottom: 14px;
+        }
+        .auth-gate-card h1 {
+            font-size: clamp(1.35em, 3vw, 1.65em);
+            color: var(--primary);
+            margin-bottom: 6px;
+            font-weight: 800;
+            letter-spacing: -0.3px;
+        }
+        .auth-gate-card .subtitle {
+            color: var(--text-mid);
+            font-size: 0.9em;
+            margin-bottom: 28px;
+            line-height: 1.6;
+        }
+        .auth-gate-card .gate-divider {
+            width: 48px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--primary));
+            border-radius: 2px;
+            margin: 0 auto 24px;
+        }
+        .auth-gate-card .google-sign-in-btn {
+            width: 100%;
+            justify-content: center;
+            font-size: 1em;
+            padding: 15px 24px;
+            border-radius: 14px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+            transition: all 0.25s ease;
+        }
+        .auth-gate-card .google-sign-in-btn:hover {
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            transform: translateY(-1px);
+        }
+        .auth-gate-card .gate-footer-text {
+            margin-top: 20px;
+            font-size: 0.78em;
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+        .auth-gate-card .gate-error {
+            margin-top: 16px;
+            padding: 12px 16px;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 12px;
+            color: #b91c1c;
+            font-size: 0.9em;
+            display: none;
+        }
+        .auth-gate-card .gate-loading {
+            margin-top: 16px;
+            color: var(--text-light);
+            font-size: 0.9em;
+            display: none;
+        }
+        .auth-gate-card .gate-signout {
+            margin-top: 12px;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 0.85em;
+            text-decoration: underline;
+            display: none;
+        }
+        .auth-gate-card .gate-signout:hover { color: var(--text-mid); }
+
+        /* Site sign-out button */
+        .signout-btn {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.25);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.82em;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .signout-btn:hover {
+            background: rgba(255,255,255,0.25);
+            border-color: rgba(255,255,255,0.4);
+        }
+
         /* Smooth scroll */
         html { scroll-behavior: smooth; }
 
@@ -1465,7 +1833,57 @@
     </style>
 </head>
 <body>
-    <div class="site-container">
+    <!-- ===== AUTH GATE — blocks all content until authorized sign-in ===== -->
+    <div class="auth-gate" id="authGate">
+        <div class="auth-gate-card">
+            <div class="gate-icons">
+                <span class="gate-icon-snowflake"><svg viewBox="0 0 64 64" fill="none"><defs><linearGradient id="gateSnowGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#a8d8ff"/><stop offset="50%" stop-color="#4db8ff"/><stop offset="100%" stop-color="#1a8cff"/></linearGradient></defs><g stroke="url(#gateSnowGrad)" stroke-width="3" stroke-linecap="round"><line x1="32" y1="4" x2="32" y2="60"/><line x1="7.76" y1="18" x2="56.24" y2="46"/><line x1="7.76" y1="46" x2="56.24" y2="18"/><line x1="32" y1="4" x2="26" y2="10"/><line x1="32" y1="4" x2="38" y2="10"/><line x1="32" y1="60" x2="26" y2="54"/><line x1="32" y1="60" x2="38" y2="54"/><line x1="7.76" y1="18" x2="14" y2="20.4"/><line x1="7.76" y1="18" x2="11.6" y2="24"/><line x1="56.24" y1="46" x2="50" y2="43.6"/><line x1="56.24" y1="46" x2="52.4" y2="40"/><line x1="56.24" y1="18" x2="50" y2="20.4"/><line x1="56.24" y1="18" x2="52.4" y2="24"/><line x1="7.76" y1="46" x2="14" y2="43.6"/><line x1="7.76" y1="46" x2="11.6" y2="40"/><circle cx="32" cy="32" r="3" fill="url(#gateSnowGrad)" stroke="none"/></g></svg></span>
+                <span class="gate-icon-sun"><svg viewBox="0 0 64 64" fill="none"><defs><linearGradient id="gateSunGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ffe066"/><stop offset="50%" stop-color="#ffb833"/><stop offset="100%" stop-color="#ff8c1a"/></linearGradient></defs><circle cx="32" cy="32" r="10" fill="url(#gateSunGrad)"/><g stroke="url(#gateSunGrad)" stroke-width="3" stroke-linecap="round"><line x1="32" y1="8" x2="32" y2="16"/><line x1="32" y1="48" x2="32" y2="56"/><line x1="8" y1="32" x2="16" y2="32"/><line x1="48" y1="32" x2="56" y2="32"/><line x1="15" y1="15" x2="20.7" y2="20.7"/><line x1="43.3" y1="43.3" x2="49" y2="49"/><line x1="49" y1="15" x2="43.3" y2="20.7"/><line x1="20.7" y1="43.3" x2="15" y2="49"/></g></svg></span>
+            </div>
+            <div class="gate-badge">Internal Hosts Only</div>
+            <h1>Mountain Hosts Portal</h1>
+            <div class="gate-divider"></div>
+            <p class="subtitle">Authorized access for Bogus Basin Mountain Host<br>volunteers and staff members.</p>
+            <button class="google-sign-in-btn" id="gateSignInBtn" onclick="gateSignIn()">
+                <svg viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+                Sign in with Google
+            </button>
+            <div class="gate-loading" id="gateLoading">Verifying access...</div>
+            <div class="gate-error" id="gateError"></div>
+            <button class="gate-signout" id="gateSignOutBtn" onclick="gateSignOut()">Sign out and try a different account</button>
+            <p class="gate-footer-text">🔒 Secure authentication via Google<br>Bogus Basin &bull; Boise, Idaho</p>
+        </div>
+    </div>
+
+    <div class="site-container" id="siteContainer" style="display:none;">
+
+        <!-- ===== T&C ACCEPTANCE OVERLAY (shown after auth gate, before site) ===== -->
+        <div class="tc-overlay hidden" id="tcOverlay">
+            <div class="tc-card">
+                <div class="tc-card-header">
+                    <h2>📜 Terms & Conditions</h2>
+                    <p>Please read and accept the terms below to access the Internal Host Portal.</p>
+                </div>
+                <div class="tc-card-body" id="tcContent">
+                    <p style="color:var(--text-light); text-align:center;">Loading terms and conditions...</p>
+                </div>
+                <div class="tc-card-footer">
+                    <div class="tc-scroll-hint" id="tcScrollHint">↓ Scroll down to read the full terms</div>
+                    <label class="tc-checkbox-label" id="tcCheckboxLabel" style="display:none;">
+                        <input type="checkbox" id="tcCheckbox" onchange="onTcCheckboxChange()">
+                        <span>I have read and agree to the Terms & Conditions</span>
+                    </label>
+                    <button class="tc-agree-btn" id="tcAgreeBtn" onclick="agreeToTerms()" disabled>Accept & Continue</button>
+                    <br>
+                    <button class="tc-decline-btn" onclick="declineTerms()">Decline &mdash; sign out</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== INTERNAL PORTAL BAR ===== -->
+        <div class="internal-bar">
+            <span>🔒 Internal Host Portal — Authorized Access Only</span>
+        </div>
 
         <!-- ===== WEATHER BANNER ===== -->
         <div id="weatherBanner" class="weather-banner">
@@ -1473,6 +1891,7 @@
                 <div style="opacity:0.6;">Loading weather data for Bogus Basin...</div>
                 <div class="weather-banner-actions">
                     <button class="admin-toggle" onclick="openAdminModal()">Management Portal</button>
+                    <button class="signout-btn" onclick="siteSignOut()">Sign Out</button>
                 </div>
             </div>
         </div>
@@ -1480,8 +1899,8 @@
         <!-- ===== HEADER ===== -->
         <header>
             <div class="content-inner">
-                <h1><svg class="header-icon" viewBox="0 0 64 64"><defs><linearGradient id="snowGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#a8d8ff"/><stop offset="50%" stop-color="#4db8ff"/><stop offset="100%" stop-color="#1a8cff"/></linearGradient></defs><g stroke="url(#snowGrad)" stroke-width="3.5" stroke-linecap="round" fill="none"><line x1="32" y1="4" x2="32" y2="60"/><line x1="7.76" y1="18" x2="56.24" y2="46"/><line x1="7.76" y1="46" x2="56.24" y2="18"/><line x1="32" y1="4" x2="26" y2="10"/><line x1="32" y1="4" x2="38" y2="10"/><line x1="32" y1="60" x2="26" y2="54"/><line x1="32" y1="60" x2="38" y2="54"/><line x1="7.76" y1="18" x2="14" y2="20.4"/><line x1="7.76" y1="18" x2="11.6" y2="24"/><line x1="56.24" y1="46" x2="50" y2="43.6"/><line x1="56.24" y1="46" x2="52.4" y2="40"/><line x1="56.24" y1="18" x2="50" y2="20.4"/><line x1="56.24" y1="18" x2="52.4" y2="24"/><line x1="7.76" y1="46" x2="14" y2="43.6"/><line x1="7.76" y1="46" x2="11.6" y2="40"/><circle cx="32" cy="32" r="3" fill="url(#snowGrad)" stroke="none"/></g></svg> Bogus Basin Mountain Hosts <svg class="header-icon" viewBox="0 0 64 64"><defs><linearGradient id="sunGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ffe066"/><stop offset="50%" stop-color="#ffb833"/><stop offset="100%" stop-color="#ff8c1a"/></linearGradient></defs><circle cx="32" cy="32" r="12" fill="url(#sunGrad)"/><g stroke="url(#sunGrad)" stroke-width="3.5" stroke-linecap="round"><line x1="32" y1="4" x2="32" y2="14"/><line x1="32" y1="50" x2="32" y2="60"/><line x1="4" y1="32" x2="14" y2="32"/><line x1="50" y1="32" x2="60" y2="32"/><line x1="12.2" y1="12.2" x2="19.27" y2="19.27"/><line x1="44.73" y1="44.73" x2="51.8" y2="51.8"/><line x1="51.8" y1="12.2" x2="44.73" y2="19.27"/><line x1="19.27" y1="44.73" x2="12.2" y2="51.8"/></g></svg></h1>
-                <p class="subtitle">Internal Host Portal &bull; National Ski Patrol &bull; Bogus Basin, Idaho</p>
+                <h1><svg class="header-icon" viewBox="0 0 64 64"><defs><linearGradient id="snowGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#a8d8ff"/><stop offset="50%" stop-color="#4db8ff"/><stop offset="100%" stop-color="#1a8cff"/></linearGradient></defs><g stroke="url(#snowGrad)" stroke-width="3.5" stroke-linecap="round" fill="none"><line x1="32" y1="4" x2="32" y2="60"/><line x1="7.76" y1="18" x2="56.24" y2="46"/><line x1="7.76" y1="46" x2="56.24" y2="18"/><line x1="32" y1="4" x2="26" y2="10"/><line x1="32" y1="4" x2="38" y2="10"/><line x1="32" y1="60" x2="26" y2="54"/><line x1="32" y1="60" x2="38" y2="54"/><line x1="7.76" y1="18" x2="14" y2="20.4"/><line x1="7.76" y1="18" x2="11.6" y2="24"/><line x1="56.24" y1="46" x2="50" y2="43.6"/><line x1="56.24" y1="46" x2="52.4" y2="40"/><line x1="56.24" y1="18" x2="50" y2="20.4"/><line x1="56.24" y1="18" x2="52.4" y2="24"/><line x1="7.76" y1="46" x2="14" y2="43.6"/><line x1="7.76" y1="46" x2="11.6" y2="40"/><circle cx="32" cy="32" r="3" fill="url(#snowGrad)" stroke="none"/></g></svg> Mountain Hosts — Internal Portal <svg class="header-icon" viewBox="0 0 64 64"><defs><linearGradient id="sunGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ffe066"/><stop offset="50%" stop-color="#ffb833"/><stop offset="100%" stop-color="#ff8c1a"/></linearGradient></defs><circle cx="32" cy="32" r="12" fill="url(#sunGrad)"/><g stroke="url(#sunGrad)" stroke-width="3.5" stroke-linecap="round"><line x1="32" y1="4" x2="32" y2="14"/><line x1="32" y1="50" x2="32" y2="60"/><line x1="4" y1="32" x2="14" y2="32"/><line x1="50" y1="32" x2="60" y2="32"/><line x1="12.2" y1="12.2" x2="19.27" y2="19.27"/><line x1="44.73" y1="44.73" x2="51.8" y2="51.8"/><line x1="51.8" y1="12.2" x2="44.73" y2="19.27"/><line x1="19.27" y1="44.73" x2="12.2" y2="51.8"/></g></svg></h1>
+                <p class="subtitle">Bogus Basin &bull; National Ski Patrol &bull; Boise, Idaho</p>
             </div>
         </header>
 
@@ -1644,6 +2063,22 @@
                     <div class="section-line"></div>
                 </div>
                 <div class="link-grid content-inner">
+                    <!-- Bogus Basin Host Discounts -->
+                    <div class="link-card" style="cursor:default; border-left:4px solid var(--accent);">
+                        <div class="link-icon" style="background:linear-gradient(135deg, var(--primary) 0%, #2a5e5e 100%);">
+                            <span style="font-size:1.6em;">⛷️</span>
+                        </div>
+                        <div class="link-content">
+                            <h3>Bogus Basin Host Discounts <span style="color: #22c55e; font-weight: bold;">• On-Mountain</span></h3>
+                            <p style="margin-bottom:8px;">Bogus Basin Hosts receive the following discounts at the ski area:</p>
+                            <ul style="margin:0 0 0 18px; padding:0; list-style:disc; line-height:1.8; font-size:0.93em; color:var(--text-mid);">
+                                <li><strong>20% off</strong> retail store</li>
+                                <li><strong>50% off</strong> tune and wax</li>
+                                <li><strong>50% off</strong> food and drink <span style="font-size:0.85em; color:var(--text-light);">(alcoholic beverages not included)</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Ridgeline Bike & Ski -->
                     <a href="https://www.ridgelinebikenski.com/" class="link-card" target="_blank" rel="noopener noreferrer">
                         <div class="link-icon">
                             <img src="https://www.google.com/s2/favicons?domain=ridgelinebikenski.com&sz=128" alt="Ridgeline Bike & Ski">
@@ -1685,14 +2120,34 @@
                     <div class="section-line"></div>
                 </div>
                 <p class="content-inner" style="color: var(--text-mid); margin-bottom: 16px;">
-                    Share updates, ask questions, or discuss topics with fellow Mountain Hosts.
+                    Sign in with Google to share updates, ask questions, or discuss topics with fellow Mountain Hosts.
                 </p>
 
-                <!-- Comment Form (always visible, no auth needed) -->
-                <div class="comment-form content-inner" id="commentFormContainer">
+                <!-- Comment Auth Bar -->
+                <div class="comment-auth-bar content-inner" id="commentAuthBar">
+                    <div id="commentAuthSignedOut">
+                        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+                            <button class="google-sign-in-btn" onclick="commentSignIn()">
+                                <svg viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+                                Sign in with Google
+                            </button>
+                        </div>
+                    </div>
+                    <div id="commentAuthSignedIn" style="display:none;">
+                        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; width:100%;">
+                            <div class="user-info">
+                                <img class="user-avatar" id="commentUserAvatar" src="" alt="">
+                                <span>Signed in as <span class="user-name" id="commentUserName"></span></span>
+                            </div>
+                            <button class="comment-signout-btn" onclick="commentSignOut()">Sign Out</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comment Form (shown only when signed in) -->
+                <div class="comment-form content-inner" id="commentFormContainer" style="display:none;">
                     <h4>Post a Message</h4>
                     <div class="form-row">
-                        <input type="text" id="commentName" placeholder="Your name" maxlength="60" style="width:100%; padding:10px 14px; border:1.5px solid var(--border); border-radius:10px; font-family:inherit; font-size:0.95em; margin-bottom:10px;">
                         <textarea id="commentBody" placeholder="What's on your mind?" maxlength="1000"></textarea>
                     </div>
                     <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
@@ -1718,10 +2173,27 @@
         <footer>
             <div>
                 <p>&copy; 2026 Bogus Basin Mountain Hosts &bull; Internal Portal &bull; National Ski Patrol</p>
-                <p><a href="https://www.nsp.org/" target="_blank">NSP.org</a> &nbsp;&bull;&nbsp; <a href="https://bogusbasin.org/" target="_blank">BogusBasin.org</a></p>
+                <p><a href="https://www.nsp.org/" target="_blank">NSP.org</a> &nbsp;&bull;&nbsp; <a href="https://bogusbasin.org/" target="_blank">BogusBasin.org</a> &nbsp;&bull;&nbsp; <a href="#" onclick="event.preventDefault(); openTcViewer()">Terms & Conditions</a></p>
             </div>
         </footer>
     </div><!-- end .site-container -->
+
+    <!-- ===== T&C VIEWER MODAL (for referencing from page) ===== -->
+    <div class="tc-viewer-overlay" id="tcViewerOverlay" onclick="if(event.target===this)closeTcViewer()">
+        <div class="tc-viewer-card">
+            <div class="tc-viewer-header">
+                <h2>📜 Terms & Conditions</h2>
+                <button class="modal-close" onclick="closeTcViewer()">✕</button>
+            </div>
+            <div class="tc-viewer-body" id="tcViewerContent">
+                <p style="color:var(--text-light);">Loading...</p>
+            </div>
+            <div class="tc-viewer-footer">
+                <span class="tc-agreed-info" id="tcAgreedInfo"></span>
+                <button class="admin-btn" onclick="closeTcViewer()">Close</button>
+            </div>
+        </div>
+    </div>
 
     <!-- ===== BIO MODAL ===== -->
     <div id="bioOverlay" class="bio-overlay" onclick="if(event.target===this)closeBio()"></div>
@@ -1758,7 +2230,8 @@
                         <button class="admin-tab" onclick="switchAdminTab('announcements', this)">📢 Announcements</button>
                         <button class="admin-tab" onclick="switchAdminTab('minutes', this)">📝 Minutes</button>
                         <button class="admin-tab" onclick="switchAdminTab('photo', this)">📸 Group Photo</button>
-                        <button class="admin-tab" onclick="switchAdminTab('settings', this)">🔧 Settings</button>
+                        <button class="admin-tab" onclick="switchAdminTab('terms', this)">📜 Terms</button>
+                        <button class="admin-tab" onclick="switchAdminTab('settings', this)">🔧 Account Management</button>
                     </div>
 
                     <!-- ===== COMMENTS ADMIN ===== -->
@@ -1956,11 +2429,44 @@
                             <span>No photo set</span>
                         </div>
                     </div>
-                    <!-- ===== SETTINGS (Admin Emails) ===== -->
+                    <!-- ===== TERMS & CONDITIONS ADMIN ===== -->
+                    <div id="adminTerms" class="admin-panel">
+                        <div class="admin-form">
+                            <h4>📜 Terms & Conditions</h4>
+                            <p style="color:var(--text-light); margin-bottom:12px; font-size:0.9em;">Edit the terms and conditions that users must agree to when first accessing the internal portal. Changes will require all users to re-accept.</p>
+                            <div class="rte-toolbar">
+                                <button type="button" class="rte-btn" onclick="rteCmd('bold','tcEditor')" title="Bold"><b>B</b></button>
+                                <button type="button" class="rte-btn" onclick="rteCmd('italic','tcEditor')" title="Italic"><i>I</i></button>
+                                <button type="button" class="rte-btn" onclick="rteCmd('underline','tcEditor')" title="Underline"><u>U</u></button>
+                                <span class="rte-sep"></span>
+                                <button type="button" class="rte-btn" onclick="rteCmd('insertUnorderedList','tcEditor')" title="Bullet List">• List</button>
+                                <button type="button" class="rte-btn" onclick="rteCmd('insertOrderedList','tcEditor')" title="Numbered List">1. List</button>
+                                <span class="rte-sep"></span>
+                                <button type="button" class="rte-btn" onclick="rteInsertLink('tcEditor')" title="Insert Link">🔗 Link</button>
+                                <button type="button" class="rte-btn" onclick="rteCmd('formatBlock','tcEditor','BLOCKQUOTE')" title="Quote">❝ Quote</button>
+                                <span class="rte-sep"></span>
+                                <button type="button" class="rte-btn" onclick="rteCmd('removeFormat','tcEditor')" title="Clear Formatting">✘</button>
+                            </div>
+                            <div id="tcEditor" class="rte-editor" contenteditable="true" style="min-height:300px;" data-placeholder="Enter your Terms & Conditions here..."></div>
+                            <div style="margin-top:16px; display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+                                <button class="admin-btn" onclick="saveTermsAndConditions()">Save & Publish</button>
+                                <button class="admin-btn small" style="background:var(--text-light);" onclick="loadDefaultTC()">Load Default Template</button>
+                            </div>
+                            <p style="color:var(--text-light); margin-top:10px; font-size:0.82em;">⚠️ Saving will update the "last updated" timestamp. All users who previously agreed will be required to review and accept the new terms on their next visit.</p>
+                            <div id="tcLastUpdatedInfo" style="margin-top:12px; font-size:0.85em; color:var(--text-mid);"></div>
+                        </div>
+                        <div class="admin-form" style="margin-top:24px;">
+                            <h4>📋 User Agreements</h4>
+                            <p style="color:var(--text-light); margin-bottom:12px; font-size:0.9em;">Users who have agreed to the current terms and conditions.</p>
+                            <div id="tcAgreementsList"></div>
+                        </div>
+                    </div>
+
+                    <!-- ===== ACCOUNT MANAGEMENT (Admin Emails + Authorized Users) ===== -->
                     <div id="adminSettings" class="admin-panel">
                         <div class="admin-form">
                             <h4>🔧 Admin Accounts</h4>
-                            <p style="color:var(--text-light); margin-bottom:12px; font-size:0.9em;">Google email addresses authorized to access the Management Portal.</p>
+                            <p style="color:var(--text-light); margin-bottom:12px; font-size:0.9em;">Google email addresses authorized to access the Management Portal (admins can also view the site).</p>
                             <div id="adminEmailsList"></div>
                             <div style="display:flex; gap:8px; margin-top:12px;">
                                 <input type="email" id="newAdminEmail" placeholder="email@gmail.com" style="flex:1; padding:10px 14px; border:1.5px solid var(--border); border-radius:10px; font-family:inherit; font-size:0.9em;">
@@ -1970,6 +2476,17 @@
                                 <strong>⚠️ No admin emails configured yet.</strong><br>
                                 Your email has been added as the first admin. You can add more above.
                             </div>
+                        </div>
+
+                        <div class="admin-form" style="margin-top:24px;">
+                            <h4>👥 Authorized Users</h4>
+                            <p style="color:var(--text-light); margin-bottom:12px; font-size:0.9em;">Google email addresses authorized to view the internal portal. Admins are automatically authorized and do not need to be added here.</p>
+                            <div id="authorizedUsersList"></div>
+                            <div style="display:flex; gap:8px; margin-top:12px;">
+                                <input type="email" id="newAuthorizedUser" placeholder="host@gmail.com" style="flex:1; padding:10px 14px; border:1.5px solid var(--border); border-radius:10px; font-family:inherit; font-size:0.9em;">
+                                <button class="admin-btn" onclick="addAuthorizedUser()">Add</button>
+                            </div>
+                            <p style="color:var(--text-light); margin-top:8px; font-size:0.82em;">💡 Users listed here can view all site content and participate in discussions, but cannot access the Management Portal.</p>
                         </div>
                     </div>
 
@@ -2013,11 +2530,39 @@
 
         // ===== STATE =====
         let currentUser = null; // Firebase auth user (admin)
+        let siteUser = null;    // Authorized user who passed the gate
 
         // Admin emails loaded from Firestore (not hardcoded for security)
         let adminEmails = [];
         let adminEmailsLoaded = false;
         const adminEmailsDoc = db.collection('internal_settings').doc('adminEmails');
+
+        // Authorized user emails (non-admin hosts who can view the site)
+        let authorizedUsers = [];
+        let authorizedUsersLoaded = false;
+        const authorizedUsersDoc = db.collection('internal_settings').doc('authorizedUsers');
+
+        // Terms & Conditions
+        let tcContent = '';
+        let tcLastUpdated = 0;
+        let tcLoaded = false;
+        const tcDoc = db.collection('internal_settings').doc('termsAndConditions');
+        const tcAgreementsCol = db.collection('internal_tc_agreements');
+
+        // Load T&C from Firestore
+        tcDoc.onSnapshot(docSnap => {
+            if (docSnap.exists) {
+                tcContent = docSnap.data().content || '';
+                tcLastUpdated = docSnap.data().lastUpdated || 0;
+            } else {
+                tcContent = '';
+                tcLastUpdated = 0;
+            }
+            tcLoaded = true;
+        }, err => {
+            console.error('T&C listener error:', err);
+            tcLoaded = true;
+        });
 
         // Load admin emails from Firestore
         adminEmailsDoc.onSnapshot(docSnap => {
@@ -2037,10 +2582,133 @@
                 }
                 updateAdminUI();
             }
+            // Re-check gate authorization if user is waiting
+            recheckGateAuth();
         }, err => {
             console.error('Admin emails listener error:', err);
             adminEmailsLoaded = true;
         });
+
+        // Load authorized users from Firestore
+        authorizedUsersDoc.onSnapshot(docSnap => {
+            if (docSnap.exists) {
+                authorizedUsers = (docSnap.data().emails || []).map(e => e.toLowerCase());
+            } else {
+                authorizedUsers = [];
+            }
+            authorizedUsersLoaded = true;
+            recheckGateAuth();
+        }, err => {
+            console.error('Authorized users listener error:', err);
+            authorizedUsersLoaded = true;
+        });
+
+        function isAuthorizedUser(email) {
+            if (!email) return false;
+            const e = email.toLowerCase();
+            return adminEmails.includes(e) || authorizedUsers.includes(e);
+        }
+
+        // ===== AUTH GATE LOGIC =====
+        function recheckGateAuth() {
+            const user = auth.currentUser;
+            if (!user || !adminEmailsLoaded || !authorizedUsersLoaded) return;
+            if (isAuthorizedUser(user.email)) {
+                openGate(user);
+            }
+        }
+
+        function openGate(user) {
+            siteUser = user;
+            document.getElementById('authGate').classList.add('hidden');
+            document.getElementById('siteContainer').style.display = '';
+            // Set up comment user from gate sign-in
+            if (!sessionStorage.getItem('commentUser')) {
+                const info = {
+                    uid: user.uid,
+                    name: user.displayName || user.email,
+                    email: user.email,
+                    photo: user.photoURL || ''
+                };
+                sessionStorage.setItem('commentUser', JSON.stringify(info));
+                updateCommentAuthUI();
+            }
+            // Check T&C acceptance
+            checkTermsAcceptance(user);
+        }
+
+        function closeGate() {
+            siteUser = null;
+            document.getElementById('authGate').classList.remove('hidden');
+            document.getElementById('siteContainer').style.display = 'none';
+            document.getElementById('gateError').style.display = 'none';
+            document.getElementById('gateLoading').style.display = 'none';
+            document.getElementById('gateSignOutBtn').style.display = 'none';
+        }
+
+        window.gateSignIn = async function() {
+            const errEl = document.getElementById('gateError');
+            const loadEl = document.getElementById('gateLoading');
+            const signOutBtn = document.getElementById('gateSignOutBtn');
+            errEl.style.display = 'none';
+            loadEl.style.display = 'block';
+            try {
+                const result = await auth.signInWithPopup(googleProvider);
+                const user = result.user;
+
+                // Bootstrap: if no admin emails AND no authorized users exist, first sign-in becomes admin
+                if (adminEmailsLoaded && authorizedUsersLoaded && adminEmails.length === 0 && authorizedUsers.length === 0) {
+                    const email = user.email.toLowerCase();
+                    await adminEmailsDoc.set({ emails: [email] });
+                    await authorizedUsersDoc.set({ emails: [email] });
+                    adminEmails = [email];
+                    authorizedUsers = [email];
+                    currentUser = user;
+                    openGate(user);
+                    updateAdminUI();
+                    loadEl.style.display = 'none';
+                    return;
+                }
+
+                // Wait briefly for Firestore listeners to catch up
+                await new Promise(r => setTimeout(r, 500));
+
+                if (isAuthorizedUser(user.email)) {
+                    openGate(user);
+                    loadEl.style.display = 'none';
+                } else {
+                    loadEl.style.display = 'none';
+                    errEl.textContent = 'Access denied. Your Google account (' + user.email + ') is not authorized to view this site. Contact a site admin to request access.';
+                    errEl.style.display = 'block';
+                    signOutBtn.style.display = 'inline-block';
+                }
+            } catch (err) {
+                console.error('Gate sign-in error:', err);
+                loadEl.style.display = 'none';
+                if (err.code !== 'auth/popup-closed-by-user') {
+                    errEl.textContent = 'Sign-in failed: ' + err.message;
+                    errEl.style.display = 'block';
+                }
+            }
+        };
+
+        window.gateSignOut = async function() {
+            await auth.signOut();
+            sessionStorage.removeItem('commentUser');
+            commentUser = null;
+            currentUser = null;
+            siteUser = null;
+            closeGate();
+        };
+
+        window.siteSignOut = async function() {
+            await auth.signOut();
+            sessionStorage.removeItem('commentUser');
+            commentUser = null;
+            currentUser = null;
+            siteUser = null;
+            closeGate();
+        };
         let comments = [];
         let leaders = [];
         let directors = [];
@@ -2115,28 +2783,101 @@
             }
         });
 
-        // ===== COMMENT (no auth required for internal portal) =====
-        function getInternalUid() {
-            let uid = sessionStorage.getItem('internalUid');
-            if (!uid) { uid = 'internal-' + Date.now() + '-' + Math.random().toString(36).slice(2,8); sessionStorage.setItem('internalUid', uid); }
-            return uid;
-        }
-        let commentUser = { uid: getInternalUid(), name: 'Host', email: '' };
+        // ===== COMMENT AUTH (Google Sign-In for commenters) =====
+        let commentUser = null;
         const googleProvider = new firebase.auth.GoogleAuthProvider();
+
+        function updateCommentAuthUI() {
+            const stored = sessionStorage.getItem('commentUser');
+            const signedOutEl = document.getElementById('commentAuthSignedOut');
+            const signedInEl = document.getElementById('commentAuthSignedIn');
+            const formEl = document.getElementById('commentFormContainer');
+
+            if (stored) {
+                commentUser = JSON.parse(stored);
+                signedOutEl.style.display = 'none';
+                signedInEl.style.display = 'block';
+                formEl.style.display = 'block';
+                document.getElementById('commentUserName').textContent = commentUser.name;
+                const avatar = document.getElementById('commentUserAvatar');
+                if (commentUser.photo) {
+                    avatar.src = commentUser.photo;
+                    avatar.style.display = '';
+                } else {
+                    avatar.style.display = 'none';
+                }
+            } else {
+                commentUser = null;
+                signedOutEl.style.display = 'block';
+                signedInEl.style.display = 'none';
+                formEl.style.display = 'none';
+            }
+        }
+
+        window.commentSignIn = async function() {
+            try {
+                const result = await auth.signInWithPopup(googleProvider);
+                const user = result.user;
+                const info = {
+                    uid: user.uid,
+                    name: user.displayName || user.email,
+                    email: user.email,
+                    photo: user.photoURL || ''
+                };
+                sessionStorage.setItem('commentUser', JSON.stringify(info));
+                updateCommentAuthUI();
+            } catch (err) {
+                console.error('Google sign-in error:', err);
+                if (err.code !== 'auth/popup-closed-by-user') {
+                    alert('Sign-in failed: ' + err.message);
+                }
+            }
+        };
+
+        window.commentSignOut = function() {
+            sessionStorage.removeItem('commentUser');
+            commentUser = null;
+            auth.signOut();
+            updateCommentAuthUI();
+        };
+
+        // Initialize comment auth UI on load
+        updateCommentAuthUI();
 
         // ===== FIREBASE AUTH (Admin) =====
         auth.onAuthStateChanged(user => {
             if (user && user.providerData && user.providerData[0] && user.providerData[0].providerId === 'google.com') {
                 const email = user.email;
+
+                // Check gate authorization
+                if (adminEmailsLoaded && authorizedUsersLoaded) {
+                    if (isAuthorizedUser(email)) {
+                        openGate(user);
+                    } else {
+                        // Not authorized — keep gate closed
+                        closeGate();
+                    }
+                }
+
+                // Set up commenter info for discussion board
+                if (!sessionStorage.getItem('commentUser')) {
+                    const info = {
+                        uid: user.uid,
+                        name: user.displayName || user.email,
+                        email: user.email,
+                        photo: user.photoURL || ''
+                    };
+                    sessionStorage.setItem('commentUser', JSON.stringify(info));
+                    updateCommentAuthUI();
+                }
                 if (isAdminEmail(email)) {
-                    // Google user with admin email = admin
                     currentUser = user;
                 } else {
-                    // Google user without admin email = commenter only
                     currentUser = null;
                 }
             } else if (!user) {
                 currentUser = null;
+                closeGate();
             }
             updateAdminUI();
         });
@@ -2154,6 +2895,8 @@
                 renderAdminAnnouncements();
                 renderAdminPhoto();
                 renderAdminEmails();
+                renderAuthorizedUsers();
+                renderAdminTC();
             }
         }
 
@@ -2197,8 +2940,13 @@
         window.adminSignOut = async function() {
             await auth.signOut();
             currentUser = null;
+            siteUser = null;
+            sessionStorage.removeItem('commentUser');
+            commentUser = null;
+            updateCommentAuthUI();
             document.getElementById('adminLogin').style.display = 'block';
             document.getElementById('adminContent').style.display = 'none';
+            closeGate();
         };
 
         // ===== ADMIN EMAIL MANAGEMENT =====
@@ -2279,6 +3027,319 @@
                 console.error('Seed error:', e);
             }
         };
+
+        // ===== AUTHORIZED USERS MANAGEMENT =====
+        function renderAuthorizedUsers() {
+            const list = document.getElementById('authorizedUsersList');
+            if (!list) return;
+            if (authorizedUsers.length === 0) {
+                list.innerHTML = '<div class="no-items-msg">No authorized users configured. Only admins can currently access the site.</div>';
+                return;
+            }
+            list.innerHTML = authorizedUsers.map(email => `
+                <div class="admin-list-item" style="padding:10px 14px;">
+                    <div class="item-info">
+                        <strong>${escHtml(email)}</strong>
+                        ${adminEmails.includes(email) ? '<span style="margin-left:8px; font-size:0.8em; color:var(--accent); background:var(--accent-pale); padding:2px 8px; border-radius:6px;">also admin</span>' : ''}
+                    </div>
+                    <div class="item-actions">
+                        <button class="admin-btn small danger" onclick="removeAuthorizedUser('${escHtml(email)}')">Remove</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        window.addAuthorizedUser = async function() {
+            const input = document.getElementById('newAuthorizedUser');
+            const email = input.value.trim().toLowerCase();
+            if (!email || !email.includes('@')) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+            if (authorizedUsers.includes(email)) {
+                alert('This email is already authorized.');
+                return;
+            }
+            try {
+                const newList = [...authorizedUsers, email];
+                await authorizedUsersDoc.set({ emails: newList });
+                input.value = '';
+            } catch(e) {
+                console.error('Add authorized user error:', e);
+                alert('Failed to add authorized user.');
+            }
+        };
+
+        window.removeAuthorizedUser = async function(email) {
+            if (!confirm('Remove ' + email + ' from site access?')) return;
+            try {
+                const newList = authorizedUsers.filter(e => e !== email.toLowerCase());
+                await authorizedUsersDoc.set({ emails: newList });
+            } catch(e) {
+                console.error('Remove authorized user error:', e);
+                alert('Failed to remove authorized user.');
+            }
+        };
+
+        // ===== TERMS & CONDITIONS LOGIC =====
+        async function checkTermsAcceptance(user) {
+            // Wait for T&C to load
+            const waitForTC = () => new Promise(resolve => {
+                if (tcLoaded) return resolve();
+                const interval = setInterval(() => {
+                    if (tcLoaded) { clearInterval(interval); resolve(); }
+                }, 100);
+            });
+            await waitForTC();
+
+            // If no T&C content exists yet, skip (admin hasn't set it up)
+            if (!tcContent || !tcLastUpdated) return;
+
+            // Check if user has agreed to current version
+            try {
+                const agreementDoc = await tcAgreementsCol.doc(user.uid).get();
+                if (agreementDoc.exists) {
+                    const data = agreementDoc.data();
+                    if (data.tcVersion >= tcLastUpdated) {
+                        // Already agreed to current or newer version
+                        return;
+                    }
+                }
+            } catch (err) {
+                console.error('Error checking T&C agreement:', err);
+            }
+
+            // Show T&C overlay
+            showTermsOverlay();
+        }
+
+        function showTermsOverlay() {
+            const overlay = document.getElementById('tcOverlay');
+            const contentEl = document.getElementById('tcContent');
+            const hint = document.getElementById('tcScrollHint');
+            const checkboxLabel = document.getElementById('tcCheckboxLabel');
+            const checkbox = document.getElementById('tcCheckbox');
+            const agreeBtn = document.getElementById('tcAgreeBtn');
+
+            contentEl.innerHTML = tcContent;
+            overlay.classList.remove('hidden');
+
+            // Reset state
+            checkbox.checked = false;
+            agreeBtn.disabled = true;
+            checkboxLabel.style.display = 'none';
+            hint.style.display = '';
+
+            // Monitor scroll — show checkbox when user reaches bottom
+            contentEl.addEventListener('scroll', function checkScroll() {
+                if (contentEl.scrollTop + contentEl.clientHeight >= contentEl.scrollHeight - 20) {
+                    hint.style.display = 'none';
+                    checkboxLabel.style.display = 'flex';
+                }
+            });
+
+            // If content is short enough to not scroll, show checkbox immediately
+            requestAnimationFrame(() => {
+                if (contentEl.scrollHeight <= contentEl.clientHeight + 20) {
+                    hint.style.display = 'none';
+                    checkboxLabel.style.display = 'flex';
+                }
+            });
+        }
+
+        window.onTcCheckboxChange = function() {
+            const checked = document.getElementById('tcCheckbox').checked;
+            document.getElementById('tcAgreeBtn').disabled = !checked;
+        };
+
+        window.agreeToTerms = async function() {
+            if (!siteUser) return;
+            const checkbox = document.getElementById('tcCheckbox');
+            if (!checkbox.checked) return;
+            const btn = document.getElementById('tcAgreeBtn');
+            btn.disabled = true;
+            btn.textContent = 'Saving...';
+            try {
+                await tcAgreementsCol.doc(siteUser.uid).set({
+                    email: siteUser.email,
+                    name: siteUser.displayName || siteUser.email,
+                    agreedAt: Date.now(),
+                    tcVersion: tcLastUpdated
+                });
+                document.getElementById('tcOverlay').classList.add('hidden');
+            } catch (err) {
+                console.error('Error saving T&C agreement:', err);
+                alert('Failed to save agreement: ' + err.message);
+                btn.disabled = false;
+                btn.textContent = 'Accept & Continue';
+                return;
+            }
+            btn.disabled = false;
+            btn.textContent = 'Accept & Continue';
+        };
+
+        window.declineTerms = async function() {
+            // Decline = sign out
+            await auth.signOut();
+            sessionStorage.removeItem('commentUser');
+            commentUser = null;
+            currentUser = null;
+            siteUser = null;
+            document.getElementById('tcOverlay').classList.add('hidden');
+            closeGate();
+        };
+
+        // T&C Viewer (from footer link)
+        window.openTcViewer = function() {
+            const viewer = document.getElementById('tcViewerOverlay');
+            const content = document.getElementById('tcViewerContent');
+            const info = document.getElementById('tcAgreedInfo');
+
+            if (tcContent) {
+                content.innerHTML = tcContent;
+            } else {
+                content.innerHTML = '<p style="color:var(--text-light); text-align:center;">No terms and conditions have been published yet.</p>';
+            }
+
+            // Show agreement info
+            if (siteUser) {
+                tcAgreementsCol.doc(siteUser.uid).get().then(doc => {
+                    if (doc.exists && doc.data().agreedAt) {
+                        const d = new Date(doc.data().agreedAt);
+                        info.textContent = '✅ You agreed on ' + d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                    } else {
+                        info.textContent = '';
+                    }
+                }).catch(() => { info.textContent = ''; });
+            }
+            viewer.classList.add('open');
+        };
+
+        window.closeTcViewer = function() {
+            document.getElementById('tcViewerOverlay').classList.remove('open');
+        };
+
+        // Admin: Save T&C
+        window.saveTermsAndConditions = async function() {
+            const editor = document.getElementById('tcEditor');
+            const content = editor.innerHTML.trim();
+            if (!content || content === '<br>') {
+                alert('Please enter terms and conditions content.');
+                return;
+            }
+            try {
+                await tcDoc.set({
+                    content: content,
+                    lastUpdated: Date.now()
+                });
+                alert('Terms & Conditions saved. All users will be required to re-accept on their next visit.');
+            } catch (err) {
+                console.error('Save T&C error:', err);
+                alert('Failed to save: ' + err.message);
+            }
+        };
+
+        // Admin: Load default T&C template
+        window.loadDefaultTC = function() {
+            const editor = document.getElementById('tcEditor');
+            editor.innerHTML = `
+<h3>1. Acceptance of Terms</h3>
+<p>By accessing and using the Mountain Hosts Internal Portal ("the Portal"), you agree to be bound by these Terms and Conditions. If you do not agree with any part of these terms, you must not access the Portal.</p>
+
+<h3>2. Authorized Access</h3>
+<p>The Portal is restricted to authorized Bogus Basin Mountain Host volunteers and staff. Your access credentials are personal and must not be shared with unauthorized individuals. You are responsible for all activity conducted under your account.</p>
+
+<h3>3. Confidentiality</h3>
+<p>Information available on the Portal, including but not limited to member contact details, internal communications, meeting minutes, scheduling information, and organizational documents, is confidential and intended solely for Mountain Host program use. You agree not to:</p>
+<ul>
+    <li>Share Portal content with non-authorized individuals</li>
+    <li>Copy or distribute internal communications externally</li>
+    <li>Use member contact information for non-program purposes</li>
+    <li>Screenshot or reproduce confidential materials for unauthorized use</li>
+</ul>
+
+<h3>4. Acceptable Use</h3>
+<p>When using the Portal, including the Discussion Board, you agree to:</p>
+<ul>
+    <li>Communicate respectfully and professionally with fellow volunteers</li>
+    <li>Refrain from posting inappropriate, offensive, or discriminatory content</li>
+    <li>Use the Portal only for Mountain Host program-related activities</li>
+    <li>Report any security concerns or unauthorized access to an administrator</li>
+</ul>
+
+<h3>5. Content & Intellectual Property</h3>
+<p>Content you post on the Portal (comments, replies, etc.) may be moderated or removed by administrators at their discretion. The Mountain Hosts organization retains the right to use, modify, or remove any content posted to the Portal.</p>
+
+<h3>6. Privacy</h3>
+<p>Your Google account email address and display name are visible to other authorized users when you post comments or participate in discussions. Your information will not be shared outside the Mountain Hosts organization. The Portal uses Google Firebase for authentication and data storage.</p>
+
+<h3>7. Disclaimer of Warranties</h3>
+<p>The Portal is provided "as is" without warranties of any kind. The Mountain Hosts organization does not guarantee uninterrupted access or that the Portal will be free from errors or security vulnerabilities.</p>
+
+<h3>8. Modifications</h3>
+<p>These Terms and Conditions may be updated at any time. You will be notified of changes and required to re-accept the updated terms before continuing to use the Portal.</p>
+
+<h3>9. Termination</h3>
+<p>Your access to the Portal may be revoked at any time by an administrator, with or without cause. Upon termination of your volunteer status with the Mountain Hosts program, your Portal access will be removed.</p>
+
+<h3>10. Contact</h3>
+<p>For questions about these Terms and Conditions or the Portal, please contact a Mountain Hosts administrator.</p>
+            `.trim();
+        };
+
+        // Admin: Render T&C info
+        function renderAdminTC() {
+            const editor = document.getElementById('tcEditor');
+            const info = document.getElementById('tcLastUpdatedInfo');
+
+            // Load current T&C content into editor
+            if (tcContent) {
+                editor.innerHTML = tcContent;
+                if (tcLastUpdated) {
+                    const d = new Date(tcLastUpdated);
+                    info.innerHTML = '<strong>Last updated:</strong> ' + d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) + ' at ' + d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+                }
+            } else {
+                editor.innerHTML = '';
+                info.innerHTML = '<em>No terms and conditions published yet. Click "Load Default Template" to start with a standard template.</em>';
+            }
+
+            // Load agreements list
+            renderTcAgreements();
+        }
+
+        async function renderTcAgreements() {
+            const list = document.getElementById('tcAgreementsList');
+            if (!list) return;
+            try {
+                const snap = await tcAgreementsCol.orderBy('agreedAt', 'desc').get();
+                if (snap.empty) {
+                    list.innerHTML = '<div class="no-items-msg">No users have agreed to the terms yet.</div>';
+                    return;
+                }
+                list.innerHTML = snap.docs.map(doc => {
+                    const data = doc.data();
+                    const d = new Date(data.agreedAt);
+                    const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                    const isCurrent = data.tcVersion >= tcLastUpdated;
+                    return `
+                        <div class="admin-list-item" style="padding:10px 14px;">
+                            <div class="item-info">
+                                <strong>${escHtml(data.name || data.email)}</strong>
+                                <span style="color:var(--text-light); font-size:0.85em; margin-left:8px;">${escHtml(data.email)}</span>
+                            </div>
+                            <div class="item-actions" style="display:flex; align-items:center; gap:8px;">
+                                <span style="font-size:0.82em; color:${isCurrent ? 'var(--success)' : 'var(--danger)'};">${isCurrent ? '✅ Current' : '⚠️ Outdated'}</span>
+                                <span style="font-size:0.8em; color:var(--text-light);">${dateStr}</span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } catch (err) {
+                console.error('Error loading T&C agreements:', err);
+                list.innerHTML = '<div class="no-items-msg">Error loading agreements.</div>';
+            }
+        }
 
         // ===== ADMIN MODAL =====
         window.openAdminModal = function() {
@@ -2656,7 +3717,7 @@
                     <div class="comment-body">${escHtml(c.body)}</div>
                     <div class="comment-reactions">${reactionsHtml}</div>
                     <div class="comment-actions">
-                        <button class="comment-action-btn" onclick="toggleReplyForm('${c.id}')">💬 Reply</button>
+                        ${commentUser ? `<button class="comment-action-btn" onclick="toggleReplyForm('${c.id}')">💬 Reply</button>` : ''}
                     </div>
                     <div class="reply-form" id="reply-form-${c.id}">
                         <textarea id="reply-body-${c.id}" placeholder="Write a reply..." maxlength="1000"></textarea>
@@ -2681,15 +3742,14 @@
         // ================================================================
 
         window.submitComment = async function() {
-            const name = document.getElementById('commentName').value.trim();
+            if (!commentUser) { alert('Please sign in with Google to post.'); return; }
             const body = document.getElementById('commentBody').value.trim();
-            if (!name) { alert('Please enter your name.'); return; }
             if (!body) { alert('Please enter a message.'); return; }
             try {
                 await commentsCol.add({
-                    name: name,
-                    email: '',
-                    uid: 'internal-' + Date.now(),
+                    name: commentUser.name,
+                    email: commentUser.email,
+                    uid: commentUser.uid,
                     body,
                     date: Date.now(),
                     parentId: null,
@@ -2709,14 +3769,14 @@
         };
 
         window.submitReply = async function(parentId) {
-            const name = document.getElementById('commentName') ? document.getElementById('commentName').value.trim() : 'Host';
+            if (!commentUser) { alert('Please sign in with Google to reply.'); return; }
             const body = document.getElementById('reply-body-' + parentId).value.trim();
             if (!body) { alert('Please enter a reply.'); return; }
             try {
                 await commentsCol.add({
-                    name: name || 'Host',
-                    email: '',
-                    uid: 'internal-' + Date.now(),
+                    name: commentUser.name,
+                    email: commentUser.email,
+                    uid: commentUser.uid,
                     body,
                     date: Date.now(),
                     parentId,
@@ -2733,6 +3793,10 @@
         };
 
         window.toggleReaction = async function(commentId, emoji) {
+            if (!commentUser) {
+                alert('Please sign in with Google to react.');
+                return;
+            }
             try {
                 const docRef = commentsCol.doc(commentId);
                 const doc = await docRef.get();
@@ -3437,6 +4501,7 @@
                                 Mountain Cams
                             </a>
                             <button class="admin-toggle" onclick="openAdminModal()">Management Portal</button>
+                            <button class="signout-btn" onclick="siteSignOut()">Sign Out</button>
                         </div>
                     </div>
                 `;
@@ -3447,6 +4512,7 @@
                     <div class="weather-banner-actions">
                         <a href="https://bogusbasin.org/your-mountain/conditions-webcams/" class="webcam-btn" target="_blank" rel="noopener noreferrer">Mountain Cams</a>
                         <button class="admin-toggle" onclick="openAdminModal()">Management Portal</button>
+                        <button class="signout-btn" onclick="siteSignOut()">Sign Out</button>
                     </div>
                 </div>`;
             }
