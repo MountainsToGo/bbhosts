@@ -2296,6 +2296,7 @@
                             <label>Role</label>
                             <input type="text" id="directorRole" list="directorRoleList" placeholder="Type or select a role" maxlength="60">
                             <datalist id="directorRoleList">
+                                <option value="Chairman">
                                 <option value="President">
                                 <option value="Vice President">
                                 <option value="Secretary">
@@ -3547,19 +3548,20 @@
         // ===== BOARD OF DIRECTORS RENDER =====
         function renderBoard() {
             const grid = document.getElementById('boardGrid');
-            const ROLE_ORDER = ['President', 'Vice President', 'Secretary', 'Treasurer', 'Member'];
+            const ROLE_ORDER = ['Chairman', 'President', 'Vice President', 'Secretary', 'Treasurer', 'Member'];
             const sorted = [...directors].sort((a,b) => {
                 const ai = ROLE_ORDER.indexOf(a.role); const bi = ROLE_ORDER.indexOf(b.role);
                 return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
             });
-            const president = sorted.filter(d => d.role === 'President');
-            const others = sorted.filter(d => d.role !== 'President');
+            const chairman = sorted.filter(d => d.role === 'Chairman');
+            const others = sorted.filter(d => d.role !== 'Chairman');
 
             const makeCard = (d) => {
+                const isTop = d.role === 'Chairman';
                 const photoContent = d.photoUrl
                     ? `<img src="${escHtml(d.photoUrl)}" alt="${escHtml(d.name)}" onerror="this.style.display='none';this.parentElement.textContent='🏛️'">`
                     : '🏛️';
-                return `<div class="leader-card ${d.role === 'President' ? 'director' : ''}" onclick="showBoardBio('${d.id}')">
+                return `<div class="leader-card ${isTop ? 'director' : ''}" onclick="showBoardBio('${d.id}')">
                     <div class="leader-photo">${photoContent}</div>
                     <div class="leader-name">${escHtml(d.name)}</div>
                     <div class="leader-role">${escHtml(d.role)}</div>
@@ -3573,10 +3575,10 @@
             }
 
             let html = '<div class="org-chart">';
-            if (president.length > 0) {
-                html += `<div class="org-director">${president.map(makeCard).join('')}</div>`;
+            if (chairman.length > 0) {
+                html += `<div class="org-director">${chairman.map(makeCard).join('')}</div>`;
             }
-            if (president.length > 0 && others.length > 0) {
+            if (chairman.length > 0 && others.length > 0) {
                 html += '<div class="org-connector-down"></div>';
                 const count = others.length;
                 if (count > 1) {
@@ -3588,7 +3590,7 @@
                 html += '<div class="org-leads">';
                 others.forEach(d => {
                     html += `<div class="org-lead-col">
-                        ${president.length > 0 ? '<div class="org-lead-line"></div>' : ''}
+                        ${chairman.length > 0 ? '<div class="org-lead-line"></div>' : ''}
                         ${makeCard(d)}
                     </div>`;
                 });
@@ -3610,7 +3612,7 @@
             document.getElementById('bioOverlay').innerHTML = `
                 <div class="bio-modal" onclick="event.stopPropagation()" style="position:relative;">
                     <button class="bio-modal-close" onclick="closeBio()">&times;</button>
-                    <div class="bio-modal-header ${d.role === 'President' ? 'director' : ''}">
+                    <div class="bio-modal-header ${d.role === 'Chairman' ? 'director' : ''}">
                         <div class="bio-modal-photo">${photoContent}</div>
                         <div class="bio-modal-name">${escHtml(d.name)}</div>
                         <div class="bio-modal-role">${escHtml(d.role)}</div>
