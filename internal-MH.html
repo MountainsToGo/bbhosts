@@ -2633,6 +2633,8 @@
                 sessionStorage.setItem('commentUser', JSON.stringify(info));
                 updateCommentAuthUI();
             }
+            // Start Firestore listeners now that user is authenticated
+            startFirestoreListeners();
             // Check T&C acceptance
             checkTermsAcceptance(user);
         }
@@ -3379,69 +3381,75 @@
 
         // ================================================================
         //  FIRESTORE REAL-TIME LISTENERS
+        //  Deferred until after auth gate — internal collections require authentication
         // ================================================================
+        let listenersStarted = false;
 
-        // ----- LEADERS -----
-        leadersCol.orderBy('role').onSnapshot(snapshot => {
-            leaders = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            renderLeadership();
-            refreshAdminIfOpen();
-        }, err => {
-            console.error('Leaders listener error:', err);
-            // Seed defaults if collection is empty on first load
-            seedDefaults('leaders');
-        });
+        function startFirestoreListeners() {
+            if (listenersStarted) return;
+            listenersStarted = true;
 
-        // ----- BOARD OF DIRECTORS -----
-        directorsCol.orderBy('role').onSnapshot(snapshot => {
-            directors = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            renderBoard();
-            refreshAdminIfOpen();
-        }, err => {
-            console.error('Directors listener error:', err);
-        });
+            // ----- LEADERS -----
+            leadersCol.orderBy('role').onSnapshot(snapshot => {
+                leaders = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                renderLeadership();
+                refreshAdminIfOpen();
+            }, err => {
+                console.error('Leaders listener error:', err);
+                seedDefaults('leaders');
+            });
 
-        // ----- ANNOUNCEMENTS -----
-        announcementsCol.orderBy('date', 'desc').onSnapshot(snapshot => {
-            announcements = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            renderAnnouncements();
-            refreshAdminIfOpen();
-        }, err => {
-            console.error('Announcements listener error:', err);
-            seedDefaults('announcements');
-        });
+            // ----- BOARD OF DIRECTORS -----
+            directorsCol.orderBy('role').onSnapshot(snapshot => {
+                directors = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                renderBoard();
+                refreshAdminIfOpen();
+            }, err => {
+                console.error('Directors listener error:', err);
+            });
 
-        // ----- MEETING MINUTES -----
-        minutesCol.orderBy('meetingDate', 'desc').onSnapshot(snapshot => {
-            minutes = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            renderMinutes();
-            refreshAdminIfOpen();
-        }, err => {
-            console.error('Minutes listener error:', err);
-        });
+            // ----- ANNOUNCEMENTS -----
+            announcementsCol.orderBy('date', 'desc').onSnapshot(snapshot => {
+                announcements = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                renderAnnouncements();
+                refreshAdminIfOpen();
+            }, err => {
+                console.error('Announcements listener error:', err);
+                seedDefaults('announcements');
+            });
 
-        // ----- COMMENTS -----
-        commentsCol.orderBy('date', 'desc').onSnapshot(snapshot => {
-            comments = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            renderComments();
-            refreshAdminIfOpen();
-        }, err => {
-            console.error('Comments listener error:', err);
-        });
+            // ----- MEETING MINUTES -----
+            minutesCol.orderBy('meetingDate', 'desc').onSnapshot(snapshot => {
+                minutes = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                renderMinutes();
+                refreshAdminIfOpen();
+            }, err => {
+                console.error('Minutes listener error:', err);
+            });
 
-        // ----- SETTINGS (group photo) -----
-        settingsDoc.onSnapshot(docSnap => {
-            if (docSnap.exists) {
-                const data = docSnap.data();
-                groupPhoto = { url: data.photoUrl || '', caption: data.photoCaption || '' };
-            } else {
-                groupPhoto = { url: '', caption: '' };
-            }
-            renderGroupPhoto();
-            refreshAdminIfOpen();
-        }, err => {
-            console.error('Settings listener error:', err);
-        });
+            // ----- COMMENTS -----
+            commentsCol.orderBy('date', 'desc').onSnapshot(snapshot => {
+                comments = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                renderComments();
+                refreshAdminIfOpen();
+            }, err => {
+                console.error('Comments listener error:', err);
+            });
+
+            // ----- SETTINGS (group photo) -----
+            settingsDoc.onSnapshot(docSnap => {
+                if (docSnap.exists) {
+                    const data = docSnap.data();
+                    groupPhoto = { url: data.photoUrl || '', caption: data.photoCaption || '' };
+                } else {
+                    groupPhoto = { url: '', caption: '' };
+                }
+                renderGroupPhoto();
+                refreshAdminIfOpen();
+            }, err => {
+                console.error('Settings listener error:', err);
+            });
+        }
 
         // Seed default data if Firestore collections are empty
         async function seedDefaults(collection) {
