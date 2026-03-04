@@ -463,6 +463,9 @@
             width: 100%;
             max-width: 220px;
         }
+        .leader-card {
+            cursor: pointer;
+        }
         .leader-card:hover {
             transform: translateY(-2px);
             box-shadow: 0 12px 40px rgba(0,0,0,0.08);
@@ -552,6 +555,120 @@
             letter-spacing: 0.06em;
             font-weight: 500;
         }
+        .leader-card .leader-bio-hint {
+            color: var(--accent);
+            font-size: 0.75em;
+            margin-top: 8px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .leader-card:hover .leader-bio-hint {
+            opacity: 1;
+        }
+
+        /* Bio Modal */
+        .bio-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15,20,35,0.6);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 1001;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            overflow-y: auto;
+        }
+        .bio-overlay.open { display: flex; }
+        .bio-modal {
+            background: var(--white);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 520px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.25);
+            animation: bioSlide 0.3s ease;
+        }
+        @keyframes bioSlide {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .bio-modal-header {
+            text-align: center;
+            padding: 32px 28px 20px;
+        }
+        .bio-modal-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 16px;
+            overflow: hidden;
+            border: 3px solid var(--border);
+            background: var(--bg-soft);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5em;
+            color: var(--text-light);
+        }
+        .bio-modal-photo img {
+            width: 100%; height: 100%; object-fit: cover;
+        }
+        .bio-modal-header.director .bio-modal-photo {
+            border-color: var(--accent);
+        }
+        .bio-modal-name {
+            font-size: 1.25em;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .bio-modal-role {
+            color: var(--text-light);
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            font-weight: 500;
+            margin-top: 4px;
+        }
+        .bio-modal-body {
+            padding: 0 28px 28px;
+            font-size: 0.95em;
+            line-height: 1.7;
+            color: var(--text-dark);
+        }
+        .bio-modal-body p { margin-bottom: 12px; }
+        .bio-modal-body img { max-width: 100%; border-radius: 8px; margin: 8px 0; }
+        .bio-modal-body a { color: var(--primary-light); }
+        .bio-modal-body blockquote {
+            border-left: 3px solid var(--accent);
+            padding-left: 14px;
+            margin: 12px 0;
+            color: var(--text-mid);
+            font-style: italic;
+        }
+        .bio-no-content {
+            text-align: center;
+            color: var(--text-light);
+            font-style: italic;
+            padding: 20px 0;
+        }
+        .bio-modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: var(--bg-soft);
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 1.2em;
+            cursor: pointer;
+            color: var(--text-mid);
+            transition: background 0.2s;
+        }
+        .bio-modal-close:hover { background: var(--border); }
 
         /* ===== LINKS GRID ===== */
         .link-grid {
@@ -1283,6 +1400,9 @@
             .org-connector-bar { height: 0; overflow: hidden; }
             .org-lead-line { height: 20px; }
             .leader-card { max-width: 280px; width: 100%; }
+            .bio-modal { max-width: 95vw; }
+            .bio-modal-header { padding: 24px 20px 16px; }
+            .bio-modal-body { padding: 0 20px 20px; }
             .link-grid { grid-template-columns: 1fr; }
             .become-host { flex-direction: column; text-align: center; }
             .become-host-actions { justify-content: center; }
@@ -1603,6 +1723,9 @@
         </footer>
     </div><!-- end .site-container -->
 
+    <!-- ===== BIO MODAL ===== -->
+    <div id="bioOverlay" class="bio-overlay" onclick="if(event.target===this)closeBio()"></div>
+
     <!-- ===== ADMIN / MANAGEMENT MODAL ===== -->
     <div id="adminOverlay" class="modal-overlay" onclick="if(event.target===this)closeAdminModal()">
         <div class="modal">
@@ -1662,6 +1785,24 @@
                             </div>
                             <div class="upload-preview" id="leaderPhotoPreview"></div>
                             <div class="upload-progress" id="leaderUploadProgress"><div class="upload-progress-bar" id="leaderUploadBar"></div></div>
+                            <label>Bio</label>
+                            <div class="rte-toolbar">
+                                <button type="button" class="rte-btn" onclick="rteCmd('bold','leaderBio')" title="Bold"><b>B</b></button>
+                                <button type="button" class="rte-btn" onclick="rteCmd('italic','leaderBio')" title="Italic"><i>I</i></button>
+                                <button type="button" class="rte-btn" onclick="rteCmd('underline','leaderBio')" title="Underline"><u>U</u></button>
+                                <span class="rte-sep"></span>
+                                <button type="button" class="rte-btn" onclick="rteCmd('insertUnorderedList','leaderBio')" title="Bullet List">• List</button>
+                                <button type="button" class="rte-btn" onclick="rteCmd('insertOrderedList','leaderBio')" title="Numbered List">1. List</button>
+                                <span class="rte-sep"></span>
+                                <button type="button" class="rte-btn" onclick="rteInsertLink('leaderBio')" title="Insert Link">🔗 Link</button>
+                                <button type="button" class="rte-btn" onclick="rteCmd('formatBlock','leaderBio','BLOCKQUOTE')" title="Quote">❝ Quote</button>
+                                <span class="rte-sep"></span>
+                                <button type="button" class="rte-btn" onclick="document.getElementById('leaderBioPhotoFile').click()" title="Insert Photo">📷 Photo</button>
+                                <input type="file" id="leaderBioPhotoFile" accept="image/*" style="display:none;" onchange="rteInsertPhoto(this,'leaderBio')">
+                                <span class="rte-sep"></span>
+                                <button type="button" class="rte-btn" onclick="rteCmd('removeFormat','leaderBio')" title="Clear Formatting">✘</button>
+                            </div>
+                            <div id="leaderBio" class="rte-editor" contenteditable="true" style="min-height:120px;" data-placeholder="Write a bio for this person..."></div>
                             <input type="hidden" id="leaderEditId" value="">
                             <input type="hidden" id="leaderPhotoUrl" value="">
                             <button class="admin-btn" onclick="saveLeader()">Save Leader</button>
@@ -2248,10 +2389,11 @@
                 const photoContent = l.photoUrl
                     ? `<img src="${escHtml(l.photoUrl)}" alt="${escHtml(l.name)}" onerror="this.style.display='none';this.parentElement.textContent='${l.role === 'Director' ? '⭐' : '⭐'}'">`
                     : (l.role === 'Director' ? '⭐' : '⭐');
-                return `<div class="leader-card ${l.role === 'Director' ? 'director' : ''}">
+                return `<div class="leader-card ${l.role === 'Director' ? 'director' : ''}" onclick="showBio('${l.id}')">
                     <div class="leader-photo">${photoContent}</div>
                     <div class="leader-name">${escHtml(l.name)}</div>
                     <div class="leader-role">${escHtml(l.role)}</div>
+                    <div class="leader-bio-hint">Tap for bio</div>
                 </div>`;
             };
 
@@ -2659,7 +2801,8 @@
                 if (fileInput.files && fileInput.files[0]) {
                     photoUrl = await compressImage(fileInput.files[0], 300, 300, 0.8);
                 }
-                const data = { name, role };
+                const bio = document.getElementById('leaderBio').innerHTML.trim();
+                const data = { name, role, bio };
                 if (photoUrl) data.photoUrl = photoUrl;
                 if (editId) {
                     await leadersCol.doc(editId).update(data);
@@ -2680,6 +2823,7 @@
             document.getElementById('leaderRole').value = l.role;
             document.getElementById('leaderEditId').value = l.id;
             document.getElementById('leaderPhotoUrl').value = l.photoUrl || '';
+            document.getElementById('leaderBio').innerHTML = l.bio || '';
             const preview = document.getElementById('leaderPhotoPreview');
             if (l.photoUrl) {
                 preview.innerHTML = `<img src="${escHtml(l.photoUrl)}" alt="Current photo"><br><span style="font-size:0.8em;color:var(--text-light);">Current photo (choose new file to replace)</span>`;
@@ -2706,6 +2850,7 @@
             document.getElementById('leaderPhotoUrl').value = '';
             document.getElementById('leaderPhotoFile').value = '';
             document.getElementById('leaderPhotoPreview').innerHTML = '';
+            document.getElementById('leaderBio').innerHTML = '';
         };
 
         // ===== ADMIN: ANNOUNCEMENTS =====
@@ -2786,35 +2931,70 @@
         };
 
         // ===== RICH TEXT EDITOR HELPERS =====
-        window.rteCmd = function(cmd, value) {
-            document.getElementById('annContent').focus();
+        // Generic: editorId defaults to 'annContent' for backward compat
+        window.rteCmd = function(cmd, editorId, value) {
+            // Handle old 2-arg calls: rteCmd('bold','BLOCKQUOTE') where 2nd arg is value not editorId
+            if (editorId && !document.getElementById(editorId)) {
+                value = editorId;
+                editorId = 'annContent';
+            }
+            const target = editorId || 'annContent';
+            document.getElementById(target).focus();
             document.execCommand(cmd, false, value || null);
         };
 
-        window.rteInsertLink = function() {
+        window.rteInsertLink = function(editorId) {
+            const target = editorId || 'annContent';
             const url = prompt('Enter URL:', 'https://');
             if (url) {
-                document.getElementById('annContent').focus();
+                document.getElementById(target).focus();
                 document.execCommand('createLink', false, url);
-                // Make links open in new tab
-                const editor = document.getElementById('annContent');
+                const editor = document.getElementById(target);
                 editor.querySelectorAll('a').forEach(a => { a.target = '_blank'; a.rel = 'noopener noreferrer'; });
             }
         };
 
-        window.rteInsertPhoto = async function(input) {
+        window.rteInsertPhoto = async function(input, editorId) {
+            const target = editorId || 'annContent';
             if (!input.files || !input.files[0]) return;
             const file = input.files[0];
             if (file.size > 5 * 1024 * 1024) { alert('Photo must be under 5 MB.'); input.value = ''; return; }
             try {
                 const dataUrl = await compressImage(file, 800, 600, 0.8);
-                document.getElementById('annContent').focus();
+                document.getElementById(target).focus();
                 document.execCommand('insertImage', false, dataUrl);
             } catch(e) {
                 console.error('Photo insert error:', e);
                 alert('Failed to insert photo.');
             }
             input.value = '';
+        };
+
+        // ===== BIO MODAL =====
+        window.showBio = function(leaderId) {
+            const l = leaders.find(x => x.id === leaderId);
+            if (!l) return;
+            const photoContent = l.photoUrl
+                ? `<img src="${escHtml(l.photoUrl)}" alt="${escHtml(l.name)}">`
+                : (l.role === 'Director' ? '⭐' : '⭐');
+            const bioContent = l.bio && l.bio.replace(/<[^>]*>/g, '').trim()
+                ? l.bio
+                : '<div class="bio-no-content">No bio available yet.</div>';
+            document.getElementById('bioOverlay').innerHTML = `
+                <div class="bio-modal" onclick="event.stopPropagation()" style="position:relative;">
+                    <button class="bio-modal-close" onclick="closeBio()">&times;</button>
+                    <div class="bio-modal-header ${l.role === 'Director' ? 'director' : ''}">
+                        <div class="bio-modal-photo">${photoContent}</div>
+                        <div class="bio-modal-name">${escHtml(l.name)}</div>
+                        <div class="bio-modal-role">${escHtml(l.role)}</div>
+                    </div>
+                    <div class="bio-modal-body">${bioContent}</div>
+                </div>`;
+            document.getElementById('bioOverlay').classList.add('open');
+        };
+
+        window.closeBio = function() {
+            document.getElementById('bioOverlay').classList.remove('open');
         };
 
         // ===== GROUP PHOTO RENDERING =====
