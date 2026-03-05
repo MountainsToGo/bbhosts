@@ -24,9 +24,10 @@ A step-by-step guide for managing the Bogus Basin Mountain Hosts website through
 1. Open the site: [https://mountainstogo.github.io/bbhosts/mountain-hosts.html](https://mountainstogo.github.io/bbhosts/mountain-hosts.html)
 2. Click the **"Management Portal"** button in the page header
 3. Click **Sign in with Google** and sign in with a Google account that is on the authorized admin list
-4. After successful login, you'll see five tabs: 💬 Comments, ⭐ Leadership, 📢 Announcements, 📸 Group Photo, 🔧 Account Management
-5. To sign out, click the **Sign Out** button in the weather banner (top-right, next to Management Portal) or in the admin panel
-6. To close the admin portal, click the **✕** button or click outside the modal
+4. After successful login, you'll see the **icon grid control panel** with five management cards: 💬 Comments, ⭐ Leadership, 📢 Announcements, 📸 Group Photo, 🔧 Account Mgmt
+5. Click any card to open that management panel. Use the **← Control Panel** button at the top of each panel to return to the dashboard
+6. To sign out, click the **Sign Out** button in the weather banner (top-right, next to Management Portal) or in the admin panel
+7. To close the admin portal, click the **✕** button or click outside the modal
 
 > **Note:** The **Sign Out** button in the weather banner only appears when you are signed in. Signing out clears your Google session for both comments and the admin panel.
 
@@ -303,7 +304,7 @@ For a brand-new admin getting started:
 
 - [ ] Open the site and click **Management Portal**
 - [ ] Sign in with your authorized Google account
-- [ ] Explore the five tabs: Comments, Leadership, Announcements, Group Photo, Account Management
+- [ ] Explore the five management cards: Comments, Leadership, Announcements, Group Photo, Account Management
 - [ ] Edit the placeholder leaders with real names, photos, and bios
 - [ ] Upload a group photo
 - [ ] Create your first announcement

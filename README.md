@@ -18,15 +18,17 @@ A public-facing website for the **Bogus Basin Mountain Hosts** volunteer program
 - **National Ski Patrol** — Link to nsp.org
 - **Become a Host** — Call-to-action section with QR code placeholder
 - **Announcements & Awards** — Rich-text announcements with inline photos, categorized as announcements, awards, events, or stories
-- **Guest Comments** — Threaded comment system with Google sign-in, per-user emoji reaction toggles, community guidelines, and admin replies
+- **Guest Comments** — Threaded comment system with Google sign-in, per-user emoji reaction toggles, and admin replies
+- **Community Guidelines** — Six-rule code of conduct displayed inline in the comment section
 
-### Admin Portal
+### Admin Portal (Management Portal)
 - **Google Sign-In** — Admin access via Google accounts whitelisted in Firestore
-- **Comment Management** — View, reply as admin, and delete comments (including all nested replies)
-- **Leadership Management** — Add, edit, and delete leadership entries with drag-and-drop photo uploads and rich text bios
-- **Announcement Management** — Rich text editor with bold, italic, underline, lists, links, blockquotes, and inline photo support
-- **Group Photo Management** — Upload and caption the hero group photo
-- **Account Management** — Manage authorized admin email addresses
+- **Icon Grid Control Panel** — Modern dashboard with 5 clickable cards, each opening a management panel with a "← Control Panel" back button:
+  - 💬 **Comments** — View, reply as admin, and delete comments (including all nested replies)
+  - ⭐ **Leadership** — Add, edit, and delete leadership entries with drag-and-drop photo uploads and rich text bios
+  - 📢 **Announcements** — Rich text editor with bold, italic, underline, lists, links, blockquotes, and inline photo support
+  - 📸 **Group Photo** — Upload and caption the hero group photo
+  - 🔧 **Account Management** — Manage authorized admin email addresses
 
 ### Design
 - **Winter/Summer Dual Theme** — Gradient palette blending winter blues/navies with summer golds/greens, representing the year-round volunteer program
@@ -61,7 +63,8 @@ BBHost/
 ├── README.md                    # This file (public site documentation)
 ├── README-internal.md           # Internal portal documentation
 ├── INSTRUCTIONS.md              # Public site admin instructions
-└── INSTRUCTIONS-internal.md     # Internal portal admin instructions
+├── INSTRUCTIONS-internal.md     # Internal portal admin instructions
+└── ARCHITECTURE.md              # System architecture documentation
 ```
 
 ---

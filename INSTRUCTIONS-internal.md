@@ -18,11 +18,12 @@ A step-by-step guide for managing the Bogus Basin Mountain Hosts **internal port
 8. [Managing Announcements](#8-managing-announcements)
 9. [Managing Meeting Minutes](#9-managing-meeting-minutes)
 10. [Managing the Group Photo](#10-managing-the-group-photo)
-11. [Managing Admin Emails (Account Management)](#11-managing-admin-emails-account-management)
-12. [Deploying Firestore Rules](#12-deploying-firestore-rules)
-13. [Firebase Console Quick Reference](#13-firebase-console-quick-reference)
-14. [First-Time Admin Bootstrap](#14-first-time-admin-bootstrap)
-15. [Troubleshooting](#15-troubleshooting)
+11. [Managing Access Requests](#11-managing-access-requests)
+12. [Managing Admin Emails (Account Management)](#12-managing-admin-emails-account-management)
+13. [Deploying Firestore Rules](#13-deploying-firestore-rules)
+14. [Firebase Console Quick Reference](#14-firebase-console-quick-reference)
+15. [First-Time Admin Bootstrap](#15-first-time-admin-bootstrap)
+16. [Troubleshooting](#16-troubleshooting)
 
 ---
 
@@ -62,9 +63,10 @@ The internal portal is **protected by a sign-in gate**. All visitors must sign i
 2. Sign in through the auth gate (if not already signed in)
 3. Click the **"Management Portal"** button in the weather banner at the top of the page
 4. Click **Sign in with Google** and sign in with a Google account that is on the admin emails list
-5. After successful login, you'll see eight tabs: 💬 Comments, ⭐ Leadership, 🏛️ Board, 📢 Announcements, 📝 Minutes, 📸 Group Photo, 📜 Terms, 🔧 Account Management
-6. To sign out, click **Sign Out** in the top-right of the admin panel
-7. To close the admin portal, click the **✕** button or click outside the modal
+5. After successful login, you'll see the **icon grid control panel** with nine management cards: 💬 Comments, ⭐ Leadership, 🏛️ Board, 📢 Announcements, 📝 Minutes, 📸 Group Photo, 📜 Terms, 📥 Requests, 🔧 Account Mgmt
+6. Click any card to open that management panel. Use the **← Control Panel** button at the top of each panel to return to the dashboard
+7. To sign out, click **Sign Out** in the top-right of the admin panel
+8. To close the admin portal, click the **✕** button or click outside the modal
 
 > **Note:** Only Google accounts listed in the **Admin Emails** (Account Management tab) can access the Management Portal. Authorized users who are not admins will see a "not authorized" message if they try to access the Management Portal.
 
@@ -82,9 +84,9 @@ The Account Management tab (🔧) includes an **Authorized Users** section where
 5. The user can now sign in and access the site immediately
 
 ### Remove an Authorized User
-1. Find the email in the authorized users list
-2. Click **Remove** next to it
-3. That user will no longer be able to access the site (they'll see "Access denied" on their next visit)
+1. Click **Remove** next to the email
+2. That user will no longer be able to access the site (they'll see "Access denied" on their next visit)
+3. An **access-revoked email notification** is automatically sent to the removed user via EmailJS
 
 ### Important Notes
 - **Admins are automatically authorized** — you do not need to add admin emails to the authorized users list
@@ -289,7 +291,59 @@ The Group Photo tab (📸) lets you upload a hero photo for the About section.
 
 ---
 
-## 11. Managing Admin Emails (Account Management)
+## 11. Managing Access Requests
+
+The Requests card (📥) lets you review and act on access requests from unauthorized users who want to join the portal.
+
+### How Access Requests Work
+1. When an unauthorized user signs in through the auth gate, they see a request form
+2. They fill in their role/position and reason for requesting access
+3. On submission:
+   - The request is saved to Firestore (`internal_access_requests` collection)
+   - An **email notification** is sent to all admin email addresses via EmailJS
+   - A **confirmation email** is sent to the requester
+4. The user sees a "Request Submitted" confirmation and can check back later for status
+
+### Reviewing Requests
+1. Open the Management Portal and click the **📥 Requests** card
+2. Use the filter buttons to view: **Pending**, **Approved**, **Denied**, or **All** requests
+3. Each request shows:
+   - Name, email, role, and reason
+   - Submission date
+   - Current status badge (⏳ Pending, ✅ Approved, ✗ Denied)
+   - Review info (who reviewed it and when)
+
+### Approve a Request
+1. Find the pending request
+2. Click **✓ Approve**
+3. The requester's email is automatically added to the **Authorized Users** list
+4. An **approval email** is sent to the requester via EmailJS
+5. The requester can now sign in and access the portal
+
+### Deny a Request
+1. Find the pending request
+2. Click **✗ Deny**
+3. A **denial email** is sent to the requester via EmailJS
+4. The requester sees "Request Denied" if they return to the sign-in gate
+
+### Reconsider a Denied Request
+- Denied requests show an **"✓ Approve (Reconsider)"** button, allowing you to approve a previously denied request
+
+### Email Notifications Summary
+
+| Event | Email Sent To | Content |
+|---|---|---|
+| Request submitted | All admin emails | New access request notification |
+| Request submitted | Requester | Confirmation that request was received |
+| Request approved | Requester | Approval notification with sign-in instructions |
+| Request denied | Requester | Denial notification |
+| User access revoked | Removed user | Access revocation notification |
+
+> **Note:** Email notifications are sent via EmailJS (client-side). If an email fails to send, the request action still completes — only a console warning is logged.
+
+---
+
+## 12. Managing Admin Emails (Account Management)
 
 The Account Management tab (🔧) has an **Admin Accounts** section for managing admin access.
 
@@ -306,7 +360,7 @@ The Account Management tab (🔧) has an **Admin Accounts** section for managing
 
 ---
 
-## 12. Deploying Firestore Rules
+## 13. Deploying Firestore Rules
 
 The file `firestore.rules` defines read/write permissions. **Deploy via the Firebase Console** whenever rules are updated.
 
@@ -327,12 +381,13 @@ The file `firestore.rules` defines read/write permissions. **Deploy via the Fire
 | `internal_minutes` | ✅ | ✅ | Full CRUD for signed-in users |
 | `internal_settings` | Public read* | ✅ | *Public read needed for auth gate |
 | `internal_tc_agreements` | ✅ | ✅ | Per-user T&C acceptance records |
+| `internal_access_requests` | ✅ | ✅ | Access request records (composite index required) |
 
 > **Important:** `internal_settings` must remain publicly readable so the auth gate can verify user authorization before the full sign-in flow completes.
 
 ---
 
-## 13. Firebase Console Quick Reference
+## 14. Firebase Console Quick Reference
 
 **Console URL:** [https://console.firebase.google.com/project/mtn-hosts/](https://console.firebase.google.com/project/mtn-hosts/)
 
@@ -363,9 +418,11 @@ The file `firestore.rules` defines read/write permissions. **Deploy via the Fire
 | `internal_settings/termsAndConditions` | T&C content and version timestamp |
 | `internal_tc_agreements` | Per-user T&C acceptance records |
 
+| `internal_access_requests` | Access request records |
+
 ---
 
-## 14. First-Time Admin Bootstrap
+## 15. First-Time Admin Bootstrap
 
 When the internal portal is deployed for the first time with no users configured:
 
@@ -380,7 +437,7 @@ When the internal portal is deployed for the first time with no users configured
 
 ---
 
-## 15. Troubleshooting
+## 16. Troubleshooting
 
 ### "Access denied" at the sign-in gate
 - **Cause:** The user's Google email is not on the authorized users or admin emails list
@@ -396,7 +453,7 @@ When the internal portal is deployed for the first time with no users configured
 
 ### "Missing or insufficient permissions" error
 - **Cause:** Firestore rules haven't been deployed or are outdated
-- **Fix:** Deploy the latest `firestore.rules` via the Firebase Console (see [Section 11](#11-deploying-firestore-rules))
+- **Fix:** Deploy the latest `firestore.rules` via the Firebase Console (see [Section 13](#13-deploying-firestore-rules))
 
 ### Removed a user but they can still see the site
 - **Cause:** The user may still have an active Firebase auth session cached in their browser
@@ -422,6 +479,14 @@ When the internal portal is deployed for the first time with no users configured
 - **Cause:** GitHub Pages caching
 - **Fix:** Wait 1–5 minutes after pushing, then hard-refresh (`Ctrl+Shift+R`)
 
+### Firestore composite index error (access requests)
+- **Cause:** The access requests query requires a composite index on `uid` + `requestedAt`
+- **Fix:** Open the internal portal in a browser, sign in with an unauthorized account, open DevTools (F12 → Console), and click the Firestore link in the error message to create the index automatically in the Firebase Console
+
+### Access request emails not sending
+- **Cause:** Admin email in Firestore may be incorrect, or EmailJS service may be misconfigured
+- **Fix:** Verify admin emails in the 🔧 Account Management tab match the intended recipients. Check the EmailJS dashboard for delivery logs. Note that EmailJS is domain-locked to `mountainstogo.github.io` and will not work from `localhost`
+
 ---
 
 ## Quick Start Checklist
@@ -429,17 +494,19 @@ When the internal portal is deployed for the first time with no users configured
 For a brand-new admin getting started:
 
 - [ ] Open the internal portal and sign in (first sign-in becomes admin)
-- [ ] Click **Management Portal** and explore the eight tabs
+- [ ] Click **Management Portal** and explore the nine management cards
 - [ ] Go to **🔧 Account Management** and add other admin emails under **🔧 Admin Accounts**
 - [ ] Add all Mountain Host Google emails under **👥 Authorized Users**
-- [ ] Go to **📜 Terms** tab, load the default template, customize, and publish
+- [ ] Go to **📜 Terms** card, load the default template, customize, and publish
 - [ ] Edit the placeholder leaders with real names, photos, and bios
-- [ ] Add Board of Directors members under the **🏛️ Board** tab
+- [ ] Add Board of Directors members under the **🏛️ Board** card
 - [ ] Upload a group photo
 - [ ] Create your first announcement
 - [ ] Add meeting minutes
+- [ ] Check the **📥 Requests** card for any pending access requests
 - [ ] Share the site URL with authorized hosts
 - [ ] Deploy the updated Firestore rules via the Firebase Console
+- [ ] Create the Firestore composite index for access requests (see [Troubleshooting](#16-troubleshooting))
 
 ---
 

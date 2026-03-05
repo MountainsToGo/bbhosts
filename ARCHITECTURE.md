@@ -302,7 +302,7 @@ graph TD
 ```mermaid
 graph LR
     subgraph "Client-Side APIs"
-        WEATHER["Open-Meteo API<br/><i>Weather data</i>"]
+        WEATHER["NOAA Weather API<br/><i>api.weather.gov</i>"]
         GOOGLE["Google OAuth 2.0<br/><i>Sign-in</i>"]
         EMAILJS["EmailJS<br/><i>Access notifications</i>"]
     end
@@ -323,7 +323,7 @@ graph LR
 |---------|---------|----------|
 | Firebase Auth | Google sign-in provider | Config in source (client-side) |
 | Cloud Firestore | Real-time data storage | Config in source (client-side) |
-| Open-Meteo API | Weather conditions for banner | None (public API) |
+| NOAA Weather API | Weather conditions for banner | None (public API) |
 | EmailJS | Access request notifications | Key in source (client-side) |
 
 ---
@@ -338,6 +338,8 @@ graph LR
 | **Data Isolation** | `comments`, `leaders`, etc. | `internal_*` prefixed collections |
 | **T&C Gating** | None | Must accept T&C on first visit |
 | **Access Requests** | N/A | Unauthorized users can request access |
+| **Email Notifications** | None | EmailJS (request, approval, denial, revocation) |
+| **EmailJS Domain Lock** | N/A | Locked to `mountainstogo.github.io` |
 | **Firestore Rules** | Public read, auth write | Auth required for read & write |
 
 ---
@@ -359,5 +361,5 @@ graph LR
 - **Auth:** Firebase Auth with Google provider
 - **Database:** Cloud Firestore (real-time listeners via `onSnapshot`)
 - **Email:** EmailJS (client-side, free tier — 200/month)
-- **Weather:** Open-Meteo API (no key required)
+- **Weather:** NOAA Weather API (api.weather.gov, no key required)
 - **SDK Versions:** Firebase compat v10.12.0, EmailJS browser v4

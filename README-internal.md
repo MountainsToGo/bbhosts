@@ -13,8 +13,9 @@ An internal-only companion site for the **Bogus Basin Mountain Hosts** volunteer
 ### Authentication & Access Control
 - **Modernized Sign-In Gate** — Full-page authentication screen with animated gradient background, floating SVG snowflake and sun icons, glassmorphism card, and "Internal Hosts Only" badge. Blocks all site content until the user signs in with an authorized Google account
 - **Terms & Conditions** — Users must read, scroll to bottom, check an agreement checkbox, and accept T&C before accessing the portal on first visit. Admin-editable via the Management Portal. Changes to T&C require all users to re-accept
+- **Access Request System** — Unauthorized users can submit a request to join (name, role, reason). Admins review requests (approve/deny) from the Management Portal. All parties receive email notifications via EmailJS at each step (submission, approval, denial, revocation)
 - **Two-Tier Access** — **Authorized Users** can view the site and participate in discussions; **Admins** can additionally manage all content via the Management Portal
-- **Authorized Users List** — Admin-managed whitelist stored in Firestore (`internal_settings/authorizedUsers`)
+- **Authorized Users List** — Admin-managed whitelist stored in Firestore (`internal_settings/authorizedUsers`). Removing a user sends an access-revoked email notification
 - **Admin Emails List** — Separate admin whitelist (`internal_settings/adminEmails`); admins are automatically authorized
 - **Sign Out Button** — Persistent sign-out button in the weather banner (next to Management Portal) for easy session termination
 
@@ -25,23 +26,26 @@ An internal-only companion site for the **Bogus Basin Mountain Hosts** volunteer
 - **Board of Directors** — Organizational chart with custom roles, photo cards, and bio modals
 - **Host Resources** — Quick links to bogusbasin.org, conditions/webcams, Mountain Hosts Learning, and Troopiter scheduling
 - **National Ski Patrol** — Link to nsp.org
-- **Tools & Apps** — CalTopo mapping tool with embedded demo map
-- **Local Business Discounts** — Ridgeline Bike & Ski discount information
+- **Tools & Apps** — CalTopo backcountry mapping tool with iOS and Android app links
+- **Local Business Discounts** — Two discount programs:
+  - **Bogus Basin Host Discounts** (On-Mountain) — 20% off retail, 50% off tune & wax, 50% off food & drink (excl. alcohol)
+  - **Ridgeline Bike & Ski** — 30% discount with link to ridgelinebikenski.com
 - **Announcements & Awards** — Rich-text announcements with inline photos, categorized as announcements, awards, events, or stories
 - **Meeting Minutes** — Expandable cards with rich-text meeting notes, sorted newest first
 - **Host Discussion Board** — Threaded comment system with Google sign-in, per-user emoji reaction toggles, community guidelines, and admin replies
 
 ### Admin Portal (Management Portal)
 - **Google Sign-In** — Admin access via Google accounts whitelisted in Firestore
-- **Eight Tabs:**
-  - 💬 **Comments** — View, reply as admin, approve, and delete discussion threads
+- **Icon Grid Control Panel** — Modern dashboard with 9 clickable cards, each opening a management panel with a "← Control Panel" back button:
+  - 💬 **Comments** — View, reply as admin, and delete discussion threads
   - ⭐ **Leadership** — Add, edit, and delete leadership entries with drag-and-drop photos and rich text bios
-  - 🏛️ **Board** — Add, edit, and delete Board of Directors entries with custom roles and rich text bios
+  - 🏛️ **Board** — Add, edit, and delete Board of Directors entries with custom roles (Chairman, President, VP, Secretary, Treasurer, Member) and rich text bios
   - 📢 **Announcements** — Rich text editor with bold, italic, underline, lists, links, blockquotes, and inline photos
   - 📝 **Minutes** — Create and manage meeting minutes with rich text editor and date picker
   - 📸 **Group Photo** — Upload and caption the hero group photo
   - 📜 **Terms** — Edit and publish Terms & Conditions with rich text editor, load default template, view user agreement status (current vs outdated)
-  - 🔧 **Account Management** — Manage admin emails and authorized user access list
+  - 📥 **Requests** — Review access requests with filter buttons (Pending/Approved/Denied/All), approve or deny with one click, automatic email notifications sent to requesters
+  - 🔧 **Account Management** — Manage admin emails and authorized user access list; removing an authorized user sends an access-revoked email
 
 ### Design
 - **Teal & Copper Theme** — Distinct from the public site's navy/gold palette, using teal (`#1a3a3a`) and copper (`#b5651d`) for visual separation
@@ -59,6 +63,7 @@ An internal-only companion site for the **Bogus Basin Mountain Hosts** volunteer
 | Auth | Firebase Authentication (Google sign-in gate + admin auth) |
 | Database | Cloud Firestore (Spark free tier) |
 | Image Storage | Client-side canvas compression → base64 data URLs stored in Firestore |
+| Email Notifications | EmailJS (client-side, access request workflow) |
 | Weather | NOAA Weather API (api.weather.gov) |
 | Hosting | GitHub Pages |
 | Rich Text | `contenteditable` div with `document.execCommand` toolbar |
@@ -98,6 +103,7 @@ The internal portal uses **separate Firestore collections** prefixed with `inter
 | `internal_settings/authorizedUsers` | `emails` | Array of authorized user email addresses (non-admin hosts who can view the site). |
 | `internal_settings/termsAndConditions` | `content`, `lastUpdated` | Terms & Conditions HTML content and version timestamp. |
 | `internal_tc_agreements` | `email`, `name`, `agreedAt`, `tcVersion` | Per-user T&C acceptance records. Document ID = user UID. |
+| `internal_access_requests` | `uid`, `email`, `name`, `role`, `reason`, `status`, `requestedAt`, `reviewedBy`, `reviewedAt`, `reviewNote` | Access request records. `status` is `pending`, `approved`, or `denied`. |
 
 > **Important:** The internal portal shares the same Firebase project (`mtn-hosts`) but uses completely separate collections. Changes to internal data never affect the public site, and vice versa.
 
@@ -116,6 +122,7 @@ The internal portal's collections follow these access rules (defined in `firesto
 | `internal_minutes` | ✅ | ✅ | Auth required for all operations |
 | `internal_settings` | Public* | ✅ | *Public read needed for auth gate to verify user access |
 | `internal_tc_agreements` | ✅ | ✅ | Per-user T&C acceptance records |
+| `internal_access_requests` | ✅ | ✅ | Access request records (requires composite index on `uid` + `requestedAt`) |
 
 Rules must be deployed via the Firebase Console — see [INSTRUCTIONS-internal.md](INSTRUCTIONS-internal.md) for details.
 
@@ -135,8 +142,12 @@ Rules must be deployed via the Firebase Console — see [INSTRUCTIONS-internal.m
 | Comment auth | Google sign-in | Google sign-in (gate + comments) |
 | Site access | Public | Auth gate + T&C acceptance (authorized users only) |
 | Terms & Conditions | ❌ Not included | ✅ Scroll-to-bottom + checkbox acceptance, admin-editable |
-| Sign Out | Footer sign-out | Weather banner sign-out button |
-| Admin tabs | 5 tabs | 8 tabs (+ Board, Minutes, Terms) |
+| Sign Out | Weather banner (conditional) | Weather banner sign-out button |
+| Admin panel | 5 icon grid cards | 9 icon grid cards (+ Board, Minutes, Terms, Requests) |
+| Local Discounts | ❌ Not included | ✅ Bogus Basin + Ridgeline discounts |
+| Tools & Apps | ❌ Not included | ✅ CalTopo mapping (iOS + Android) |
+| Access Requests | ❌ Not included | ✅ Full request system with EmailJS emails |
+| Email Notifications | ❌ Not included | ✅ EmailJS (request, approval, denial, revocation) |
 
 ---
 
