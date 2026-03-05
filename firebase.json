@@ -6,7 +6,8 @@
       "**/.*",
       "**/node_modules/**",
       "*.md",
-      "firestore.rules"
+      "firestore.rules",
+      "email-worker/**"
     ]
   },
   "firestore": {

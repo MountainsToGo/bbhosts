@@ -2762,8 +2762,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
-    <!-- ===== EMAILJS SDK ===== -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
 
     <!-- ===== JAVASCRIPT ===== -->
@@ -2771,8 +2769,17 @@
     (function() {
         'use strict';
 
-        // ===== EMAILJS INIT =====
-        emailjs.init('***REDACTED***');
+        // ===== EMAIL PROXY (Cloudflare Worker) =====
+        const EMAIL_WORKER_URL = 'https://bbhosts-email.bogusbasinhosts.workers.dev';
+        async function sendEmail(params) {
+            const resp = await fetch(EMAIL_WORKER_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(params)
+            });
+            if (!resp.ok) throw new Error('Email send failed: ' + resp.status);
+            return resp.json();
+        }
 
         // ===== FIREBASE CONFIG =====
         const firebaseConfig = {
@@ -3039,7 +3046,7 @@
                 }
                 for (const adminEmail of notifyEmails) {
                     try {
-                        await emailjs.send('***REDACTED***', '***REDACTED***', {
+                        await sendEmail({
                             to_email: adminEmail,
                             to_name: 'Admin',
                             status: 'New Request',
@@ -3052,7 +3059,7 @@
 
                 // Send confirmation email to the user
                 try {
-                    await emailjs.send('***REDACTED***', '***REDACTED***', {
+                    await sendEmail({
                         to_email: user.email,
                         to_name: user.displayName || user.email,
                         status: 'Request Received',
@@ -3511,7 +3518,7 @@
 
                 // Send access revoked email to the user
                 try {
-                    await emailjs.send('***REDACTED***', '***REDACTED***', {
+                    await sendEmail({
                         to_email: email,
                         to_name: email,
                         status: 'Access Revoked',
@@ -3881,7 +3888,7 @@
 
                 // Send approval email
                 try {
-                    await emailjs.send('***REDACTED***', '***REDACTED***', {
+                    await sendEmail({
                         to_email: data.email,
                         to_name: data.name || data.email,
                         status: 'Approved',
@@ -3915,7 +3922,7 @@
                 // Send denial email
                 if (data) {
                     try {
-                        await emailjs.send('***REDACTED***', '***REDACTED***', {
+                        await sendEmail({
                             to_email: data.email,
                             to_name: data.name || data.email,
                             status: 'Denied',
