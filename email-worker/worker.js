@@ -8,6 +8,7 @@
  *   EMAILJS_SERVICE_ID
  *   EMAILJS_TEMPLATE_ID
  *   EMAILJS_PUBLIC_KEY
+ *   EMAILJS_PRIVATE_KEY  — from EmailJS dashboard > Account > API Keys
  */
 
 const ALLOWED_ORIGINS = [
@@ -62,11 +63,16 @@ export default {
       // Forward to EmailJS REST API with server-side credentials
       const emailjsResp = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Origin': 'https://mtn-hosts.web.app',
+          'User-Agent': 'Mozilla/5.0',
+        },
         body: JSON.stringify({
           service_id: env.EMAILJS_SERVICE_ID,
           template_id: env.EMAILJS_TEMPLATE_ID,
           user_id: env.EMAILJS_PUBLIC_KEY,
+          accessToken: env.EMAILJS_PRIVATE_KEY,
           template_params: { to_email, to_name: to_name || '', status: status || '', message },
         }),
       });
