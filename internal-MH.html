@@ -2870,6 +2870,8 @@
             }
             authorizedUsersLoaded = true;
             recheckGateAuth();
+            // Refresh admin UI if open
+            if (currentUser) renderAuthorizedUsers();
         }, err => {
             console.error('Authorized users listener error:', err);
             authorizedUsersLoaded = true;
@@ -3023,7 +3025,15 @@
                 });
 
                 // Notify all admins via email
-                for (const adminEmail of adminEmails) {
+                // Ensure admin emails are loaded
+                let notifyEmails = adminEmails;
+                if (!notifyEmails.length) {
+                    try {
+                        const aeDoc = await adminEmailsDoc.get();
+                        if (aeDoc.exists) notifyEmails = (aeDoc.data().emails || []).map(e => e.toLowerCase());
+                    } catch(e) { console.warn('Could not fetch admin emails for notification:', e); }
+                }
+                for (const adminEmail of notifyEmails) {
                     try {
                         await emailjs.send('***REDACTED***', '***REDACTED***', {
                             to_email: adminEmail,
@@ -3493,10 +3503,22 @@
         };
 
         window.removeAuthorizedUser = async function(email) {
-            if (!confirm('Remove ' + email + ' from site access?')) return;
+            if (!confirm('Remove ' + email + ' from site access? They will receive an email notification.')) return;
             try {
                 const newList = authorizedUsers.filter(e => e !== email.toLowerCase());
                 await authorizedUsersDoc.set({ emails: newList });
+
+                // Send access revoked email to the user
+                try {
+                    await emailjs.send('***REDACTED***', '***REDACTED***', {
+                        to_email: email,
+                        to_name: email,
+                        status: 'Access Revoked',
+                        message: 'Your access to the Bogus Basin Mountain Hosts Internal Portal has been revoked. If you believe this is an error, please contact a Mountain Host administrator.'
+                    });
+                } catch (emailErr) {
+                    console.warn('Access revoked email failed:', emailErr);
+                }
             } catch(e) {
                 console.error('Remove authorized user error:', e);
                 alert('Failed to remove authorized user.');
