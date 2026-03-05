@@ -1204,30 +1204,64 @@
         .modal-close:hover { background: rgba(255,255,255,0.2); }
         .modal-body { padding: 28px; }
 
-        /* Admin Tabs */
-        .admin-tabs {
-            display: flex;
-            border-bottom: 1px solid var(--border);
+        /* Admin Control Panel Dashboard */
+        .admin-dashboard {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
             margin-bottom: 28px;
-            gap: 0;
         }
-        .admin-tab {
-            padding: 12px 20px;
-            background: none;
-            border: none;
-            font-size: 0.88em;
-            font-weight: 600;
-            color: var(--text-light);
+        .dashboard-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 24px 16px;
+            background: var(--bg-soft);
+            border: 1px solid var(--border-light);
+            border-radius: 14px;
             cursor: pointer;
-            border-bottom: 2px solid transparent;
+            transition: all 0.25s ease;
+            font-family: inherit;
+            color: var(--text-mid);
+        }
+        .dashboard-card:hover {
+            background: var(--bg-white);
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+        }
+        .dashboard-card .card-icon {
+            font-size: 2em;
+            line-height: 1;
+        }
+        .dashboard-card .card-label {
+            font-size: 0.82em;
+            font-weight: 700;
+            text-align: center;
+            letter-spacing: 0.02em;
+            color: var(--primary);
+        }
+        .admin-back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: var(--bg-soft);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            font-size: 0.85em;
+            font-weight: 600;
+            color: var(--primary);
+            cursor: pointer;
+            margin-bottom: 18px;
             transition: all 0.2s;
-            margin-bottom: -1px;
             font-family: inherit;
         }
-        .admin-tab:hover { color: var(--primary); }
-        .admin-tab.active {
-            color: var(--primary);
-            border-bottom-color: var(--accent);
+        .admin-back-btn:hover {
+            background: var(--bg-white);
+            border-color: var(--accent);
         }
         .admin-panel { display: none; }
         .admin-panel.active { display: block; }
@@ -1431,7 +1465,7 @@
             .weather-banner-actions > * { text-align: center; justify-content: center; }
             .modal { max-height: 95vh; border-radius: 16px; width: 95vw; }
             .modal-header { border-radius: 16px 16px 0 0; }
-            .admin-tabs { overflow-x: auto; }
+            .admin-dashboard { grid-template-columns: repeat(2, 1fr); gap: 12px; }
             .section { padding: clamp(40px, 6vw, 60px) 0; }
 
             /* Comments mobile fixes */
@@ -1769,25 +1803,37 @@
                         <span id="adminUserDisplay" style="color:var(--text-light); font-size:0.85em;"></span>
                         <button class="admin-btn small danger" onclick="adminSignOut()">Sign Out</button>
                     </div>
-                    <div class="admin-tabs">
-                        <button class="admin-tab active" onclick="switchAdminTab('comments', this)">💬 Comments</button>
-                        <button class="admin-tab" onclick="switchAdminTab('leadership', this)">⭐ Leadership</button>
-                        <button class="admin-tab" onclick="switchAdminTab('announcements', this)">📢 Announcements</button>
-                        <button class="admin-tab" onclick="switchAdminTab('photo', this)">📸 Group Photo</button>
-                        <button class="admin-tab" onclick="switchAdminTab('settings', this)">🔧 Account Management</button>
+                    <div id="adminDashboard" class="admin-dashboard">
+                        <button class="dashboard-card" onclick="openAdminPanel('comments')">
+                            <span class="card-icon">💬</span><span class="card-label">Comments</span>
+                        </button>
+                        <button class="dashboard-card" onclick="openAdminPanel('leadership')">
+                            <span class="card-icon">⭐</span><span class="card-label">Leadership</span>
+                        </button>
+                        <button class="dashboard-card" onclick="openAdminPanel('announcements')">
+                            <span class="card-icon">📢</span><span class="card-label">Announcements</span>
+                        </button>
+                        <button class="dashboard-card" onclick="openAdminPanel('photo')">
+                            <span class="card-icon">📸</span><span class="card-label">Group Photo</span>
+                        </button>
+                        <button class="dashboard-card" onclick="openAdminPanel('settings')">
+                            <span class="card-icon">🔧</span><span class="card-label">Account Mgmt</span>
+                        </button>
                     </div>
 
                     <!-- ===== COMMENTS ADMIN ===== -->
-                    <div id="adminComments" class="admin-panel active">
-                        <h4 style="color:var(--winter-navy); margin-bottom:14px;">Manage Comments</h4>
+                    <div id="adminComments" class="admin-panel">
+                        <button class="admin-back-btn" onclick="backToDashboard()">← Control Panel</button>
+                        <h4 style="color:var(--winter-navy); margin-bottom:14px;">💬 Manage Comments</h4>
                         <p style="color:var(--text-light); margin-bottom:16px; font-size:0.9em;">Delete inappropriate comments or reply as an administrator.</p>
                         <div id="adminCommentsList"></div>
                     </div>
 
                     <!-- ===== LEADERSHIP ADMIN ===== -->
                     <div id="adminLeadership" class="admin-panel">
+                        <button class="admin-back-btn" onclick="backToDashboard()">← Control Panel</button>
                         <div class="admin-form">
-                            <h4>Add / Edit Leader</h4>
+                            <h4>⭐ Add / Edit Leader</h4>
                             <label>Name</label>
                             <input type="text" id="leaderName" placeholder="Full Name" maxlength="60">
                             <label>Role</label>
@@ -1832,8 +1878,9 @@
 
                     <!-- ===== ANNOUNCEMENTS ADMIN ===== -->
                     <div id="adminAnnouncements" class="admin-panel">
+                        <button class="admin-back-btn" onclick="backToDashboard()">← Control Panel</button>
                         <div class="admin-form">
-                            <h4>Add / Edit Announcement</h4>
+                            <h4>📢 Add / Edit Announcement</h4>
                             <label>Type</label>
                             <select id="annType">
                                 <option value="announcement">Announcement</option>
@@ -1870,6 +1917,7 @@
                     </div>
                     <!-- ===== GROUP PHOTO ADMIN ===== -->
                     <div id="adminPhoto" class="admin-panel">
+                        <button class="admin-back-btn" onclick="backToDashboard()">← Control Panel</button>
                         <div class="admin-form">
                             <h4>📸 Group Photo</h4>
                             <p style="color:var(--text-light); margin-bottom:12px; font-size:0.9em;">Upload an image for the Mountain Hosts group photo.</p>
@@ -1893,6 +1941,7 @@
                     </div>
                     <!-- ===== ACCOUNT MANAGEMENT (Admin Emails) ===== -->
                     <div id="adminSettings" class="admin-panel">
+                        <button class="admin-back-btn" onclick="backToDashboard()">← Control Panel</button>
                         <div class="admin-form">
                             <h4>🔧 Admin Accounts</h4>
                             <p style="color:var(--text-light); margin-bottom:12px; font-size:0.9em;">Google email addresses authorized to access the Management Portal.</p>
@@ -2311,11 +2360,15 @@
             document.getElementById('adminOverlay').classList.remove('open');
         };
 
-        window.switchAdminTab = function(tab, btn) {
-            document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+        window.openAdminPanel = function(tab) {
+            document.getElementById('adminDashboard').style.display = 'none';
             document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
-            btn.classList.add('active');
             document.getElementById('admin' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.add('active');
+        };
+
+        window.backToDashboard = function() {
+            document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
+            document.getElementById('adminDashboard').style.display = 'grid';
         };
 
         // ================================================================
