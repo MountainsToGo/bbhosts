@@ -3022,6 +3022,20 @@
                     reviewNote: ''
                 });
 
+                // Notify all admins via email
+                for (const adminEmail of adminEmails) {
+                    try {
+                        await emailjs.send('***REDACTED***', '***REDACTED***', {
+                            to_email: adminEmail,
+                            to_name: 'Admin',
+                            status: 'New Request',
+                            message: 'A new access request has been submitted for the Bogus Basin Mountain Hosts Internal Portal.\n\nName: ' + (user.displayName || user.email) + '\nEmail: ' + user.email + '\nRole: ' + role + '\nReason: ' + reason + '\n\nPlease log in to the Management Portal to review this request.'
+                        });
+                    } catch (emailErr) {
+                        console.warn('Admin notification email failed for', adminEmail, emailErr);
+                    }
+                }
+
                 // Show confirmation
                 document.getElementById('gateRequestForm').style.display = 'none';
                 document.getElementById('gateRequestConfirmed').style.display = 'block';
