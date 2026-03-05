@@ -92,5 +92,13 @@ service cloud.firestore {
       allow update: if request.auth != null;
       allow delete: if request.auth != null;
     }
+
+    // INTERNAL ACCESS REQUESTS: any authenticated user can create/read their own, admins can read/update all
+    match /internal_access_requests/{reqId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null;
+      allow update: if request.auth != null;
+      allow delete: if request.auth != null;
+    }
   }
 }

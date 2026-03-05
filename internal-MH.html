@@ -1369,30 +1369,64 @@
         .modal-close:hover { background: rgba(255,255,255,0.2); }
         .modal-body { padding: 28px; }
 
-        /* Admin Tabs */
-        .admin-tabs {
-            display: flex;
-            border-bottom: 1px solid var(--border);
+        /* Admin Control Panel Dashboard */
+        .admin-dashboard {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
             margin-bottom: 28px;
-            gap: 0;
         }
-        .admin-tab {
-            padding: 12px 20px;
-            background: none;
-            border: none;
-            font-size: 0.88em;
-            font-weight: 600;
-            color: var(--text-light);
+        .dashboard-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 24px 16px;
+            background: var(--bg-soft);
+            border: 1px solid var(--border-light);
+            border-radius: 14px;
             cursor: pointer;
-            border-bottom: 2px solid transparent;
+            transition: all 0.25s ease;
+            font-family: inherit;
+            color: var(--text-mid);
+        }
+        .dashboard-card:hover {
+            background: var(--bg-white);
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+        }
+        .dashboard-card .card-icon {
+            font-size: 2em;
+            line-height: 1;
+        }
+        .dashboard-card .card-label {
+            font-size: 0.82em;
+            font-weight: 700;
+            text-align: center;
+            letter-spacing: 0.02em;
+            color: var(--primary);
+        }
+        .admin-back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: var(--bg-soft);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            font-size: 0.85em;
+            font-weight: 600;
+            color: var(--primary);
+            cursor: pointer;
+            margin-bottom: 18px;
             transition: all 0.2s;
-            margin-bottom: -1px;
             font-family: inherit;
         }
-        .admin-tab:hover { color: var(--primary); }
-        .admin-tab.active {
-            color: var(--primary);
-            border-bottom-color: var(--accent);
+        .admin-back-btn:hover {
+            background: var(--bg-white);
+            border-color: var(--accent);
         }
         .admin-panel { display: none; }
         .admin-panel.active { display: block; }
@@ -1596,7 +1630,7 @@
             .weather-banner-actions > * { text-align: center; justify-content: center; }
             .modal { max-height: 95vh; border-radius: 16px; width: 95vw; }
             .modal-header { border-radius: 16px 16px 0 0; }
-            .admin-tabs { overflow-x: auto; }
+            .admin-dashboard { grid-template-columns: repeat(2, 1fr); gap: 12px; }
             .section { padding: clamp(40px, 6vw, 60px) 0; }
 
             /* Comments mobile fixes */
@@ -1649,7 +1683,9 @@
             align-items: center;
             justify-content: center;
             font-family: 'Inter', sans-serif;
-            overflow: hidden;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 24px 0;
         }
         .auth-gate.hidden { display: none; }
         /* Floating decorative elements */
@@ -1697,6 +1733,8 @@
             box-shadow: 0 24px 80px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.1);
             position: relative;
             z-index: 1;
+            margin: auto;
+            flex-shrink: 0;
         }
         .auth-gate-card .gate-icons {
             display: flex;
@@ -1806,6 +1844,127 @@
         }
         .auth-gate-card .gate-signout:hover { color: var(--text-mid); }
 
+        /* Access Request Form (inside auth gate) */
+        .gate-request-form {
+            margin-top: 20px;
+            text-align: left;
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+        }
+        .gate-request-header h3 {
+            color: var(--primary);
+            font-size: 1.1em;
+            margin-bottom: 6px;
+        }
+        .gate-request-header p {
+            color: var(--text-mid);
+            font-size: 0.85em;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+        .gate-request-fields label {
+            display: block;
+            font-size: 0.82em;
+            font-weight: 600;
+            color: var(--text-mid);
+            margin-bottom: 4px;
+            margin-top: 12px;
+        }
+        .gate-request-fields label:first-child { margin-top: 0; }
+        .gate-request-fields input,
+        .gate-request-fields textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 0.9em;
+            color: var(--text-dark);
+            background: var(--white);
+            box-sizing: border-box;
+        }
+        .gate-request-fields input[readonly] {
+            background: var(--bg-light);
+            color: var(--text-light);
+        }
+        .gate-request-fields textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        .gate-request-submit {
+            margin-top: 16px;
+            width: 100%;
+            padding: 12px;
+            font-size: 0.95em;
+        }
+        .gate-request-status {
+            margin-top: 12px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 0.88em;
+            text-align: center;
+        }
+        .gate-request-status.error {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #b91c1c;
+        }
+        .gate-request-status.success {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #166534;
+        }
+        .gate-request-confirmed,
+        .gate-request-pending,
+        .gate-request-denied {
+            margin-top: 20px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+        }
+        .gate-request-confirmed h3,
+        .gate-request-pending h3,
+        .gate-request-denied h3 {
+            color: var(--primary);
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+        .gate-request-confirmed p,
+        .gate-request-pending p,
+        .gate-request-denied p {
+            color: var(--text-mid);
+            font-size: 0.88em;
+            line-height: 1.6;
+        }
+        .gate-request-check {
+            width: 48px; height: 48px;
+            background: #dcfce7;
+            color: #16a34a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: 700;
+            margin: 0 auto 12px;
+        }
+        .gate-request-clock {
+            font-size: 2.5em;
+            margin-bottom: 8px;
+        }
+        .gate-request-x {
+            width: 48px; height: 48px;
+            background: #fef2f2;
+            color: #dc2626;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: 700;
+            margin: 0 auto 12px;
+        }
+
         /* Site sign-out button */
         .signout-btn {
             background: rgba(255,255,255,0.15);
@@ -1851,6 +2010,51 @@
             <div class="gate-loading" id="gateLoading">Verifying access...</div>
             <div class="gate-error" id="gateError"></div>
             <button class="gate-signout" id="gateSignOutBtn" onclick="gateSignOut()">Sign out and try a different account</button>
+
+            <!-- Access Request Form (shown when user is authenticated but not authorized) -->
+            <div class="gate-request-form" id="gateRequestForm" style="display:none;">
+                <div class="gate-request-header">
+                    <h3>📋 Request Access</h3>
+                    <p>You're signed in but not yet authorized. Fill out the form below to request access to the Internal Host Portal.</p>
+                </div>
+                <div class="gate-request-fields">
+                    <label>Name</label>
+                    <input type="text" id="reqName" readonly>
+                    <label>Email</label>
+                    <input type="email" id="reqEmail" readonly>
+                    <label>Role / Position</label>
+                    <input type="text" id="reqRole" placeholder="e.g., New Mountain Host, Season 2026" maxlength="100">
+                    <label>Reason for Access</label>
+                    <textarea id="reqReason" placeholder="Briefly describe why you need access to the portal..." maxlength="500" rows="3"></textarea>
+                </div>
+                <button class="admin-btn gate-request-submit" id="reqSubmitBtn" onclick="submitAccessRequest()">Submit Request</button>
+                <div class="gate-request-status" id="reqStatus" style="display:none;"></div>
+            </div>
+
+            <!-- Access Request Submitted Confirmation -->
+            <div class="gate-request-confirmed" id="gateRequestConfirmed" style="display:none;">
+                <div class="gate-request-check">✓</div>
+                <h3>Request Submitted</h3>
+                <p>Your access request has been sent to the Host leads for review. You'll receive access once approved.</p>
+                <p style="font-size:0.85em; color:var(--text-light); margin-top:8px;">You can close this page and try signing in again later after you've been approved.</p>
+            </div>
+
+            <!-- Access Request Already Pending -->
+            <div class="gate-request-pending" id="gateRequestPending" style="display:none;">
+                <div class="gate-request-clock">⏳</div>
+                <h3>Request Pending</h3>
+                <p>You've already submitted an access request. A Host lead will review it soon.</p>
+                <p id="reqPendingDate" style="font-size:0.85em; color:var(--text-light); margin-top:8px;"></p>
+            </div>
+
+            <!-- Access Request Denied -->
+            <div class="gate-request-denied" id="gateRequestDenied" style="display:none;">
+                <div class="gate-request-x">✗</div>
+                <h3>Request Denied</h3>
+                <p>Your previous access request was not approved. If you believe this is an error, please contact a Host lead if there are questions.</p>
+                <button class="admin-btn small" style="margin-top:12px;" onclick="showNewRequestForm()">Submit New Request</button>
+            </div>
+
             <p class="gate-footer-text">🔒 Secure authentication via Google<br>Bogus Basin &bull; Boise, Idaho</p>
         </div>
     </div>
@@ -2237,28 +2441,49 @@
                         <span id="adminUserDisplay" style="color:var(--text-light); font-size:0.85em;"></span>
                         <button class="admin-btn small danger" onclick="adminSignOut()">Sign Out</button>
                     </div>
-                    <div class="admin-tabs">
-                        <button class="admin-tab active" onclick="switchAdminTab('comments', this)">💬 Comments</button>
-                        <button class="admin-tab" onclick="switchAdminTab('leadership', this)">⭐ Leadership</button>
-                        <button class="admin-tab" onclick="switchAdminTab('board', this)">🏛️ Board</button>
-                        <button class="admin-tab" onclick="switchAdminTab('announcements', this)">📢 Announcements</button>
-                        <button class="admin-tab" onclick="switchAdminTab('minutes', this)">📝 Minutes</button>
-                        <button class="admin-tab" onclick="switchAdminTab('photo', this)">📸 Group Photo</button>
-                        <button class="admin-tab" onclick="switchAdminTab('terms', this)">📜 Terms</button>
-                        <button class="admin-tab" onclick="switchAdminTab('settings', this)">🔧 Account Management</button>
+                    <div id="adminDashboard" class="admin-dashboard">
+                        <button class="dashboard-card" onclick="openAdminPanel('comments')">
+                            <span class="card-icon">💬</span><span class="card-label">Comments</span>
+                        </button>
+                        <button class="dashboard-card" onclick="openAdminPanel('leadership')">
+                            <span class="card-icon">⭐</span><span class="card-label">Leadership</span>
+                        </button>
+                        <button class="dashboard-card" onclick="openAdminPanel('board')">
+                            <span class="card-icon">🏛️</span><span class="card-label">Board</span>
+                        </button>
+                        <button class="dashboard-card" onclick="openAdminPanel('announcements')">
+                            <span class="card-icon">📢</span><span class="card-label">Announcements</span>
+                        </button>
+                        <button class="dashboard-card" onclick="openAdminPanel('minutes')">
+                            <span class="card-icon">📝</span><span class="card-label">Minutes</span>
+                        </button>
+                        <button class="dashboard-card" onclick="openAdminPanel('photo')">
+                            <span class="card-icon">📸</span><span class="card-label">Group Photo</span>
+                        </button>
+                        <button class="dashboard-card" onclick="openAdminPanel('terms')">
+                            <span class="card-icon">📜</span><span class="card-label">Terms</span>
+                        </button>
+                        <button class="dashboard-card" onclick="openAdminPanel('requests')">
+                            <span class="card-icon">📥</span><span class="card-label">Requests</span>
+                        </button>
+                        <button class="dashboard-card" onclick="openAdminPanel('settings')">
+                            <span class="card-icon">🔧</span><span class="card-label">Account Mgmt</span>
+                        </button>
                     </div>
 
                     <!-- ===== COMMENTS ADMIN ===== -->
-                    <div id="adminComments" class="admin-panel active">
-                        <h4 style="color:var(--winter-navy); margin-bottom:14px;">Manage Comments</h4>
+                    <div id="adminComments" class="admin-panel">
+                        <button class="admin-back-btn" onclick="backToDashboard()">← Control Panel</button>
+                        <h4 style="color:var(--winter-navy); margin-bottom:14px;">💬 Manage Comments</h4>
                         <p style="color:var(--text-light); margin-bottom:16px; font-size:0.9em;">Delete inappropriate comments or reply as an administrator.</p>
                         <div id="adminCommentsList"></div>
                     </div>
 
                     <!-- ===== LEADERSHIP ADMIN ===== -->
                     <div id="adminLeadership" class="admin-panel">
+                        <button class="admin-back-btn" onclick="backToDashboard()">← Control Panel</button>
                         <div class="admin-form">
-                            <h4>Add / Edit Leader</h4>
+                            <h4>⭐ Add / Edit Leader</h4>
                             <label>Name</label>
                             <input type="text" id="leaderName" placeholder="Full Name" maxlength="60">
                             <label>Role</label>
@@ -2303,8 +2528,9 @@
 
                     <!-- ===== BOARD OF DIRECTORS ADMIN ===== -->
                     <div id="adminBoard" class="admin-panel">
+                        <button class="admin-back-btn" onclick="backToDashboard()">← Control Panel</button>
                         <div class="admin-form">
-                            <h4>Add / Edit Board Member</h4>
+                            <h4>🏛️ Add / Edit Board Member</h4>
                             <label>Name</label>
                             <input type="text" id="directorName" placeholder="Full Name" maxlength="60">
                             <label>Role</label>
@@ -2354,8 +2580,9 @@
 
                     <!-- ===== ANNOUNCEMENTS ADMIN ===== -->
                     <div id="adminAnnouncements" class="admin-panel">
+                        <button class="admin-back-btn" onclick="backToDashboard()">← Control Panel</button>
                         <div class="admin-form">
-                            <h4>Add / Edit Announcement</h4>
+                            <h4>📢 Add / Edit Announcement</h4>
                             <label>Type</label>
                             <select id="annType">
                                 <option value="announcement">Announcement</option>
@@ -2393,8 +2620,9 @@
 
                     <!-- ===== MEETING MINUTES ADMIN ===== -->
                     <div id="adminMinutes" class="admin-panel">
+                        <button class="admin-back-btn" onclick="backToDashboard()">← Control Panel</button>
                         <div class="admin-form">
-                            <h4>Add / Edit Meeting Minutes</h4>
+                            <h4>📝 Add / Edit Meeting Minutes</h4>
                             <label>Meeting Title</label>
                             <input type="text" id="minutesTitle" placeholder="e.g. Monthly Board Meeting — March 2026" maxlength="120">
                             <label>Meeting Date</label>
@@ -2423,6 +2651,7 @@
                     </div>
                     <!-- ===== GROUP PHOTO ADMIN ===== -->
                     <div id="adminPhoto" class="admin-panel">
+                        <button class="admin-back-btn" onclick="backToDashboard()">← Control Panel</button>
                         <div class="admin-form">
                             <h4>📸 Group Photo</h4>
                             <p style="color:var(--text-light); margin-bottom:12px; font-size:0.9em;">Upload an image for the Mountain Hosts group photo.</p>
@@ -2446,6 +2675,7 @@
                     </div>
                     <!-- ===== TERMS & CONDITIONS ADMIN ===== -->
                     <div id="adminTerms" class="admin-panel">
+                        <button class="admin-back-btn" onclick="backToDashboard()">← Control Panel</button>
                         <div class="admin-form">
                             <h4>📜 Terms & Conditions</h4>
                             <p style="color:var(--text-light); margin-bottom:12px; font-size:0.9em;">Edit the terms and conditions that users must agree to when first accessing the internal portal. Changes will require all users to re-accept.</p>
@@ -2477,8 +2707,25 @@
                         </div>
                     </div>
 
+                    <!-- ===== ACCESS REQUESTS ADMIN ===== -->
+                    <div id="adminRequests" class="admin-panel">
+                        <button class="admin-back-btn" onclick="backToDashboard()">← Control Panel</button>
+                        <div class="admin-form">
+                            <h4>📥 Access Requests</h4>
+                            <p style="color:var(--text-light); margin-bottom:12px; font-size:0.9em;">Review and manage access requests from users who want to join the Internal Host Portal.</p>
+                            <div style="display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap;">
+                                <button class="admin-btn small" onclick="filterRequests('pending')" id="filterPending" style="background:var(--accent);">Pending</button>
+                                <button class="admin-btn small" onclick="filterRequests('approved')" id="filterApproved" style="background:var(--text-light);">Approved</button>
+                                <button class="admin-btn small" onclick="filterRequests('denied')" id="filterDenied" style="background:var(--text-light);">Denied</button>
+                                <button class="admin-btn small" onclick="filterRequests('all')" id="filterAll" style="background:var(--text-light);">All</button>
+                            </div>
+                            <div id="adminRequestsList"></div>
+                        </div>
+                    </div>
+
                     <!-- ===== ACCOUNT MANAGEMENT (Admin Emails + Authorized Users) ===== -->
                     <div id="adminSettings" class="admin-panel">
+                        <button class="admin-back-btn" onclick="backToDashboard()">← Control Panel</button>
                         <div class="admin-form">
                             <h4>🔧 Admin Accounts</h4>
                             <p style="color:var(--text-light); margin-bottom:12px; font-size:0.9em;">Google email addresses authorized to access the Management Portal (admins can also view the site).</p>
@@ -2515,10 +2762,16 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
+    <!-- ===== EMAILJS SDK ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
     <!-- ===== JAVASCRIPT ===== -->
     <script>
     (function() {
         'use strict';
+
+        // ===== EMAILJS INIT =====
+        emailjs.init('***REDACTED***');
 
         // ===== FIREBASE CONFIG =====
         const firebaseConfig = {
@@ -2563,6 +2816,10 @@
         let tcLoaded = false;
         const tcDoc = db.collection('internal_settings').doc('termsAndConditions');
         const tcAgreementsCol = db.collection('internal_tc_agreements');
+
+        // Access Requests
+        let accessRequests = [];
+        const accessRequestsCol = db.collection('internal_access_requests');
 
         // Load T&C from Firestore
         tcDoc.onSnapshot(docSnap => {
@@ -2661,7 +2918,123 @@
             document.getElementById('gateError').style.display = 'none';
             document.getElementById('gateLoading').style.display = 'none';
             document.getElementById('gateSignOutBtn').style.display = 'none';
+            document.getElementById('gateRequestForm').style.display = 'none';
+            document.getElementById('gateRequestConfirmed').style.display = 'none';
+            document.getElementById('gateRequestPending').style.display = 'none';
+            document.getElementById('gateRequestDenied').style.display = 'none';
         }
+
+        // Hide all gate request panels
+        function hideGateRequestPanels() {
+            document.getElementById('gateRequestForm').style.display = 'none';
+            document.getElementById('gateRequestConfirmed').style.display = 'none';
+            document.getElementById('gateRequestPending').style.display = 'none';
+            document.getElementById('gateRequestDenied').style.display = 'none';
+        }
+
+        // Show access request form for unauthorized users, checking for existing requests
+        async function showAccessRequestFlow(user) {
+            hideGateRequestPanels();
+            try {
+                // Check if user already has a pending or denied request
+                const snap = await accessRequestsCol.where('uid', '==', user.uid).orderBy('requestedAt', 'desc').limit(1).get();
+                if (!snap.empty) {
+                    const req = snap.docs[0].data();
+                    if (req.status === 'pending') {
+                        const dateStr = req.requestedAt ? new Date(req.requestedAt).toLocaleDateString() : '';
+                        document.getElementById('reqPendingDate').textContent = dateStr ? 'Submitted on ' + dateStr : '';
+                        document.getElementById('gateRequestPending').style.display = 'block';
+                        document.getElementById('gateSignOutBtn').style.display = 'inline-block';
+                        return;
+                    } else if (req.status === 'denied') {
+                        document.getElementById('gateRequestDenied').style.display = 'block';
+                        document.getElementById('gateSignOutBtn').style.display = 'inline-block';
+                        return;
+                    }
+                    // If approved but somehow not authorized (shouldn't happen), or other status, show form
+                }
+            } catch (e) {
+                console.error('Error checking existing requests:', e);
+            }
+
+            // Show the request form pre-filled with Google info
+            document.getElementById('reqName').value = user.displayName || '';
+            document.getElementById('reqEmail').value = user.email || '';
+            document.getElementById('reqRole').value = '';
+            document.getElementById('reqReason').value = '';
+            document.getElementById('reqStatus').style.display = 'none';
+            document.getElementById('reqSubmitBtn').disabled = false;
+            document.getElementById('gateRequestForm').style.display = 'block';
+            document.getElementById('gateSignOutBtn').style.display = 'inline-block';
+        }
+
+        window.showNewRequestForm = function() {
+            hideGateRequestPanels();
+            const user = auth.currentUser;
+            if (user) {
+                document.getElementById('reqName').value = user.displayName || '';
+                document.getElementById('reqEmail').value = user.email || '';
+            }
+            document.getElementById('reqRole').value = '';
+            document.getElementById('reqReason').value = '';
+            document.getElementById('reqStatus').style.display = 'none';
+            document.getElementById('reqSubmitBtn').disabled = false;
+            document.getElementById('gateRequestForm').style.display = 'block';
+        };
+
+        window.submitAccessRequest = async function() {
+            const user = auth.currentUser;
+            if (!user) return;
+
+            const role = document.getElementById('reqRole').value.trim();
+            const reason = document.getElementById('reqReason').value.trim();
+            const statusEl = document.getElementById('reqStatus');
+            const submitBtn = document.getElementById('reqSubmitBtn');
+
+            if (!role) {
+                statusEl.className = 'gate-request-status error';
+                statusEl.textContent = 'Please enter your role or position.';
+                statusEl.style.display = 'block';
+                return;
+            }
+            if (!reason) {
+                statusEl.className = 'gate-request-status error';
+                statusEl.textContent = 'Please provide a reason for your request.';
+                statusEl.style.display = 'block';
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+
+            try {
+                await accessRequestsCol.add({
+                    uid: user.uid,
+                    email: user.email,
+                    name: user.displayName || user.email,
+                    photo: user.photoURL || '',
+                    role: role,
+                    reason: reason,
+                    requestedAt: Date.now(),
+                    status: 'pending',
+                    reviewedBy: null,
+                    reviewedAt: null,
+                    reviewNote: ''
+                });
+
+                // Show confirmation
+                document.getElementById('gateRequestForm').style.display = 'none';
+                document.getElementById('gateRequestConfirmed').style.display = 'block';
+                document.getElementById('gateError').style.display = 'none';
+            } catch (err) {
+                console.error('Submit request error:', err);
+                statusEl.className = 'gate-request-status error';
+                statusEl.textContent = 'Failed to submit request. Please try again.';
+                statusEl.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Request';
+            }
+        };
 
         window.gateSignIn = async function() {
             const errEl = document.getElementById('gateError');
@@ -2669,6 +3042,7 @@
             const signOutBtn = document.getElementById('gateSignOutBtn');
             errEl.style.display = 'none';
             loadEl.style.display = 'block';
+            hideGateRequestPanels();
             try {
                 const result = await auth.signInWithPopup(googleProvider);
                 const user = result.user;
@@ -2695,9 +3069,9 @@
                     loadEl.style.display = 'none';
                 } else {
                     loadEl.style.display = 'none';
-                    errEl.textContent = 'Access denied. Your Google account (' + user.email + ') is not authorized to view this site. Contact a site admin to request access.';
+                    errEl.textContent = 'Your Google account (' + user.email + ') is not currently authorized.';
                     errEl.style.display = 'block';
-                    signOutBtn.style.display = 'inline-block';
+                    await showAccessRequestFlow(user);
                 }
             } catch (err) {
                 console.error('Gate sign-in error:', err);
@@ -2871,8 +3245,12 @@
                     if (isAuthorizedUser(email)) {
                         openGate(user);
                     } else {
-                        // Not authorized — keep gate closed
+                        // Not authorized — show request flow
                         closeGate();
+                        const errEl = document.getElementById('gateError');
+                        errEl.textContent = 'Your Google account (' + user.email + ') is not currently authorized.';
+                        errEl.style.display = 'block';
+                        showAccessRequestFlow(user);
                     }
                 }
 
@@ -2914,6 +3292,7 @@
                 renderAdminEmails();
                 renderAuthorizedUsers();
                 renderAdminTC();
+                renderAdminRequests();
             }
         }
 
@@ -3358,6 +3737,153 @@
             }
         }
 
+        // ================================================================
+        //  ACCESS REQUESTS ADMIN
+        // ================================================================
+        let requestFilter = 'pending';
+
+        window.filterRequests = function(status) {
+            requestFilter = status;
+            // Update filter button styles
+            ['Pending', 'Approved', 'Denied', 'All'].forEach(f => {
+                const btn = document.getElementById('filter' + f);
+                if (btn) btn.style.background = f.toLowerCase() === status ? 'var(--accent)' : 'var(--text-light)';
+            });
+            renderAdminRequests();
+        };
+
+        function renderAdminRequests() {
+            const list = document.getElementById('adminRequestsList');
+            if (!list) return;
+
+            const filtered = requestFilter === 'all'
+                ? accessRequests
+                : accessRequests.filter(r => r.status === requestFilter);
+
+            if (filtered.length === 0) {
+                const msg = requestFilter === 'all' ? 'No access requests yet.' : 'No ' + requestFilter + ' requests.';
+                list.innerHTML = '<div class="no-items-msg">' + msg + '</div>';
+                return;
+            }
+
+            list.innerHTML = filtered.map(req => {
+                const dateStr = req.requestedAt ? new Date(req.requestedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '';
+                const statusBadge = req.status === 'pending'
+                    ? '<span style="background:#fef3c7; color:#92400e; padding:2px 10px; border-radius:20px; font-size:0.78em; font-weight:600;">⏳ Pending</span>'
+                    : req.status === 'approved'
+                    ? '<span style="background:#dcfce7; color:#166534; padding:2px 10px; border-radius:20px; font-size:0.78em; font-weight:600;">✅ Approved</span>'
+                    : '<span style="background:#fef2f2; color:#991b1b; padding:2px 10px; border-radius:20px; font-size:0.78em; font-weight:600;">✗ Denied</span>';
+
+                const reviewInfo = req.reviewedAt
+                    ? `<div style="font-size:0.8em; color:var(--text-light); margin-top:4px;">Reviewed by ${escHtml(req.reviewedBy || '?')} on ${new Date(req.reviewedAt).toLocaleDateString()}</div>`
+                    : '';
+
+                const actions = req.status === 'pending'
+                    ? `<div style="display:flex; gap:8px; margin-top:10px;">
+                        <button class="admin-btn small" style="background:#16a34a;" onclick="approveRequest('${req.id}')">✓ Approve</button>
+                        <button class="admin-btn small danger" onclick="denyRequest('${req.id}')">✗ Deny</button>
+                    </div>`
+                    : req.status === 'denied'
+                    ? `<div style="margin-top:8px;"><button class="admin-btn small" style="background:#16a34a;" onclick="approveRequest('${req.id}')">✓ Approve (Reconsider)</button></div>`
+                    : '';
+
+                return `
+                    <div class="admin-list-item" style="padding:14px 16px; margin-bottom:10px; border:1.5px solid var(--border); border-radius:12px; background:var(--white);">
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:8px;">
+                            <div>
+                                <strong style="color:var(--text-dark);">${escHtml(req.name)}</strong>
+                                <span style="color:var(--text-light); font-size:0.85em; margin-left:6px;">${escHtml(req.email)}</span>
+                            </div>
+                            ${statusBadge}
+                        </div>
+                        <div style="margin-top:8px; font-size:0.88em;">
+                            <div style="color:var(--text-mid);"><strong>Role:</strong> ${escHtml(req.role)}</div>
+                            <div style="color:var(--text-mid); margin-top:4px;"><strong>Reason:</strong> ${escHtml(req.reason)}</div>
+                        </div>
+                        <div style="margin-top:6px; font-size:0.8em; color:var(--text-light);">Requested: ${dateStr}</div>
+                        ${reviewInfo}
+                        ${actions}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        window.approveRequest = async function(reqId) {
+            if (!currentUser) return;
+            try {
+                const reqDoc = accessRequestsCol.doc(reqId);
+                const snap = await reqDoc.get();
+                if (!snap.exists) return;
+                const data = snap.data();
+
+                // Update request status
+                await reqDoc.update({
+                    status: 'approved',
+                    reviewedBy: currentUser.email,
+                    reviewedAt: Date.now()
+                });
+
+                // Add email to authorized users
+                const email = data.email.toLowerCase();
+                if (!authorizedUsers.includes(email)) {
+                    authorizedUsers.push(email);
+                    await authorizedUsersDoc.set({ emails: authorizedUsers });
+                }
+
+                // Send approval email
+                try {
+                    await emailjs.send('***REDACTED***', '***REDACTED***', {
+                        to_email: data.email,
+                        to_name: data.name || data.email,
+                        status: 'Approved',
+                        message: 'Great news! Your access request for the Bogus Basin Mountain Hosts Internal Portal has been approved. You can now sign in at any time to access the portal.'
+                    });
+                } catch (emailErr) {
+                    console.warn('Email notification failed:', emailErr);
+                }
+
+                renderAdminRequests();
+                renderAuthorizedUsers();
+            } catch (err) {
+                console.error('Approve request error:', err);
+                alert('Error approving request: ' + err.message);
+            }
+        };
+
+        window.denyRequest = async function(reqId) {
+            if (!currentUser) return;
+            try {
+                const reqDoc = accessRequestsCol.doc(reqId);
+                const snap = await reqDoc.get();
+                const data = snap.exists ? snap.data() : null;
+
+                await reqDoc.update({
+                    status: 'denied',
+                    reviewedBy: currentUser.email,
+                    reviewedAt: Date.now()
+                });
+
+                // Send denial email
+                if (data) {
+                    try {
+                        await emailjs.send('***REDACTED***', '***REDACTED***', {
+                            to_email: data.email,
+                            to_name: data.name || data.email,
+                            status: 'Denied',
+                            message: 'Unfortunately, your access request for the Bogus Basin Mountain Hosts Internal Portal has been denied. If you believe this is an error, please contact a Mountain Host administrator.'
+                        });
+                    } catch (emailErr) {
+                        console.warn('Email notification failed:', emailErr);
+                    }
+                }
+
+                renderAdminRequests();
+            } catch (err) {
+                console.error('Deny request error:', err);
+                alert('Error denying request: ' + err.message);
+            }
+        };
+
         // ===== ADMIN MODAL =====
         window.openAdminModal = function() {
             document.getElementById('adminOverlay').classList.add('open');
@@ -3387,11 +3913,15 @@
             document.getElementById('adminOverlay').classList.remove('open');
         };
 
-        window.switchAdminTab = function(tab, btn) {
-            document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+        window.openAdminPanel = function(tab) {
+            document.getElementById('adminDashboard').style.display = 'none';
             document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
-            btn.classList.add('active');
             document.getElementById('admin' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.add('active');
+        };
+
+        window.backToDashboard = function() {
+            document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
+            document.getElementById('adminDashboard').style.display = 'grid';
         };
 
         // ================================================================
@@ -3463,6 +3993,14 @@
                 refreshAdminIfOpen();
             }, err => {
                 console.error('Settings listener error:', err);
+            });
+
+            // ----- ACCESS REQUESTS -----
+            accessRequestsCol.orderBy('requestedAt', 'desc').onSnapshot(snapshot => {
+                accessRequests = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                renderAdminRequests();
+            }, err => {
+                console.error('Access requests listener error:', err);
             });
         }
 
