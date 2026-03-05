@@ -2764,6 +2764,7 @@
 
     <!-- ===== EMAILJS SDK ===== -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
 
     <!-- ===== JAVASCRIPT ===== -->
     <script>
@@ -3033,20 +3034,17 @@
                         if (aeDoc.exists) notifyEmails = (aeDoc.data().emails || []).map(e => e.toLowerCase());
                     } catch(e) { console.warn('Could not fetch admin emails for notification:', e); }
                 }
-                console.log('Admin emails to notify:', notifyEmails);
                 if (!notifyEmails.length) {
                     console.warn('No admin emails found — cannot send notification');
                 }
                 for (const adminEmail of notifyEmails) {
-                    console.log('Sending notification to:', adminEmail);
                     try {
-                        const result = await emailjs.send('***REDACTED***', '***REDACTED***', {
+                        await emailjs.send('***REDACTED***', '***REDACTED***', {
                             to_email: adminEmail,
                             to_name: 'Admin',
                             status: 'New Request',
                             message: 'A new access request has been submitted for the Bogus Basin Mountain Hosts Internal Portal.\n\nName: ' + (user.displayName || user.email) + '\nEmail: ' + user.email + '\nRole: ' + role + '\nReason: ' + reason + '\n\nPlease log in to the Management Portal to review this request.'
                         });
-                        console.log('EmailJS result for', adminEmail, ':', result);
                     } catch (emailErr) {
                         console.error('Admin notification email FAILED for', adminEmail, emailErr);
                     }
@@ -3455,12 +3453,9 @@
             try {
                 const doc = await adminEmailsDoc.get();
                 if (doc.exists && doc.data().emails && doc.data().emails.length > 0) {
-                    console.log('Admin emails already configured:', doc.data().emails);
                     return;
                 }
                 await adminEmailsDoc.set({ emails: [email] });
-                console.log('✅ Admin email seeded: ' + email);
-                console.log('You can now open the Management Portal to add more admin emails.');
             } catch(e) {
                 console.error('Seed error:', e);
             }
@@ -3571,7 +3566,7 @@
             const checkbox = document.getElementById('tcCheckbox');
             const agreeBtn = document.getElementById('tcAgreeBtn');
 
-            contentEl.innerHTML = tcContent;
+            contentEl.innerHTML = DOMPurify.sanitize(tcContent);
             overlay.classList.remove('hidden');
 
             // Reset state
@@ -3646,7 +3641,7 @@
             const info = document.getElementById('tcAgreedInfo');
 
             if (tcContent) {
-                content.innerHTML = tcContent;
+                content.innerHTML = DOMPurify.sanitize(tcContent);
             } else {
                 content.innerHTML = '<p style="color:var(--text-light); text-align:center;">No terms and conditions have been published yet.</p>';
             }
@@ -4213,7 +4208,7 @@
                 ? `<img src="${escHtml(d.photoUrl)}" alt="${escHtml(d.name)}">`
                 : '🏛️';
             const bioContent = d.bio && d.bio.replace(/<[^>]*>/g, '').trim()
-                ? d.bio
+                ? DOMPurify.sanitize(d.bio)
                 : '<div class="bio-no-content">No bio available yet.</div>';
             document.getElementById('bioOverlay').innerHTML = `
                 <div class="bio-modal" onclick="event.stopPropagation()" style="position:relative;">
@@ -4238,7 +4233,7 @@
                 <div class="announcement-card">
                     <span class="ann-type ${a.type}">${a.type}</span>
                     <h4>${escHtml(a.title)}</h4>
-                    <div class="ann-content">${a.content}</div>
+                    <div class="ann-content">${DOMPurify.sanitize(a.content)}</div>
                     <div class="ann-date">${fmtDate(a.date)}</div>
                 </div>
             `).join('');
@@ -4258,7 +4253,7 @@
                     <h4>${escHtml(m.title)}</h4>
                     <div class="ann-date">${dateStr}</div>
                     <div class="minutes-body" style="max-height:0; overflow:hidden; transition:max-height 0.3s ease;">
-                        <div style="padding-top:12px; border-top:1px solid var(--border); margin-top:12px;">${m.content}</div>
+                        <div style="padding-top:12px; border-top:1px solid var(--border); margin-top:12px;">${DOMPurify.sanitize(m.content)}</div>
                     </div>
                     <div style="font-size:0.8em; color:var(--text-light); margin-top:6px;">▼ Click to expand</div>
                 </div>
@@ -4991,7 +4986,7 @@
                 ? `<img src="${escHtml(l.photoUrl)}" alt="${escHtml(l.name)}">`
                 : (l.role === 'Director' ? '⭐' : '⭐');
             const bioContent = l.bio && l.bio.replace(/<[^>]*>/g, '').trim()
-                ? l.bio
+                ? DOMPurify.sanitize(l.bio)
                 : '<div class="bio-no-content">No bio available yet.</div>';
             document.getElementById('bioOverlay').innerHTML = `
                 <div class="bio-modal" onclick="event.stopPropagation()" style="position:relative;">

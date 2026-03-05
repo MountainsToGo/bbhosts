@@ -1966,6 +1966,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
 
     <!-- ===== JAVASCRIPT ===== -->
     <script>
@@ -2522,7 +2523,7 @@
                 <div class="announcement-card">
                     <span class="ann-type ${a.type}">${a.type}</span>
                     <h4>${escHtml(a.title)}</h4>
-                    <div class="ann-content">${a.content}</div>
+                    <div class="ann-content">${DOMPurify.sanitize(a.content)}</div>
                     <div class="ann-date">${fmtDate(a.date)}</div>
                 </div>
             `).join('');
@@ -3055,7 +3056,7 @@
                 ? `<img src="${escHtml(l.photoUrl)}" alt="${escHtml(l.name)}">`
                 : (l.role === 'Director' ? '⭐' : '⭐');
             const bioContent = l.bio && l.bio.replace(/<[^>]*>/g, '').trim()
-                ? l.bio
+                ? DOMPurify.sanitize(l.bio)
                 : '<div class="bio-no-content">No bio available yet.</div>';
             document.getElementById('bioOverlay').innerHTML = `
                 <div class="bio-modal" onclick="event.stopPropagation()" style="position:relative;">

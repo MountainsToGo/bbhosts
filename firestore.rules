@@ -3,102 +3,124 @@ rules_version = '2';
 // Firestore Security Rules for Bogus Basin Mountain Hosts
 // Deploy these in the Firebase Console: Firestore Database > Rules
 //
-// These rules allow:
-//   - Anyone (public) can READ all data
-//   - Authenticated users (Google sign-in) can CREATE comments
-//   - Anyone can UPDATE comments (for emoji reactions)
-//   - Only authenticated admins can DELETE comments and approve/reject
-//   - Only authenticated admins can CREATE/UPDATE/DELETE leaders and announcements
+// SECURITY MODEL:
+//   - Admin status is enforced SERVER-SIDE by checking the user's email
+//     against the adminEmails document in Firestore
+//   - Bootstrap: if no adminEmails doc exists yet, the first authenticated
+//     user can create it (seeds themselves as admin)
+//   - Comment updates are restricted to reaction fields only
+//   - Access requests can only be approved/denied by admins
 
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // COMMENTS: public read, authenticated create/update (reactions require sign-in), admin delete
+    // ===== ADMIN HELPER FUNCTIONS =====
+
+    // Check if the authenticated user is a public site admin
+    function isPublicAdmin() {
+      return request.auth != null && (
+        !exists(/databases/$(database)/documents/settings/adminEmails) ||
+        request.auth.token.email.lower() in get(/databases/$(database)/documents/settings/adminEmails).data.emails
+      );
+    }
+
+    // Check if the authenticated user is an internal portal admin
+    function isInternalAdmin() {
+      return request.auth != null && (
+        !exists(/databases/$(database)/documents/internal_settings/adminEmails) ||
+        request.auth.token.email.lower() in get(/databases/$(database)/documents/internal_settings/adminEmails).data.emails
+      );
+    }
+
+    // =====================================================
+    // PUBLIC SITE COLLECTIONS (mountain-hosts.html)
+    // =====================================================
+
+    // COMMENTS: public read, authenticated create, reaction-only update, admin delete
     match /comments/{commentId} {
       allow read: if true;
       allow create: if request.auth != null;
-      allow update: if request.auth != null;  // reactions now require sign-in
-      allow delete: if request.auth != null;
+      allow update: if request.auth != null &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reactions']);
+      allow delete: if isPublicAdmin();
     }
 
-    // LEADERS: public read, admin write
+    // LEADERS: public read, admin-only write
     match /leaders/{leaderId} {
       allow read: if true;
-      allow create, update, delete: if request.auth != null;
+      allow create, update, delete: if isPublicAdmin();
     }
 
-    // ANNOUNCEMENTS: public read, admin write
+    // ANNOUNCEMENTS: public read, admin-only write
     match /announcements/{announcementId} {
       allow read: if true;
-      allow create, update, delete: if request.auth != null;
+      allow create, update, delete: if isPublicAdmin();
     }
 
-    // SETTINGS (group photo, etc.): public read, admin write
+    // SETTINGS: public read, admin-only write (bootstrap: first user can create if no admins exist)
     match /settings/{settingId} {
       allow read: if true;
-      // Admin emails doc: only writable by existing admins (or any auth user if no admins exist yet for bootstrapping)
-      allow create: if request.auth != null;
-      allow update, delete: if request.auth != null;
+      allow create, update, delete: if isPublicAdmin();
     }
 
     // =====================================================
-    // INTERNAL PORTAL (internal-MH.html) — separate collections
-    // Authenticated access only — user must sign in to read or write
+    // INTERNAL PORTAL COLLECTIONS (internal-MH.html)
     // =====================================================
 
-    // INTERNAL COMMENTS: authenticated read/create/update, admin delete
+    // INTERNAL COMMENTS: authenticated read/create, reaction-only update, admin or owner delete
     match /internal_comments/{commentId} {
       allow read: if request.auth != null;
       allow create: if request.auth != null;
-      allow update: if request.auth != null;
-      allow delete: if request.auth != null;
+      allow update: if request.auth != null &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reactions']);
+      allow delete: if isInternalAdmin() ||
+        (request.auth != null && resource.data.uid == request.auth.uid);
     }
 
-    // INTERNAL LEADERS: authenticated read, admin write
+    // INTERNAL LEADERS: authenticated read, admin-only write
     match /internal_leaders/{leaderId} {
       allow read: if request.auth != null;
-      allow create, update, delete: if request.auth != null;
+      allow create, update, delete: if isInternalAdmin();
     }
 
-    // INTERNAL DIRECTORS (Board of Directors): authenticated read, admin write
+    // INTERNAL DIRECTORS (Board of Directors): authenticated read, admin-only write
     match /internal_directors/{directorId} {
       allow read: if request.auth != null;
-      allow create, update, delete: if request.auth != null;
+      allow create, update, delete: if isInternalAdmin();
     }
 
-    // INTERNAL ANNOUNCEMENTS: authenticated read, admin write
+    // INTERNAL ANNOUNCEMENTS: authenticated read, admin-only write
     match /internal_announcements/{announcementId} {
       allow read: if request.auth != null;
-      allow create, update, delete: if request.auth != null;
+      allow create, update, delete: if isInternalAdmin();
     }
 
-    // INTERNAL MEETING MINUTES: authenticated read, admin write
+    // INTERNAL MEETING MINUTES: authenticated read, admin-only write
     match /internal_minutes/{minuteId} {
       allow read: if request.auth != null;
-      allow create, update, delete: if request.auth != null;
+      allow create, update, delete: if isInternalAdmin();
     }
 
-    // INTERNAL SETTINGS: public read for auth gate verification, admin write
+    // INTERNAL SETTINGS: public read (needed for auth gate), admin-only write
     match /internal_settings/{settingId} {
       allow read: if true;
-      allow create: if request.auth != null;
-      allow update, delete: if request.auth != null;
+      allow create, update, delete: if isInternalAdmin();
     }
 
-    // INTERNAL T&C AGREEMENTS: users can read/create their own, admins can read all
-    match /internal_tc_agreements/{odid} {
-      allow read: if request.auth != null;
-      allow create: if request.auth != null;
-      allow update: if request.auth != null;
-      allow delete: if request.auth != null;
+    // INTERNAL T&C AGREEMENTS: users can read/write only their own doc, admins can read all
+    match /internal_tc_agreements/{userId} {
+      allow read: if request.auth != null &&
+        (request.auth.uid == userId || isInternalAdmin());
+      allow create, update: if request.auth != null && request.auth.uid == userId;
+      allow delete: if isInternalAdmin();
     }
 
-    // INTERNAL ACCESS REQUESTS: any authenticated user can create/read their own, admins can read/update all
+    // INTERNAL ACCESS REQUESTS: users can create and read own, admins can read/update/delete all
     match /internal_access_requests/{reqId} {
-      allow read: if request.auth != null;
+      allow read: if request.auth != null &&
+        (resource.data.uid == request.auth.uid || isInternalAdmin());
       allow create: if request.auth != null;
-      allow update: if request.auth != null;
-      allow delete: if request.auth != null;
+      allow update, delete: if isInternalAdmin();
     }
   }
 }
