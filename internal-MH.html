@@ -3036,6 +3036,18 @@
                     }
                 }
 
+                // Send confirmation email to the user
+                try {
+                    await emailjs.send('***REDACTED***', '***REDACTED***', {
+                        to_email: user.email,
+                        to_name: user.displayName || user.email,
+                        status: 'Request Received',
+                        message: 'Thank you for requesting access to the Bogus Basin Mountain Hosts Internal Portal. Your request has been received and is pending review by an administrator. You will receive another email once a decision has been made.'
+                    });
+                } catch (emailErr) {
+                    console.warn('User confirmation email failed:', emailErr);
+                }
+
                 // Show confirmation
                 document.getElementById('gateRequestForm').style.display = 'none';
                 document.getElementById('gateRequestConfirmed').style.display = 'block';
