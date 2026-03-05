@@ -3026,23 +3026,29 @@
 
                 // Notify all admins via email
                 // Ensure admin emails are loaded
-                let notifyEmails = adminEmails;
+                let notifyEmails = [...adminEmails];
                 if (!notifyEmails.length) {
                     try {
                         const aeDoc = await adminEmailsDoc.get();
                         if (aeDoc.exists) notifyEmails = (aeDoc.data().emails || []).map(e => e.toLowerCase());
                     } catch(e) { console.warn('Could not fetch admin emails for notification:', e); }
                 }
+                console.log('Admin emails to notify:', notifyEmails);
+                if (!notifyEmails.length) {
+                    console.warn('No admin emails found — cannot send notification');
+                }
                 for (const adminEmail of notifyEmails) {
+                    console.log('Sending notification to:', adminEmail);
                     try {
-                        await emailjs.send('***REDACTED***', '***REDACTED***', {
+                        const result = await emailjs.send('***REDACTED***', '***REDACTED***', {
                             to_email: adminEmail,
                             to_name: 'Admin',
                             status: 'New Request',
                             message: 'A new access request has been submitted for the Bogus Basin Mountain Hosts Internal Portal.\n\nName: ' + (user.displayName || user.email) + '\nEmail: ' + user.email + '\nRole: ' + role + '\nReason: ' + reason + '\n\nPlease log in to the Management Portal to review this request.'
                         });
+                        console.log('EmailJS result for', adminEmail, ':', result);
                     } catch (emailErr) {
-                        console.warn('Admin notification email failed for', adminEmail, emailErr);
+                        console.error('Admin notification email FAILED for', adminEmail, emailErr);
                     }
                 }
 
@@ -3514,7 +3520,7 @@
                         to_email: email,
                         to_name: email,
                         status: 'Access Revoked',
-                        message: 'Your access to the Bogus Basin Mountain Hosts Internal Portal has been revoked. If you believe this is an error, please contact a Mountain Host administrator.'
+                        message: 'Your access to the Bogus Basin Mountain Hosts Internal Portal has been revoked. If you believe this is an error, please contact a Mountain Host lead.'
                     });
                 } catch (emailErr) {
                     console.warn('Access revoked email failed:', emailErr);
