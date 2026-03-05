@@ -11,7 +11,7 @@ graph TB
         INT["internal-MH.html<br/><i>Internal Portal</i>"]
     end
 
-    subgraph "Firebase (mtn-hosts)"
+    subgraph "Firebase"
         AUTH["Firebase Auth<br/><i>Google Sign-In</i>"]
         FS["Cloud Firestore<br/><i>Real-time Database</i>"]
     end
@@ -44,8 +44,8 @@ graph TB
 | Public Site | GitHub Pages | `https://mountainstogo.github.io/bbhosts/mountain-hosts.html` |
 | Internal Portal | GitHub Pages | `https://mountainstogo.github.io/bbhosts/internal-MH.html` |
 | Repository | GitHub | `https://github.com/MountainsToGo/bbhosts` |
-| Database & Auth | Firebase | Project: `mtn-hosts` |
-| Email Notifications | EmailJS | Service: `***REDACTED***` |
+| Database & Auth | Firebase | *(project ID in source)* |
+| Email Notifications | EmailJS | *(service ID in source)* |
 | Firestore Rules | Firebase Console | Deployed manually |
 
 ---
@@ -321,10 +321,10 @@ graph LR
 
 | Service | Purpose | Auth/Key |
 |---------|---------|----------|
-| Firebase Auth | Google sign-in provider | Firebase config (client-side) |
-| Cloud Firestore | Real-time data storage | Firebase config (client-side) |
+| Firebase Auth | Google sign-in provider | Config in source (client-side) |
+| Cloud Firestore | Real-time data storage | Config in source (client-side) |
 | Open-Meteo API | Weather conditions for banner | None (public API) |
-| EmailJS | Access request notifications | Public key: `***REDACTED***` |
+| EmailJS | Access request notifications | Key in source (client-side) |
 
 ---
 
