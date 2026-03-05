@@ -5,9 +5,9 @@
  * Worker instead of the EmailJS SDK directly.
  *
  * Environment secrets (set via `wrangler secret put`):
- *   EMAILJS_SERVICE_ID   — e.g. ***REDACTED***
- *   EMAILJS_TEMPLATE_ID  — e.g. ***REDACTED***
- *   EMAILJS_PUBLIC_KEY   — e.g. ***REDACTED***
+ *   EMAILJS_SERVICE_ID
+ *   EMAILJS_TEMPLATE_ID
+ *   EMAILJS_PUBLIC_KEY
  */
 
 const ALLOWED_ORIGINS = [
