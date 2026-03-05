@@ -2323,12 +2323,9 @@
             try {
                 const doc = await adminEmailsDoc.get();
                 if (doc.exists && doc.data().emails && doc.data().emails.length > 0) {
-                    console.log('Admin emails already configured:', doc.data().emails);
                     return;
                 }
                 await adminEmailsDoc.set({ emails: [email] });
-                console.log('✅ Admin email seeded: ' + email);
-                console.log('You can now open the Management Portal to add more admin emails.');
             } catch(e) {
                 console.error('Seed error:', e);
             }

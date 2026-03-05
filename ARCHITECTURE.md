@@ -2,11 +2,11 @@
 
 ## System Overview
 
-The project consists of two single-page HTML applications hosted on GitHub Pages, backed by Firebase (Auth + Firestore) and EmailJS for notifications. There is no custom backend — everything runs client-side.
+The project consists of two single-page HTML applications hosted on Firebase Hosting, backed by Firebase (Auth + Firestore), a Cloudflare Worker for secure email proxying, and GitHub Actions for CI/CD. There is no traditional backend server — security is enforced via Firestore rules and the Cloudflare Worker.
 
 ```mermaid
 graph TB
-    subgraph "GitHub Pages"
+    subgraph "Firebase Hosting"
         PUB["mountain-hosts.html<br/><i>Public Site</i>"]
         INT["internal-MH.html<br/><i>Internal Portal</i>"]
     end
@@ -16,8 +16,13 @@ graph TB
         FS["Cloud Firestore<br/><i>Real-time Database</i>"]
     end
 
-    EMAILJS["EmailJS<br/><i>Email Notifications</i>"]
+    subgraph "Cloudflare"
+        WORKER["Cloudflare Worker<br/><i>Email Proxy</i>"]
+    end
+
+    EMAILJS["EmailJS API<br/><i>Email Delivery</i>"]
     BROWSER["User Browser"]
+    GH["GitHub Actions<br/><i>Auto-deploy on push</i>"]
 
     BROWSER -->|HTTPS| PUB
     BROWSER -->|HTTPS| INT
@@ -25,28 +30,36 @@ graph TB
     PUB -->|Real-time Sync| FS
     INT -->|Auth + Read/Write| AUTH
     INT -->|Real-time Sync| FS
-    INT -->|Send Email| EMAILJS
+    INT -->|POST| WORKER
+    WORKER -->|Server-side API call| EMAILJS
     EMAILJS -->|SMTP| EMAIL["User Email"]
+    GH -->|firebase deploy| PUB
+    GH -->|firebase deploy| INT
 
     style PUB fill:#1b2a4a,color:#fff
     style INT fill:#1a3a3a,color:#fff
     style AUTH fill:#f59e0b,color:#000
     style FS fill:#f59e0b,color:#000
+    style WORKER fill:#f97316,color:#fff
     style EMAILJS fill:#6366f1,color:#fff
+    style GH fill:#333,color:#fff
 ```
 
 ---
 
 ## Hosting & Deployment
 
-| Component | Service | URL |
-|-----------|---------|-----|
-| Public Site | GitHub Pages | `https://mountainstogo.github.io/bbhosts/mountain-hosts.html` |
-| Internal Portal | GitHub Pages | `https://mountainstogo.github.io/bbhosts/internal-MH.html` |
+| Component | Service | URL / Location |
+|-----------|---------|----------------|
+| Public Site | Firebase Hosting | `https://mtn-hosts.web.app/mountain-hosts.html` |
+| Internal Portal | Firebase Hosting | `https://mtn-hosts.web.app/internal-MH.html` |
+| GitHub Pages (mirror) | GitHub Pages | `https://mountainstogo.github.io/bbhosts/` |
 | Repository | GitHub | `https://github.com/MountainsToGo/bbhosts` |
-| Database & Auth | Firebase | *(project ID in source)* |
-| Email Notifications | EmailJS | *(service ID in source)* |
-| Firestore Rules | Firebase Console | Deployed manually |
+| Database & Auth | Firebase | Project: `mtn-hosts` |
+| Email Proxy | Cloudflare Workers | `https://bbhosts-email.bogusbasinhosts.workers.dev` |
+| Email Delivery | EmailJS | Credentials stored as Cloudflare Worker secrets |
+| Firestore Rules | Firebase | Deployed via CLI (`firebase deploy --only firestore:rules`) |
+| CI/CD | GitHub Actions | Auto-deploys to Firebase on push to `main` |
 
 ---
 
@@ -54,14 +67,22 @@ graph TB
 
 ```
 BBHost/
-├── mountain-hosts.html       # Public-facing site (single HTML file)
-├── internal-MH.html          # Internal portal (single HTML file)
-├── firestore.rules           # Firestore security rules (deploy via Firebase Console)
-├── README.md                 # Public site documentation
-├── README-internal.md        # Internal portal documentation
-├── INSTRUCTIONS.md           # Public site admin guide
-├── INSTRUCTIONS-internal.md  # Internal portal admin guide
-└── ARCHITECTURE.md           # This file
+├── mountain-hosts.html                     # Public-facing site (single HTML file)
+├── internal-MH.html                        # Internal portal (single HTML file)
+├── firestore.rules                         # Firestore security rules (deployed via CLI)
+├── firebase.json                           # Firebase Hosting + Firestore config
+├── .firebaserc                             # Firebase project link (mtn-hosts)
+├── .gitignore                              # Excludes .firebase/, .wrangler/, .env, etc.
+├── email-worker/                           # Cloudflare Worker (EmailJS proxy)
+│   ├── worker.js                           # Worker source — CORS + origin check + EmailJS relay
+│   └── wrangler.toml                       # Wrangler config (secrets via `wrangler secret put`)
+├── .github/workflows/
+│   └── firebase-hosting-merge.yml          # GitHub Actions: auto-deploy on push to main
+├── README.md                               # Public site documentation
+├── README-internal.md                      # Internal portal documentation
+├── INSTRUCTIONS.md                         # Public site admin guide
+├── INSTRUCTIONS-internal.md                # Internal portal admin guide
+└── ARCHITECTURE.md                         # This file
 ```
 
 ---
@@ -104,9 +125,9 @@ flowchart TD
 
     N[Admin reviews request] --> O{Decision}
     O -->|Approve| P[Add to authorized users]
-    P --> Q[EmailJS: send approval email]
+    P --> Q[Worker Proxy: send approval email]
     O -->|Deny| R[Mark as denied]
-    R --> S[EmailJS: send denial email]
+    R --> S[Worker Proxy: send denial email]
 
     style B fill:#1a3a3a,color:#fff
     style F fill:#16a34a,color:#fff
@@ -304,7 +325,11 @@ graph LR
     subgraph "Client-Side APIs"
         WEATHER["NOAA Weather API<br/><i>api.weather.gov</i>"]
         GOOGLE["Google OAuth 2.0<br/><i>Sign-in</i>"]
-        EMAILJS["EmailJS<br/><i>Access notifications</i>"]
+    end
+
+    subgraph "Server-Side (Cloudflare Worker)"
+        WORKER["Email Proxy Worker<br/><i>bbhosts-email.bogusbasinhosts.workers.dev</i>"]
+        EMAILJS["EmailJS REST API<br/><i>Credentials as Worker secrets</i>"]
     end
 
     subgraph "Firebase Services"
@@ -312,19 +337,28 @@ graph LR
         FDB["Cloud Firestore"]
     end
 
+    subgraph "CI/CD"
+        GHA["GitHub Actions"]
+        FH["Firebase Hosting"]
+    end
+
     APP["Both Sites"] --> WEATHER
     APP --> GOOGLE
     APP --> FAUTH
     APP --> FDB
-    INT_ONLY["Internal Only"] --> EMAILJS
+    INT_ONLY["Internal Only"] --> WORKER
+    WORKER --> EMAILJS
+    GHA -->|push to main| FH
 ```
 
-| Service | Purpose | Auth/Key |
-|---------|---------|----------|
-| Firebase Auth | Google sign-in provider | Config in source (client-side) |
-| Cloud Firestore | Real-time data storage | Config in source (client-side) |
+| Service | Purpose | Auth / Credentials |
+|---------|---------|--------------------|
+| Firebase Auth | Google sign-in provider | Config in source (client-side, public by design) |
+| Cloud Firestore | Real-time data storage | Config in source (secured by Firestore rules) |
 | NOAA Weather API | Weather conditions for banner | None (public API) |
-| EmailJS | Access request notifications | Key in source (client-side) |
+| Cloudflare Worker | Email proxy — CORS-locked | Worker URL in source (CORS-protected) |
+| EmailJS | Email delivery | Secrets in Cloudflare Worker (never in browser) |
+| GitHub Actions | Auto-deploy on push | Firebase CI token in GitHub Secrets |
 
 ---
 
@@ -332,15 +366,34 @@ graph LR
 
 | Layer | Public Site | Internal Portal |
 |-------|-------------|-----------------|
+| **Hosting** | Firebase Hosting (`mtn-hosts.web.app`) | Firebase Hosting (`mtn-hosts.web.app`) |
 | **Viewing** | No auth required | Auth gate (Google sign-in + authorized email list) |
 | **Commenting** | Google sign-in required | Google sign-in required (auto via auth gate) |
-| **Admin Access** | Email in `settings/adminEmails` | Email in `internal_settings/adminEmails` |
+| **Comment Updates** | Reactions-only (server-enforced) | Reactions-only (server-enforced) |
+| **Admin Access** | Email in `settings/adminEmails` (server-verified) | Email in `internal_settings/adminEmails` (server-verified) |
 | **Data Isolation** | `comments`, `leaders`, etc. | `internal_*` prefixed collections |
 | **T&C Gating** | None | Must accept T&C on first visit |
 | **Access Requests** | N/A | Unauthorized users can request access |
-| **Email Notifications** | None | EmailJS (request, approval, denial, revocation) |
-| **EmailJS Domain Lock** | N/A | Locked to `mountainstogo.github.io` |
-| **Firestore Rules** | Public read, auth write | Auth required for read & write |
+| **Email Notifications** | None | Via Cloudflare Worker proxy (server-side credentials) |
+| **XSS Protection** | DOMPurify v3 sanitizes all user HTML | DOMPurify v3 sanitizes all user HTML |
+| **Firestore Rules** | Public read, admin-only write (server-enforced) | Auth required for read, admin-only write (server-enforced) |
+| **CI/CD** | GitHub Actions → Firebase Hosting | GitHub Actions → Firebase Hosting |
+| **Secrets Management** | Firebase config (public by design) | EmailJS creds in Cloudflare Worker secrets |
+
+### Firestore Rules Security
+- Admin status verified **server-side** via `isPublicAdmin()` / `isInternalAdmin()` helper functions
+- These check `request.auth.token.email` against the `adminEmails` Firestore document
+- Bootstrap protection: `!exists()` fallback allows first admin to self-seed
+- Comment updates restricted to `reactions` field only via `affectedKeys().hasOnly(['reactions'])`
+- T&C agreements restricted to user's own document
+- Access request approval/denial restricted to admins only
+
+### Email Security (Cloudflare Worker Proxy)
+- EmailJS credentials (service ID, template ID, public key, private key) stored as **encrypted Cloudflare Worker secrets**
+- Zero credentials in browser-side code
+- Worker enforces **CORS origin allowlist**: `mtn-hosts.web.app`, `mountainstogo.github.io`, `localhost`
+- Worker validates required fields before forwarding to EmailJS API
+- Free tier: 100,000 Worker requests/day, 200 EmailJS emails/month
 
 ---
 
@@ -357,9 +410,12 @@ graph LR
 ## Technology Stack
 
 - **Frontend:** Vanilla HTML/CSS/JavaScript (no frameworks)
-- **Hosting:** GitHub Pages (static)
+- **Hosting:** Firebase Hosting (primary), GitHub Pages (mirror)
 - **Auth:** Firebase Auth with Google provider
 - **Database:** Cloud Firestore (real-time listeners via `onSnapshot`)
-- **Email:** EmailJS (client-side, free tier — 200/month)
+- **Email Proxy:** Cloudflare Workers (server-side credential storage)
+- **Email Delivery:** EmailJS (via Cloudflare Worker proxy — 200/month free tier)
+- **XSS Protection:** DOMPurify v3 (CDN)
 - **Weather:** NOAA Weather API (api.weather.gov, no key required)
-- **SDK Versions:** Firebase compat v10.12.0, EmailJS browser v4
+- **CI/CD:** GitHub Actions (auto-deploy to Firebase on push to `main`)
+- **SDK Versions:** Firebase compat v10.12.0, DOMPurify v3, Wrangler v4
