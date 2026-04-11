@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bogus Basin Mountain Hosts — Photo Upload</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⛷️</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #1b2a4a;
+            --primary-light: #2d4a7c;
+            --accent: #c8913a;
+            --accent-light: #e2b964;
+            --text-dark: #1a1a2e;
+            --text-mid: #555770;
+            --text-light: #8b8da3;
+            --bg-warm: #faf9f7;
+            --border: #e8e8ee;
+            --white: #ffffff;
+            --danger: #d64545;
+            --success: #2d9f6f;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-warm);
+            min-height: 100vh;
+            color: var(--text-dark);
+            line-height: 1.7;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: var(--white);
+            text-align: center;
+            padding: 40px 24px 32px;
+        }
+        .header h1 {
+            font-size: clamp(1.4rem, 4vw, 2rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 6px;
+        }
+        .header h1 .emoji { font-size: 1.1em; margin-right: 6px; }
+        .header p {
+            font-size: clamp(0.85rem, 2.5vw, 1rem);
+            opacity: 0.85;
+            font-weight: 400;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 32px 20px 60px;
+        }
+
+        /* ===== AUTH ===== */
+        .auth-section {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+        .sign-in-optional {
+            color: var(--accent);
+            text-decoration: underline;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .sign-in-optional:hover { color: var(--primary-light); }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-size: 0.95rem;
+            color: var(--text-mid);
+        }
+        .user-info img {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+        }
+        .sign-out-link {
+            color: var(--accent);
+            text-decoration: underline;
+            cursor: pointer;
+            font-size: 0.85rem;
+            margin-left: 4px;
+        }
+        .sign-out-link:hover { color: var(--danger); }
+
+        .auth-hint {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 8px;
+        }
+
+        /* ===== DROP ZONE ===== */
+        .drop-zone {
+            border: 3px dashed var(--border);
+            border-radius: 16px;
+            padding: 48px 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s;
+            background: var(--white);
+            position: relative;
+        }
+        .drop-zone.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        .drop-zone:hover, .drop-zone.drag-over {
+            border-color: var(--accent);
+            background: #fdf8f0;
+        }
+        .drop-zone-icon {
+            font-size: 3rem;
+            margin-bottom: 12px;
+            display: block;
+        }
+        .drop-zone-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 6px;
+        }
+        .drop-zone-hint {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+        .drop-zone input[type="file"] {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* ===== UPLOAD LIST ===== */
+        .upload-list {
+            margin-top: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .upload-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px 16px;
+            font-size: 0.9rem;
+        }
+        .upload-item-thumb {
+            width: 48px; height: 48px;
+            border-radius: 8px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        .upload-item-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .upload-item-name {
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .upload-item-size {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+        .upload-item-status {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .upload-item-status.uploading { color: var(--primary-light); }
+        .upload-item-status.done { color: var(--success); }
+        .upload-item-status.error { color: var(--danger); }
+
+        /* Progress bar */
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: var(--border);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 6px;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent-light));
+            border-radius: 3px;
+            transition: width 0.2s ease;
+            width: 0%;
+        }
+
+        /* ===== TIPS ===== */
+        .tips {
+            margin-top: 32px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px 24px;
+        }
+        .tips h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        .tips ul {
+            list-style: none;
+            font-size: 0.88rem;
+            color: var(--text-mid);
+        }
+        .tips li { padding: 3px 0; }
+        .tips li::before { content: '✓ '; color: var(--success); font-weight: 700; }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            text-align: center;
+            padding: 24px;
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+        .footer a { color: var(--accent); text-decoration: none; }
+        .footer a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1><span class="emoji">⛷️</span> Mountain Hosts Photo Upload</h1>
+        <p>Share your photos with the Bogus Basin Mountain Hosts community</p>
+    </div>
+
+    <div class="main">
+
+        <!-- AUTH (optional — anonymous auth happens silently) -->
+        <div class="auth-section">
+            <div id="authLoading">
+                <p class="auth-hint">Connecting...</p>
+            </div>
+            <div id="authReady" style="display:none">
+                <div id="authAnonymous">
+                    <p class="auth-hint">Ready to upload! <span class="sign-in-optional" onclick="signInGoogle()">Sign in with Google</span> to put your name on photos.</p>
+                </div>
+                <div id="authGoogle" style="display:none">
+                    <div class="user-info">
+                        <img id="userPhoto" src="" alt="">
+                        <span>Hi, <strong id="userName"></strong>!</span>
+                        <span class="sign-out-link" onclick="signOutGoogle()">Sign out</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DROP ZONE -->
+        <div class="drop-zone disabled" id="dropZone">
+            <span class="drop-zone-icon">📷</span>
+            <div class="drop-zone-text">Tap to choose photos or drag & drop here</div>
+            <div class="drop-zone-hint">JPG, PNG, HEIC — up to 10 MB each</div>
+            <input type="file" id="fileInput" accept="image/*" multiple>
+        </div>
+
+        <!-- UPLOAD STATUS -->
+        <div class="upload-list" id="uploadList"></div>
+
+        <!-- TIPS -->
+        <div class="tips">
+            <h3>📱 How to Upload</h3>
+            <ul>
+                <li><strong>Phone or tablet:</strong> Tap the box above, then pick photos from your gallery or take a new one</li>
+                <li><strong>Computer:</strong> Click the box to browse, or drag and drop photos right onto it</li>
+                <li>You can select multiple photos at once</li>
+                <li>No account needed — just open this page and upload!</li>
+                <li>Photos will appear on the Mountain Hosts website automatically</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        <a href="mountain-hosts.html">← Back to Mountain Hosts site</a>
+    </div>
+
+    <!-- ===== FIREBASE SDKs ===== -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
+
+    <script>
+    (function() {
+        'use strict';
+
+        // ===== FIREBASE CONFIG =====
+        const firebaseConfig = {
+            apiKey: "AIzaSyA8c7lkRscx4Y1zLTQm8jKRQYX1M16f68M",
+            authDomain: "mtn-hosts.firebaseapp.com",
+            projectId: "mtn-hosts",
+            storageBucket: "mtn-hosts.firebasestorage.app",
+            messagingSenderId: "584998378610",
+            appId: "1:584998378610:web:f49f7cc1fe29d8f9aaf6eb",
+            measurementId: "G-25174Y7J97"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        const storage = firebase.storage();
+        const photosCol = db.collection('internal_photos');
+
+        // ===== DOM REFS =====
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const uploadList = document.getElementById('uploadList');
+
+        let currentUser = null;
+
+        // ===== AUTH =====
+        const googleProvider = new firebase.auth.GoogleAuthProvider();
+        const authLoading = document.getElementById('authLoading');
+        const authReady = document.getElementById('authReady');
+        const authAnonymous = document.getElementById('authAnonymous');
+        const authGoogle = document.getElementById('authGoogle');
+
+        // Optional: sign in with Google to credit photos
+        window.signInGoogle = function() {
+            auth.signInWithPopup(googleProvider).catch(err => {
+                console.error('Sign-in error:', err);
+                alert('Sign-in failed. You can still upload without signing in.');
+            });
+        };
+
+        // Sign out of Google → falls back to anonymous
+        window.signOutGoogle = function() {
+            auth.signOut().then(() => auth.signInAnonymously());
+        };
+
+        auth.onAuthStateChanged(user => {
+            currentUser = user;
+            if (user) {
+                authLoading.style.display = 'none';
+                authReady.style.display = '';
+                dropZone.classList.remove('disabled');
+
+                if (user.isAnonymous) {
+                    authAnonymous.style.display = '';
+                    authGoogle.style.display = 'none';
+                } else {
+                    authAnonymous.style.display = 'none';
+                    authGoogle.style.display = '';
+                    document.getElementById('userName').textContent = user.displayName || user.email;
+                    document.getElementById('userPhoto').src = user.photoURL || 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="%23ccc"/><text x="50" y="58" text-anchor="middle" font-size="40" fill="%23fff">?</text></svg>';
+                }
+            } else {
+                // No user at all — sign in anonymously (silent, no UI)
+                auth.signInAnonymously().catch(err => {
+                    console.error('Anonymous auth failed:', err);
+                    authLoading.innerHTML = '<p class="auth-hint" style="color:var(--danger)">Connection error. Please refresh the page.</p>';
+                });
+            }
+        });
+
+        // ===== DRAG & DROP =====
+        dropZone.addEventListener('dragover', e => {
+            e.preventDefault();
+            if (currentUser) dropZone.classList.add('drag-over');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('drag-over');
+        });
+
+        dropZone.addEventListener('drop', e => {
+            e.preventDefault();
+            dropZone.classList.remove('drag-over');
+            if (!currentUser) return;
+            const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+            if (files.length) processFiles(files);
+        });
+
+        // ===== FILE INPUT =====
+        fileInput.addEventListener('change', () => {
+            if (!currentUser) return;
+            const files = Array.from(fileInput.files);
+            if (files.length) processFiles(files);
+            fileInput.value = '';
+        });
+
+        // ===== HELPERS =====
+        function escHtml(str) {
+            const d = document.createElement('div');
+            d.textContent = str;
+            return d.innerHTML;
+        }
+
+        function formatSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+        }
+
+        // ===== UPLOAD =====
+        async function processFiles(files) {
+            for (const file of files) {
+                const itemId = 'u_' + Math.random().toString(36).slice(2);
+
+                // Create thumbnail preview
+                const thumbUrl = URL.createObjectURL(file);
+
+                // Validate
+                if (!file.type.startsWith('image/')) {
+                    addUploadItem(itemId, file.name, thumbUrl, formatSize(file.size), 'Not an image', 'error');
+                    continue;
+                }
+                if (file.size > 10 * 1024 * 1024) {
+                    addUploadItem(itemId, file.name, thumbUrl, formatSize(file.size), 'Exceeds 10 MB', 'error');
+                    continue;
+                }
+
+                addUploadItem(itemId, file.name, thumbUrl, formatSize(file.size), 'Uploading...', 'uploading');
+
+                try {
+                    const photoId = Date.now() + '_' + Math.random().toString(36).slice(2);
+                    const ref = storage.ref('photos/' + photoId);
+                    const task = ref.put(file);
+
+                    // Progress
+                    task.on('state_changed', snap => {
+                        const pct = Math.round((snap.bytesTransferred / snap.totalBytes) * 100);
+                        const bar = document.querySelector('#' + itemId + ' .progress-bar-fill');
+                        if (bar) bar.style.width = pct + '%';
+                        updateStatus(itemId, pct + '%', 'uploading');
+                    });
+
+                    await task;
+                    const url = await ref.getDownloadURL();
+
+                    // Save metadata to Firestore
+                    await photosCol.add({
+                        url: url,
+                        storagePath: 'photos/' + photoId,
+                        caption: '',
+                        uploadedBy: currentUser.isAnonymous ? 'anonymous' : (currentUser.email || 'unknown'),
+                        uploadedByName: currentUser.isAnonymous ? 'Mountain Host' : (currentUser.displayName || ''),
+                        uploadedAt: Date.now()
+                    });
+
+                    updateStatus(itemId, 'Done ✓', 'done');
+                    const bar = document.querySelector('#' + itemId + ' .progress-bar-fill');
+                    if (bar) bar.style.width = '100%';
+
+                } catch(e) {
+                    console.error('Upload error:', e);
+                    updateStatus(itemId, 'Failed', 'error');
+                }
+            }
+        }
+
+        function addUploadItem(id, name, thumbUrl, size, statusText, statusClass) {
+            const html = `<div class="upload-item" id="${id}">
+                <img class="upload-item-thumb" src="${escHtml(thumbUrl)}" alt="">
+                <div class="upload-item-info">
+                    <div class="upload-item-name">${escHtml(name)}</div>
+                    <div class="upload-item-size">${escHtml(size)}</div>
+                    <div class="progress-bar"><div class="progress-bar-fill"></div></div>
+                </div>
+                <div class="upload-item-status ${statusClass}">${escHtml(statusText)}</div>
+            </div>`;
+            uploadList.insertAdjacentHTML('beforeend', html);
+        }
+
+        function updateStatus(id, text, cls) {
+            const el = document.querySelector('#' + id + ' .upload-item-status');
+            if (el) {
+                el.textContent = text;
+                el.className = 'upload-item-status ' + cls;
+            }
+        }
+
+    })();
+    </script>
+</body>
+</html>
