@@ -240,7 +240,7 @@
         <div class="drop-zone disabled" id="dropZone">
             <span class="drop-zone-icon">📷</span>
             <div class="drop-zone-text">Tap to choose photos or drag & drop here</div>
-            <div class="drop-zone-hint">JPG, PNG, HEIC — up to 10 MB each</div>
+            <div class="drop-zone-hint">JPG, PNG, HEIC, RAW — up to 25 MB each</div>
             <input type="file" id="fileInput" accept="image/*" multiple>
         </div>
 
@@ -370,8 +370,8 @@
                     addUploadItem(itemId, file.name, thumbUrl, formatSize(file.size), 'Not an image', 'error');
                     continue;
                 }
-                if (file.size > 10 * 1024 * 1024) {
-                    addUploadItem(itemId, file.name, thumbUrl, formatSize(file.size), 'Exceeds 10 MB', 'error');
+                if (file.size > 25 * 1024 * 1024) {
+                    addUploadItem(itemId, file.name, thumbUrl, formatSize(file.size), 'Exceeds 25 MB', 'error');
                     continue;
                 }
 

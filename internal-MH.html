@@ -2632,7 +2632,7 @@
                             📷 Upload Photos
                         </button>
                         <input type="file" id="photoLibraryFileInput" accept="image/*" multiple style="display:none" onchange="handlePhotoLibraryUpload(this)">
-                        <span class="photo-upload-hint">JPG, PNG up to 10 MB each &bull; Multiple files supported</span>
+                        <span class="photo-upload-hint">JPG, PNG, RAW up to 25 MB each &bull; Multiple files supported</span>
                     </div>
                     <div class="photo-upload-status" id="photoUploadStatus"></div>
                     <div class="photo-gallery-controls">
@@ -5467,8 +5467,8 @@
             statusEl.innerHTML = '';
 
             for (const file of files) {
-                if (file.size > 10 * 1024 * 1024) {
-                    statusEl.innerHTML += `<div class="upload-item" style="color:var(--danger);">❌ ${escHtml(file.name)} — exceeds 10 MB limit</div>`;
+                if (file.size > 25 * 1024 * 1024) {
+                    statusEl.innerHTML += `<div class="upload-item" style="color:var(--danger);">❌ ${escHtml(file.name)} — exceeds 25 MB limit</div>`;
                     continue;
                 }
                 if (!file.type.startsWith('image/')) {
