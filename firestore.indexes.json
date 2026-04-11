@@ -1,0 +1,12 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "internal_photos",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "public", "order": "ASCENDING" },
+        { "fieldPath": "uploadedAt", "order": "DESCENDING" }
+      ]
+    }
+  ]
+}

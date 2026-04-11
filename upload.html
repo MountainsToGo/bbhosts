@@ -68,35 +68,9 @@
             text-align: center;
             margin-bottom: 28px;
         }
-        .sign-in-optional {
-            color: var(--accent);
-            text-decoration: underline;
-            cursor: pointer;
-            font-weight: 600;
-        }
-        .sign-in-optional:hover { color: var(--primary-light); }
 
-        .user-info {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            font-size: 0.95rem;
-            color: var(--text-mid);
-        }
-        .user-info img {
-            width: 36px; height: 36px;
-            border-radius: 50%;
-            border: 2px solid var(--accent);
-        }
-        .sign-out-link {
-            color: var(--accent);
-            text-decoration: underline;
-            cursor: pointer;
-            font-size: 0.85rem;
-            margin-left: 4px;
-        }
-        .sign-out-link:hover { color: var(--danger); }
+
+
 
         .auth-hint {
             font-size: 0.85rem;
@@ -258,16 +232,7 @@
                 <p class="auth-hint">Connecting...</p>
             </div>
             <div id="authReady" style="display:none">
-                <div id="authAnonymous">
-                    <p class="auth-hint">Ready to upload! <span class="sign-in-optional" onclick="signInGoogle()">Sign in with Google</span> to put your name on photos.</p>
-                </div>
-                <div id="authGoogle" style="display:none">
-                    <div class="user-info">
-                        <img id="userPhoto" src="" alt="">
-                        <span>Hi, <strong id="userName"></strong>!</span>
-                        <span class="sign-out-link" onclick="signOutGoogle()">Sign out</span>
-                    </div>
-                </div>
+                <p class="auth-hint">Ready to upload!</p>
             </div>
         </div>
 
@@ -334,25 +299,9 @@
 
         let currentUser = null;
 
-        // ===== AUTH =====
-        const googleProvider = new firebase.auth.GoogleAuthProvider();
+        // ===== AUTH (anonymous, silent) =====
         const authLoading = document.getElementById('authLoading');
         const authReady = document.getElementById('authReady');
-        const authAnonymous = document.getElementById('authAnonymous');
-        const authGoogle = document.getElementById('authGoogle');
-
-        // Optional: sign in with Google to credit photos
-        window.signInGoogle = function() {
-            auth.signInWithPopup(googleProvider).catch(err => {
-                console.error('Sign-in error:', err);
-                alert('Sign-in failed. You can still upload without signing in.');
-            });
-        };
-
-        // Sign out of Google → falls back to anonymous
-        window.signOutGoogle = function() {
-            auth.signOut().then(() => auth.signInAnonymously());
-        };
 
         auth.onAuthStateChanged(user => {
             currentUser = user;
@@ -360,18 +309,8 @@
                 authLoading.style.display = 'none';
                 authReady.style.display = '';
                 dropZone.classList.remove('disabled');
-
-                if (user.isAnonymous) {
-                    authAnonymous.style.display = '';
-                    authGoogle.style.display = 'none';
-                } else {
-                    authAnonymous.style.display = 'none';
-                    authGoogle.style.display = '';
-                    document.getElementById('userName').textContent = user.displayName || user.email;
-                    document.getElementById('userPhoto').src = user.photoURL || 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="%23ccc"/><text x="50" y="58" text-anchor="middle" font-size="40" fill="%23fff">?</text></svg>';
-                }
             } else {
-                // No user at all — sign in anonymously (silent, no UI)
+                // Sign in anonymously (silent, no UI)
                 auth.signInAnonymously().catch(err => {
                     console.error('Anonymous auth failed:', err);
                     authLoading.innerHTML = '<p class="auth-hint" style="color:var(--danger)">Connection error. Please refresh the page.</p>';
@@ -459,9 +398,10 @@
                         url: url,
                         storagePath: 'photos/' + photoId,
                         caption: '',
-                        uploadedBy: currentUser.isAnonymous ? 'anonymous' : (currentUser.email || 'unknown'),
-                        uploadedByName: currentUser.isAnonymous ? 'Mountain Host' : (currentUser.displayName || ''),
-                        uploadedAt: Date.now()
+                        uploadedBy: 'anonymous',
+                        uploadedByName: 'Mountain Host',
+                        uploadedAt: Date.now(),
+                        public: false
                     });
 
                     updateStatus(itemId, 'Done ✓', 'done');

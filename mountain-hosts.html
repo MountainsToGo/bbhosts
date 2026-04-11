@@ -2571,8 +2571,8 @@
             console.error('Settings listener error:', err);
         });
 
-        // ----- PHOTO GALLERY (read-only from internal_photos) -----
-        photosCol.orderBy('uploadedAt', 'desc').onSnapshot(snapshot => {
+        // ----- PHOTO GALLERY (read-only, public photos only) -----
+        photosCol.where('public', '==', true).orderBy('uploadedAt', 'desc').onSnapshot(snapshot => {
             galleryPhotos = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
             renderPhotoGallery();
         }, err => {

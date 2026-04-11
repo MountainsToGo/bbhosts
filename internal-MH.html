@@ -917,6 +917,31 @@
         .admin-photo-item .photo-item-info { flex: 1; min-width: 0; }
         .admin-photo-item .photo-item-info .caption { font-size: 0.88em; font-weight: 500; }
         .admin-photo-item .photo-item-info .meta { font-size: 0.78em; color: var(--text-light); }
+        .photo-visibility-badge {
+            display: inline-block;
+            font-size: 0.72em;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+        .photo-visibility-badge.public { background: #d1fae5; color: #065f46; }
+        .photo-visibility-badge.internal { background: #fef3c7; color: #92400e; }
+        .publish-toggle-btn {
+            padding: 4px 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.8em;
+            font-weight: 600;
+            cursor: pointer;
+            background: var(--white);
+            white-space: nowrap;
+            transition: background 0.15s, border-color 0.15s;
+        }
+        .publish-toggle-btn:hover { border-color: var(--accent); }
+        .publish-toggle-btn.is-public { background: #d1fae5; border-color: #065f46; color: #065f46; }
+        .publish-toggle-btn.is-internal { background: #fef3c7; border-color: #92400e; color: #92400e; }
 
         @media (max-width: 768px) {
             .photo-library-grid {
@@ -2923,7 +2948,7 @@
                         <button class="admin-back-btn" onclick="backToDashboard()">← Control Panel</button>
                         <div class="admin-form">
                             <h4>🖼️ Photo Library Management</h4>
-                            <p style="color:var(--text-light); margin-bottom:12px; font-size:0.9em;">Manage all photos uploaded by hosts. You can delete any photo or edit captions.</p>
+                            <p style="color:var(--text-light); margin-bottom:12px; font-size:0.9em;">Manage all photos uploaded by hosts. Toggle visibility to control which photos appear on the public site.</p>
                             <div id="adminPhotoLibraryList"></div>
                         </div>
                     </div>
@@ -5386,7 +5411,8 @@
                         caption: '',
                         uploadedBy: siteUser.email || 'unknown',
                         uploadedByName: siteUser.displayName || '',
-                        uploadedAt: Date.now()
+                        uploadedAt: Date.now(),
+                        public: false
                     });
                     const el = document.getElementById(itemId);
                     if (el) el.innerHTML = `✅ ${escHtml(file.name)} uploaded`;
@@ -5413,10 +5439,12 @@
             if (empty) empty.style.display = 'none';
             grid.innerHTML = libraryPhotos.map((p, idx) => {
                 const canDelete = isAdmin() || (siteUser && siteUser.email && p.uploadedBy === siteUser.email.toLowerCase());
+                const isPub = p.public === true;
                 return `<div class="photo-library-card" onclick="openPhotoLightbox(${idx})">
                     <img src="${escHtml(p.url)}" alt="${escHtml(p.caption || 'Photo')}" loading="lazy">
                     ${canDelete ? `<button class="photo-card-delete" onclick="event.stopPropagation(); deleteLibraryPhoto('${p.id}')" title="Delete photo">🗑</button>` : ''}
                     <div class="photo-card-info">
+                        <span class="photo-visibility-badge ${isPub ? 'public' : 'internal'}">${isPub ? '🌐 Public' : '🔒 Hosts only'}</span>
                         ${p.caption ? `<div class="photo-card-caption">${escHtml(p.caption)}</div>` : ''}
                         <div class="photo-card-meta">${escHtml(p.uploadedByName || p.uploadedBy)} &bull; ${new Date(p.uploadedAt).toLocaleDateString()}</div>
                     </div>
@@ -5477,17 +5505,19 @@
                 list.innerHTML = '<p style="color:var(--text-light);">No photos in the library.</p>';
                 return;
             }
-            list.innerHTML = libraryPhotos.map(p => `
-                <div class="admin-photo-item">
+            list.innerHTML = libraryPhotos.map(p => {
+                const isPub = p.public === true;
+                return `<div class="admin-photo-item">
                     <img src="${escHtml(p.url)}" alt="">
                     <div class="photo-item-info">
                         <div class="caption">${escHtml(p.caption || '(no caption)')}</div>
                         <div class="meta">${escHtml(p.uploadedByName || p.uploadedBy)} &bull; ${new Date(p.uploadedAt).toLocaleDateString()}</div>
                     </div>
                     <input type="text" value="${escHtml(p.caption || '')}" placeholder="Add caption…" style="flex:1;min-width:100px;padding:4px 8px;border:1px solid var(--border);border-radius:6px;font-size:0.85em;" onchange="updatePhotoCaption('${p.id}', this.value)">
+                    <button class="publish-toggle-btn ${isPub ? 'is-public' : 'is-internal'}" onclick="togglePhotoPublic('${p.id}', ${!isPub})">${isPub ? '🌐 Public' : '🔒 Internal'}</button>
                     <button class="admin-btn small danger" onclick="deleteLibraryPhoto('${p.id}')">🗑 Delete</button>
-                </div>
-            `).join('');
+                </div>`;
+            }).join('');
         }
 
         window.updatePhotoCaption = async function(photoId, caption) {
@@ -5496,6 +5526,15 @@
             } catch(e) {
                 console.error('Update caption error:', e);
                 alert('Failed to update caption.');
+            }
+        };
+
+        window.togglePhotoPublic = async function(photoId, makePublic) {
+            try {
+                await photosCol.doc(photoId).update({ public: makePublic });
+            } catch(e) {
+                console.error('Toggle visibility error:', e);
+                alert('Failed to change photo visibility.');
             }
         };
 
