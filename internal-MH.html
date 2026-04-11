@@ -776,6 +776,69 @@
             grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
             gap: 16px;
         }
+        .photo-gallery-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .photo-gallery-controls select {
+            padding: 6px 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.85em;
+            font-family: inherit;
+            color: var(--text-dark);
+            background: var(--white);
+            cursor: pointer;
+        }
+        .photo-gallery-controls select:focus { outline: none; border-color: var(--accent); }
+        .photo-gallery-controls label {
+            font-size: 0.82em;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+        .photo-gallery-toggle {
+            cursor: pointer;
+            user-select: none;
+        }
+        .photo-gallery-toggle h2 { display: inline; }
+        .photo-gallery-toggle .toggle-arrow {
+            display: inline-block;
+            font-size: 0.6em;
+            margin-left: 8px;
+            transition: transform 0.25s;
+            vertical-align: middle;
+        }
+        .photo-gallery-toggle .toggle-arrow.open { transform: rotate(90deg); }
+        .photo-gallery-body { display: none; }
+        .photo-gallery-body.open { display: block; }
+        .photo-count-badge {
+            display: inline-block;
+            background: var(--accent);
+            color: var(--white);
+            font-size: 0.7em;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+        .load-more-btn {
+            display: block;
+            margin: 20px auto 0;
+            padding: 10px 32px;
+            background: var(--white);
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 0.9em;
+            font-weight: 600;
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .load-more-btn:hover { border-color: var(--accent); background: var(--accent); color: var(--white); }
         .photo-library-card {
             position: relative;
             border-radius: 12px;
@@ -948,6 +1011,7 @@
                 grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
                 gap: 10px;
             }
+            .photo-gallery-controls { gap: 6px; }
             .photo-lightbox-nav { display: none; }
         }
 
@@ -2556,10 +2620,13 @@
             <!-- ===== PHOTO LIBRARY ===== -->
             <section class="section">
                 <div class="section-header blend content-inner">
-                    <h2>Photo Library</h2>
+                    <div class="photo-gallery-toggle" onclick="togglePhotoLibrary()">
+                        <h2>Photo Library <span id="photoCountBadge" class="photo-count-badge" style="display:none;"></span></h2>
+                        <span class="toggle-arrow" id="photoLibraryArrow">&#9654;</span>
+                    </div>
                     <div class="section-line"></div>
                 </div>
-                <div class="content-inner">
+                <div id="photoLibraryBody" class="photo-gallery-body content-inner">
                     <div class="photo-upload-bar" id="photoUploadBar">
                         <button class="photo-upload-btn" onclick="document.getElementById('photoLibraryFileInput').click()">
                             📷 Upload Photos
@@ -2568,9 +2635,25 @@
                         <span class="photo-upload-hint">JPG, PNG up to 10 MB each &bull; Multiple files supported</span>
                     </div>
                     <div class="photo-upload-status" id="photoUploadStatus"></div>
-                    <div id="photoLibraryGrid" class="photo-library-grid">
-                        <!-- Populated by JavaScript -->
+                    <div class="photo-gallery-controls">
+                        <label>Sort:</label>
+                        <select id="photoSortSelect" onchange="renderPhotoLibrary()">
+                            <option value="newest">Newest first</option>
+                            <option value="oldest">Oldest first</option>
+                            <option value="uploader">By uploader</option>
+                        </select>
+                        <label style="margin-left:6px;">Filter:</label>
+                        <select id="photoFilterSelect" onchange="photoPage=0; renderPhotoLibrary()">
+                            <option value="all">All photos</option>
+                            <option value="public">Public only</option>
+                            <option value="internal">Internal only</option>
+                            <option value="captioned">With captions</option>
+                            <option value="recent30">Last 30 days</option>
+                            <option value="recent90">Last 90 days</option>
+                        </select>
                     </div>
+                    <div id="photoLibraryGrid" class="photo-library-grid"></div>
+                    <button class="load-more-btn" id="photoLoadMore" style="display:none;" onclick="photoPage++; renderPhotoLibrary()">Load more photos</button>
                     <p id="photoLibraryEmpty" style="text-align:center; color:var(--text-light); padding:40px 0; display:none;">No photos yet. Be the first to upload!</p>
                 </div>
             </section>
@@ -5427,17 +5510,62 @@
         };
 
         // Render photo grid on main page
+        const PHOTO_PAGE_SIZE = 12;
+        let photoPage = 0;
+
+        window.togglePhotoLibrary = function() {
+            const body = document.getElementById('photoLibraryBody');
+            const arrow = document.getElementById('photoLibraryArrow');
+            body.classList.toggle('open');
+            arrow.classList.toggle('open');
+        };
+
+        function getFilteredSortedPhotos() {
+            const sort = document.getElementById('photoSortSelect');
+            const filter = document.getElementById('photoFilterSelect');
+            const sortVal = sort ? sort.value : 'newest';
+            const filterVal = filter ? filter.value : 'all';
+            let photos = libraryPhotos.slice();
+
+            // Filter
+            const now = Date.now();
+            if (filterVal === 'public') photos = photos.filter(p => p.public === true);
+            else if (filterVal === 'internal') photos = photos.filter(p => p.public !== true);
+            else if (filterVal === 'captioned') photos = photos.filter(p => p.caption && p.caption.trim());
+            else if (filterVal === 'recent30') photos = photos.filter(p => now - p.uploadedAt < 30 * 86400000);
+            else if (filterVal === 'recent90') photos = photos.filter(p => now - p.uploadedAt < 90 * 86400000);
+
+            // Sort
+            if (sortVal === 'newest') photos.sort((a, b) => b.uploadedAt - a.uploadedAt);
+            else if (sortVal === 'oldest') photos.sort((a, b) => a.uploadedAt - b.uploadedAt);
+            else if (sortVal === 'uploader') photos.sort((a, b) => (a.uploadedByName || a.uploadedBy || '').localeCompare(b.uploadedByName || b.uploadedBy || ''));
+
+            return photos;
+        }
+
         function renderPhotoLibrary() {
             const grid = document.getElementById('photoLibraryGrid');
             const empty = document.getElementById('photoLibraryEmpty');
+            const loadMore = document.getElementById('photoLoadMore');
+            const badge = document.getElementById('photoCountBadge');
             if (!grid) return;
+
+            badge.textContent = libraryPhotos.length;
+            badge.style.display = libraryPhotos.length ? '' : 'none';
+
             if (!libraryPhotos.length) {
                 grid.innerHTML = '';
                 if (empty) empty.style.display = '';
+                if (loadMore) loadMore.style.display = 'none';
                 return;
             }
             if (empty) empty.style.display = 'none';
-            grid.innerHTML = libraryPhotos.map((p, idx) => {
+
+            const sorted = getFilteredSortedPhotos();
+            const showCount = Math.min((photoPage + 1) * PHOTO_PAGE_SIZE, sorted.length);
+            const visible = sorted.slice(0, showCount);
+
+            grid.innerHTML = visible.map((p, idx) => {
                 const canDelete = isAdmin() || (siteUser && siteUser.email && p.uploadedBy === siteUser.email.toLowerCase());
                 const isPub = p.public === true;
                 return `<div class="photo-library-card" onclick="openPhotoLightbox(${idx})">
@@ -5450,6 +5578,13 @@
                     </div>
                 </div>`;
             }).join('');
+
+            if (loadMore) {
+                loadMore.style.display = showCount < sorted.length ? '' : 'none';
+                if (showCount < sorted.length) {
+                    loadMore.textContent = `Load more photos (${sorted.length - showCount} remaining)`;
+                }
+            }
         }
 
         // Delete a photo (admin or owner)
@@ -5469,7 +5604,9 @@
 
         // Lightbox
         let lightboxIndex = 0;
+        let lightboxList = [];
         window.openPhotoLightbox = function(idx) {
+            lightboxList = getFilteredSortedPhotos();
             lightboxIndex = idx;
             updateLightbox();
             document.getElementById('photoLightbox').classList.add('active');
@@ -5480,11 +5617,11 @@
             document.removeEventListener('keydown', lightboxKeyHandler);
         };
         window.navigateLightbox = function(dir) {
-            lightboxIndex = (lightboxIndex + dir + libraryPhotos.length) % libraryPhotos.length;
+            lightboxIndex = (lightboxIndex + dir + lightboxList.length) % lightboxList.length;
             updateLightbox();
         };
         function updateLightbox() {
-            const p = libraryPhotos[lightboxIndex];
+            const p = lightboxList[lightboxIndex];
             if (!p) return;
             document.getElementById('lightboxImg').src = p.url;
             const cap = document.getElementById('lightboxCaption');
