@@ -720,6 +720,211 @@
             width: 0%;
             transition: width 0.3s;
         }
+
+        /* ===== PHOTO LIBRARY ===== */
+        .photo-upload-bar {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        .photo-upload-btn {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 10px;
+            font-size: 0.95em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s;
+        }
+        .photo-upload-btn:hover { background: var(--primary-light); transform: translateY(-1px); }
+        .photo-upload-hint {
+            font-size: 0.82em;
+            color: var(--text-light);
+        }
+        .photo-upload-status {
+            margin-bottom: 12px;
+        }
+        .photo-upload-status .upload-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 0;
+            font-size: 0.88em;
+            color: var(--text-mid);
+        }
+        .photo-upload-status .upload-item .upload-bar {
+            flex: 1;
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            overflow: hidden;
+            max-width: 200px;
+        }
+        .photo-upload-status .upload-item .upload-bar-fill {
+            height: 100%;
+            background: var(--primary-light);
+            border-radius: 2px;
+            transition: width 0.3s;
+        }
+        .photo-library-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 16px;
+        }
+        .photo-library-card {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--white);
+            border: 1px solid var(--border);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+        .photo-library-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+        .photo-library-card img {
+            width: 100%;
+            aspect-ratio: 4/3;
+            object-fit: cover;
+            display: block;
+        }
+        .photo-library-card .photo-card-info {
+            padding: 10px 12px;
+        }
+        .photo-library-card .photo-card-caption {
+            font-size: 0.88em;
+            color: var(--text-dark);
+            font-weight: 500;
+            margin-bottom: 4px;
+            word-break: break-word;
+        }
+        .photo-library-card .photo-card-meta {
+            font-size: 0.78em;
+            color: var(--text-light);
+        }
+        .photo-library-card .photo-card-delete {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-size: 0.85em;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+        .photo-library-card:hover .photo-card-delete { display: flex; }
+        .photo-library-card .photo-card-delete:hover { background: var(--danger); }
+
+        /* Lightbox */
+        .photo-lightbox-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.88);
+            z-index: 100001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s;
+        }
+        .photo-lightbox-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .photo-lightbox-overlay img {
+            max-width: 92vw;
+            max-height: 88vh;
+            border-radius: 10px;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+            object-fit: contain;
+        }
+        .photo-lightbox-close {
+            position: absolute;
+            top: 18px;
+            right: 24px;
+            background: rgba(255,255,255,0.15);
+            border: none;
+            color: #fff;
+            font-size: 1.6em;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .photo-lightbox-close:hover { background: rgba(255,255,255,0.3); }
+        .photo-lightbox-caption {
+            position: absolute;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fff;
+            background: rgba(0,0,0,0.5);
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-size: 0.92em;
+            max-width: 80vw;
+            text-align: center;
+        }
+        .photo-lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.15);
+            border: none;
+            color: #fff;
+            font-size: 2em;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .photo-lightbox-nav:hover { background: rgba(255,255,255,0.3); }
+        .photo-lightbox-nav.prev { left: 18px; }
+        .photo-lightbox-nav.next { right: 18px; }
+
+        /* Admin photo library list */
+        .admin-photo-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+        .admin-photo-item img {
+            width: 64px;
+            height: 48px;
+            object-fit: cover;
+            border-radius: 6px;
+            flex-shrink: 0;
+        }
+        .admin-photo-item .photo-item-info { flex: 1; min-width: 0; }
+        .admin-photo-item .photo-item-info .caption { font-size: 0.88em; font-weight: 500; }
+        .admin-photo-item .photo-item-info .meta { font-size: 0.78em; color: var(--text-light); }
+
+        @media (max-width: 768px) {
+            .photo-library-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 10px;
+            }
+            .photo-lightbox-nav { display: none; }
+        }
+
         .admin-leader-thumb {
             width: 36px; height: 36px; border-radius: 50%; object-fit: cover;
             border: 2px solid var(--border); vertical-align: middle; margin-right: 8px;
@@ -2322,6 +2527,28 @@
                 </div>
             </section>
 
+            <!-- ===== PHOTO LIBRARY ===== -->
+            <section class="section">
+                <div class="section-header blend content-inner">
+                    <h2>Photo Library</h2>
+                    <div class="section-line"></div>
+                </div>
+                <div class="content-inner">
+                    <div class="photo-upload-bar" id="photoUploadBar">
+                        <button class="photo-upload-btn" onclick="document.getElementById('photoLibraryFileInput').click()">
+                            📷 Upload Photos
+                        </button>
+                        <input type="file" id="photoLibraryFileInput" accept="image/*" multiple style="display:none" onchange="handlePhotoLibraryUpload(this)">
+                        <span class="photo-upload-hint">JPG, PNG up to 10 MB each &bull; Multiple files supported</span>
+                    </div>
+                    <div class="photo-upload-status" id="photoUploadStatus"></div>
+                    <div id="photoLibraryGrid" class="photo-library-grid">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                    <p id="photoLibraryEmpty" style="text-align:center; color:var(--text-light); padding:40px 0; display:none;">No photos yet. Be the first to upload!</p>
+                </div>
+            </section>
+
             <!-- ===== COMMENTS ===== -->
             <section class="section">
                 <div class="section-header winter content-inner">
@@ -2391,6 +2618,15 @@
             </section>
 
         </div><!-- end .content -->
+
+        <!-- ===== PHOTO LIGHTBOX ===== -->
+        <div class="photo-lightbox-overlay" id="photoLightbox" onclick="if(event.target===this)closePhotoLightbox()">
+            <button class="photo-lightbox-close" onclick="closePhotoLightbox()">✕</button>
+            <button class="photo-lightbox-nav prev" onclick="navigateLightbox(-1)">‹</button>
+            <img id="lightboxImg" src="" alt="">
+            <button class="photo-lightbox-nav next" onclick="navigateLightbox(1)">›</button>
+            <div class="photo-lightbox-caption" id="lightboxCaption"></div>
+        </div>
 
         <!-- ===== FOOTER ===== -->
         <footer>
@@ -2464,6 +2700,9 @@
                         </button>
                         <button class="dashboard-card" onclick="openAdminPanel('photo')">
                             <span class="card-icon">📸</span><span class="card-label">Group Photo</span>
+                        </button>
+                        <button class="dashboard-card" onclick="openAdminPanel('photolibrary')">
+                            <span class="card-icon">🖼️</span><span class="card-label">Photo Library</span>
                         </button>
                         <button class="dashboard-card" onclick="openAdminPanel('terms')">
                             <span class="card-icon">📜</span><span class="card-label">Terms</span>
@@ -2678,6 +2917,15 @@
                             <span>No photo set</span>
                         </div>
                     </div>
+                    <!-- ===== PHOTO LIBRARY ADMIN ===== -->
+                    <div id="adminPhotolibrary" class="admin-panel">
+                        <button class="admin-back-btn" onclick="backToDashboard()">← Control Panel</button>
+                        <div class="admin-form">
+                            <h4>🖼️ Photo Library Management</h4>
+                            <p style="color:var(--text-light); margin-bottom:12px; font-size:0.9em;">Manage all photos uploaded by hosts. You can delete any photo or edit captions.</p>
+                            <div id="adminPhotoLibraryList"></div>
+                        </div>
+                    </div>
                     <!-- ===== TERMS & CONDITIONS ADMIN ===== -->
                     <div id="adminTerms" class="admin-panel">
                         <button class="admin-back-btn" onclick="backToDashboard()">← Control Panel</button>
@@ -2766,6 +3014,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
 
@@ -2800,6 +3049,7 @@
         const app = firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
+        const storage = firebase.storage();
 
         // Firestore collections
         const commentsCol = db.collection('internal_comments');
@@ -2808,6 +3058,7 @@
         const announcementsCol = db.collection('internal_announcements');
         const minutesCol = db.collection('internal_minutes');
         const settingsDoc = db.collection('internal_settings').doc('site');
+        const photosCol = db.collection('internal_photos');
 
         // ===== STATE =====
         let currentUser = null; // Firebase auth user (admin)
@@ -3158,6 +3409,7 @@
         let announcements = [];
         let minutes = [];
         let groupPhoto = { url: '', caption: '' };
+        let libraryPhotos = [];
 
         // ===== EMOJIS =====
         const EMOJIS = [
@@ -4062,6 +4314,15 @@
                 renderAdminRequests();
             }, err => {
                 console.error('Access requests listener error:', err);
+            });
+
+            // ----- PHOTO LIBRARY -----
+            photosCol.orderBy('uploadedAt', 'desc').onSnapshot(snapshot => {
+                libraryPhotos = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                renderPhotoLibrary();
+                renderAdminPhotoLibrary();
+            }, err => {
+                console.error('Photo library listener error:', err);
             });
         }
 
@@ -5081,6 +5342,159 @@
             } catch(e) {
                 console.error('Remove photo error:', e);
                 alert('Failed to remove photo.');
+            }
+        };
+
+        // ================================================================
+        //  PHOTO LIBRARY
+        // ================================================================
+
+        // Upload handler — supports multiple files
+        window.handlePhotoLibraryUpload = async function(input) {
+            if (!siteUser) { alert('Please sign in to upload photos.'); return; }
+            const files = Array.from(input.files);
+            if (!files.length) return;
+            const statusEl = document.getElementById('photoUploadStatus');
+            statusEl.innerHTML = '';
+
+            for (const file of files) {
+                if (file.size > 10 * 1024 * 1024) {
+                    statusEl.innerHTML += `<div class="upload-item" style="color:var(--danger);">❌ ${escHtml(file.name)} — exceeds 10 MB limit</div>`;
+                    continue;
+                }
+                if (!file.type.startsWith('image/')) {
+                    statusEl.innerHTML += `<div class="upload-item" style="color:var(--danger);">❌ ${escHtml(file.name)} — not an image</div>`;
+                    continue;
+                }
+                const itemId = 'upload_' + Math.random().toString(36).slice(2);
+                statusEl.innerHTML += `<div class="upload-item" id="${itemId}">⏳ Uploading ${escHtml(file.name)}...<div class="upload-bar"><div class="upload-bar-fill" style="width:0%"></div></div></div>`;
+                try {
+                    const photoId = Date.now() + '_' + Math.random().toString(36).slice(2);
+                    const ref = storage.ref('photos/' + photoId);
+                    const task = ref.put(file);
+                    task.on('state_changed', snap => {
+                        const pct = Math.round((snap.bytesTransferred / snap.totalBytes) * 100);
+                        const bar = document.querySelector('#' + itemId + ' .upload-bar-fill');
+                        if (bar) bar.style.width = pct + '%';
+                    });
+                    await task;
+                    const url = await ref.getDownloadURL();
+                    await photosCol.add({
+                        url: url,
+                        storagePath: 'photos/' + photoId,
+                        caption: '',
+                        uploadedBy: siteUser.email || 'unknown',
+                        uploadedByName: siteUser.displayName || '',
+                        uploadedAt: Date.now()
+                    });
+                    const el = document.getElementById(itemId);
+                    if (el) el.innerHTML = `✅ ${escHtml(file.name)} uploaded`;
+                } catch(e) {
+                    console.error('Upload error:', e);
+                    const el = document.getElementById(itemId);
+                    if (el) el.innerHTML = `<span style="color:var(--danger)">❌ ${escHtml(file.name)} — upload failed</span>`;
+                }
+            }
+            input.value = '';
+            setTimeout(() => { statusEl.innerHTML = ''; }, 5000);
+        };
+
+        // Render photo grid on main page
+        function renderPhotoLibrary() {
+            const grid = document.getElementById('photoLibraryGrid');
+            const empty = document.getElementById('photoLibraryEmpty');
+            if (!grid) return;
+            if (!libraryPhotos.length) {
+                grid.innerHTML = '';
+                if (empty) empty.style.display = '';
+                return;
+            }
+            if (empty) empty.style.display = 'none';
+            grid.innerHTML = libraryPhotos.map((p, idx) => {
+                const canDelete = isAdmin() || (siteUser && siteUser.email && p.uploadedBy === siteUser.email.toLowerCase());
+                return `<div class="photo-library-card" onclick="openPhotoLightbox(${idx})">
+                    <img src="${escHtml(p.url)}" alt="${escHtml(p.caption || 'Photo')}" loading="lazy">
+                    ${canDelete ? `<button class="photo-card-delete" onclick="event.stopPropagation(); deleteLibraryPhoto('${p.id}')" title="Delete photo">🗑</button>` : ''}
+                    <div class="photo-card-info">
+                        ${p.caption ? `<div class="photo-card-caption">${escHtml(p.caption)}</div>` : ''}
+                        <div class="photo-card-meta">${escHtml(p.uploadedByName || p.uploadedBy)} &bull; ${new Date(p.uploadedAt).toLocaleDateString()}</div>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        // Delete a photo (admin or owner)
+        window.deleteLibraryPhoto = async function(photoId) {
+            if (!confirm('Delete this photo permanently?')) return;
+            try {
+                const doc = await photosCol.doc(photoId).get();
+                if (doc.exists && doc.data().storagePath) {
+                    await storage.ref(doc.data().storagePath).delete().catch(() => {});
+                }
+                await photosCol.doc(photoId).delete();
+            } catch(e) {
+                console.error('Delete photo error:', e);
+                alert('Failed to delete photo.');
+            }
+        };
+
+        // Lightbox
+        let lightboxIndex = 0;
+        window.openPhotoLightbox = function(idx) {
+            lightboxIndex = idx;
+            updateLightbox();
+            document.getElementById('photoLightbox').classList.add('active');
+            document.addEventListener('keydown', lightboxKeyHandler);
+        };
+        window.closePhotoLightbox = function() {
+            document.getElementById('photoLightbox').classList.remove('active');
+            document.removeEventListener('keydown', lightboxKeyHandler);
+        };
+        window.navigateLightbox = function(dir) {
+            lightboxIndex = (lightboxIndex + dir + libraryPhotos.length) % libraryPhotos.length;
+            updateLightbox();
+        };
+        function updateLightbox() {
+            const p = libraryPhotos[lightboxIndex];
+            if (!p) return;
+            document.getElementById('lightboxImg').src = p.url;
+            const cap = document.getElementById('lightboxCaption');
+            cap.textContent = p.caption || '';
+            cap.style.display = p.caption ? '' : 'none';
+        }
+        function lightboxKeyHandler(e) {
+            if (e.key === 'Escape') closePhotoLightbox();
+            if (e.key === 'ArrowLeft') navigateLightbox(-1);
+            if (e.key === 'ArrowRight') navigateLightbox(1);
+        }
+
+        // Admin photo library panel
+        function renderAdminPhotoLibrary() {
+            const list = document.getElementById('adminPhotoLibraryList');
+            if (!list) return;
+            if (!libraryPhotos.length) {
+                list.innerHTML = '<p style="color:var(--text-light);">No photos in the library.</p>';
+                return;
+            }
+            list.innerHTML = libraryPhotos.map(p => `
+                <div class="admin-photo-item">
+                    <img src="${escHtml(p.url)}" alt="">
+                    <div class="photo-item-info">
+                        <div class="caption">${escHtml(p.caption || '(no caption)')}</div>
+                        <div class="meta">${escHtml(p.uploadedByName || p.uploadedBy)} &bull; ${new Date(p.uploadedAt).toLocaleDateString()}</div>
+                    </div>
+                    <input type="text" value="${escHtml(p.caption || '')}" placeholder="Add caption…" style="flex:1;min-width:100px;padding:4px 8px;border:1px solid var(--border);border-radius:6px;font-size:0.85em;" onchange="updatePhotoCaption('${p.id}', this.value)">
+                    <button class="admin-btn small danger" onclick="deleteLibraryPhoto('${p.id}')">🗑 Delete</button>
+                </div>
+            `).join('');
+        }
+
+        window.updatePhotoCaption = async function(photoId, caption) {
+            try {
+                await photosCol.doc(photoId).update({ caption: caption.trim() });
+            } catch(e) {
+                console.error('Update caption error:', e);
+                alert('Failed to update caption.');
             }
         };
 

@@ -1,0 +1,17 @@
+rules_version = '2';
+
+// Firebase Storage Security Rules for Bogus Basin Mountain Hosts
+// Photos are publicly readable and uploadable by authenticated users.
+// Deletion requires authentication (admin check enforced in app code).
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /photos/{photoId} {
+      allow read: if true;
+      allow create: if request.auth != null
+                    && request.resource.size < 10 * 1024 * 1024
+                    && request.resource.contentType.matches('image/.*');
+      allow delete: if request.auth != null;
+    }
+  }
+}

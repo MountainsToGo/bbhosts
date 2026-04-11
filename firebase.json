@@ -7,10 +7,14 @@
       "**/node_modules/**",
       "*.md",
       "firestore.rules",
+      "storage.rules",
       "email-worker/**"
     ]
   },
   "firestore": {
     "rules": "firestore.rules"
+  },
+  "storage": {
+    "rules": "storage.rules"
   }
 }

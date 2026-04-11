@@ -122,5 +122,16 @@ service cloud.firestore {
       allow create: if request.auth != null;
       allow update, delete: if isInternalAdmin();
     }
+
+    // =====================================================
+    // PHOTO LIBRARY (shared between internal & public)
+    // =====================================================
+
+    // PHOTO METADATA: public read, authenticated create, admin-only update/delete
+    match /internal_photos/{photoId} {
+      allow read: if true;
+      allow create: if request.auth != null;
+      allow update, delete: if isInternalAdmin();
+    }
   }
 }

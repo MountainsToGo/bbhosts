@@ -2,7 +2,7 @@
 
 ## System Overview
 
-The project consists of two single-page HTML applications hosted on Firebase Hosting, backed by Firebase (Auth + Firestore), a Cloudflare Worker for secure email proxying, and GitHub Actions for CI/CD. There is no traditional backend server — security is enforced via Firestore rules and the Cloudflare Worker.
+The project consists of two single-page HTML applications hosted on Firebase Hosting, backed by Firebase (Auth + Firestore + Storage), a Cloudflare Worker for secure email proxying, and GitHub Actions for CI/CD. There is no traditional backend server — security is enforced via Firestore rules, Storage rules, and the Cloudflare Worker.
 
 ```mermaid
 graph TB
@@ -14,6 +14,7 @@ graph TB
     subgraph "Firebase"
         AUTH["Firebase Auth<br/><i>Google Sign-In</i>"]
         FS["Cloud Firestore<br/><i>Real-time Database</i>"]
+        STOR["Firebase Storage<br/><i>Photo Library</i>"]
     end
 
     subgraph "Cloudflare"
@@ -28,8 +29,10 @@ graph TB
     BROWSER -->|HTTPS| INT
     PUB -->|Auth + Read/Write| AUTH
     PUB -->|Real-time Sync| FS
+    PUB -->|Read Photos| STOR
     INT -->|Auth + Read/Write| AUTH
     INT -->|Real-time Sync| FS
+    INT -->|Upload/Read Photos| STOR
     INT -->|POST| WORKER
     WORKER -->|Server-side API call| EMAILJS
     EMAILJS -->|SMTP| EMAIL["User Email"]
@@ -40,6 +43,7 @@ graph TB
     style INT fill:#1a3a3a,color:#fff
     style AUTH fill:#f59e0b,color:#000
     style FS fill:#f59e0b,color:#000
+    style STOR fill:#f59e0b,color:#000
     style WORKER fill:#f97316,color:#fff
     style EMAILJS fill:#6366f1,color:#fff
     style GH fill:#333,color:#fff
@@ -56,9 +60,11 @@ graph TB
 | GitHub Pages (mirror) | GitHub Pages | `https://mountainstogo.github.io/bbhosts/` |
 | Repository | GitHub | `https://github.com/MountainsToGo/bbhosts` |
 | Database & Auth | Firebase | Project: `mtn-hosts` |
+| Photo Storage | Firebase Storage | `mtn-hosts.firebasestorage.app` (free Spark tier) |
 | Email Proxy | Cloudflare Workers | `https://bbhosts-email.bogusbasinhosts.workers.dev` |
 | Email Delivery | EmailJS | Credentials stored as Cloudflare Worker secrets |
 | Firestore Rules | Firebase | Deployed via CLI (`firebase deploy --only firestore:rules`) |
+| Storage Rules | Firebase | Deployed via CLI (`firebase deploy --only storage`) |
 | CI/CD | GitHub Actions | Auto-deploys to Firebase on push to `main` |
 
 ---
@@ -70,7 +76,8 @@ BBHost/
 ├── mountain-hosts.html                     # Public-facing site (single HTML file)
 ├── internal-MH.html                        # Internal portal (single HTML file)
 ├── firestore.rules                         # Firestore security rules (deployed via CLI)
-├── firebase.json                           # Firebase Hosting + Firestore config
+├── storage.rules                           # Firebase Storage security rules (deployed via CLI)
+├── firebase.json                           # Firebase Hosting + Firestore + Storage config
 ├── .firebaserc                             # Firebase project link (mtn-hosts)
 ├── .gitignore                              # Excludes .firebase/, .wrangler/, .env, etc.
 ├── email-worker/                           # Cloudflare Worker (EmailJS proxy)
