@@ -2637,7 +2637,7 @@
                     <div class="photo-upload-status" id="photoUploadStatus"></div>
                     <div class="photo-gallery-controls">
                         <label>Sort:</label>
-                        <select id="photoSortSelect" onchange="renderPhotoLibrary()">
+                        <select id="photoSortSelect" onchange="photoPage=0; renderPhotoLibrary()">
                             <option value="newest">Newest first</option>
                             <option value="oldest">Oldest first</option>
                             <option value="uploader">By uploader</option>
@@ -5511,7 +5511,7 @@
 
         // Render photo grid on main page
         const PHOTO_PAGE_SIZE = 12;
-        let photoPage = 0;
+        window.photoPage = 0;
 
         window.togglePhotoLibrary = function() {
             const body = document.getElementById('photoLibraryBody');
@@ -5586,6 +5586,8 @@
                 }
             }
         }
+
+        window.renderPhotoLibrary = renderPhotoLibrary;
 
         // Delete a photo (admin or owner)
         window.deleteLibraryPhoto = async function(photoId) {
