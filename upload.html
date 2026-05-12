@@ -226,18 +226,15 @@
 
     <div class="main">
 
-        <!-- AUTH (optional — anonymous auth happens silently) -->
+        <!-- AUTH (anonymous, signed in lazily on first upload) -->
         <div class="auth-section">
-            <div id="authLoading">
-                <p class="auth-hint">Connecting...</p>
-            </div>
-            <div id="authReady" style="display:none">
+            <div id="authReady">
                 <p class="auth-hint">Ready to upload!</p>
             </div>
         </div>
 
         <!-- DROP ZONE -->
-        <div class="drop-zone disabled" id="dropZone">
+        <div class="drop-zone" id="dropZone">
             <span class="drop-zone-icon">📷</span>
             <div class="drop-zone-text">Tap to choose photos or drag & drop here</div>
             <div class="drop-zone-hint">JPG, PNG, HEIC, RAW — up to 25 MB each</div>
@@ -299,29 +296,30 @@
 
         let currentUser = null;
 
-        // ===== AUTH (anonymous, silent) =====
-        const authLoading = document.getElementById('authLoading');
-        const authReady = document.getElementById('authReady');
-
+        // ===== AUTH (anonymous, lazy) =====
+        // Track existing session if any, but DON'T create a new anonymous user
+        // until the visitor actually attempts an upload. This avoids generating
+        // an anonymous account for every page view (incl. bots/crawlers).
         auth.onAuthStateChanged(user => {
             currentUser = user;
-            if (user) {
-                authLoading.style.display = 'none';
-                authReady.style.display = '';
-                dropZone.classList.remove('disabled');
-            } else {
-                // Sign in anonymously (silent, no UI)
-                auth.signInAnonymously().catch(err => {
-                    console.error('Anonymous auth failed:', err);
-                    authLoading.innerHTML = '<p class="auth-hint" style="color:var(--danger)">Connection error. Please refresh the page.</p>';
-                });
-            }
         });
+
+        async function ensureSignedIn() {
+            if (currentUser) return currentUser;
+            try {
+                const cred = await auth.signInAnonymously();
+                currentUser = cred.user;
+                return currentUser;
+            } catch (err) {
+                console.error('Anonymous auth failed:', err);
+                throw err;
+            }
+        }
 
         // ===== DRAG & DROP =====
         dropZone.addEventListener('dragover', e => {
             e.preventDefault();
-            if (currentUser) dropZone.classList.add('drag-over');
+            dropZone.classList.add('drag-over');
         });
 
         dropZone.addEventListener('dragleave', () => {
@@ -331,14 +329,12 @@
         dropZone.addEventListener('drop', e => {
             e.preventDefault();
             dropZone.classList.remove('drag-over');
-            if (!currentUser) return;
             const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
             if (files.length) processFiles(files);
         });
 
         // ===== FILE INPUT =====
         fileInput.addEventListener('change', () => {
-            if (!currentUser) return;
             const files = Array.from(fileInput.files);
             if (files.length) processFiles(files);
             fileInput.value = '';
@@ -359,6 +355,12 @@
 
         // ===== UPLOAD =====
         async function processFiles(files) {
+            try {
+                await ensureSignedIn();
+            } catch (e) {
+                alert('Could not connect. Please refresh and try again.');
+                return;
+            }
             for (const file of files) {
                 const itemId = 'u_' + Math.random().toString(36).slice(2);
 
